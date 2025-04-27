@@ -1,0 +1,12 @@
+{# home.html #}
+{% extends 'ecommerce/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block page_content %}
+<h1>Welcome to MyShop!</h1>
+<p>
+  <a href="{% url 'login' %}" class="btn btn-primary mb-2">Login</a><br>
+  <a href="{% url 'signup' %}" class="btn btn-outline-secondary">Sign Up</a>
+</p>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'ecommerce/base.html' %}
+
+{% block title %}Product Showcase{% endblock %}
+
+{% block content %}
+<!-- Navbar starts here -->
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: navy;">
+    <div class="container-fluid"> 
+        {% comment %} <a class="navbar-brand text-white" href="#">MyShop</a> {% endcomment %}
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"> 
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Food</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Clothing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Jewellery</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Cart</a>
+                </li>
+            </ul>
+
+            <form class="d-flex" method="get" action="#">
+                <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search">
+                <button class="btn btn-outline-light" type="submit">Search</button>
+            </form>
+
+            <ul class="navbar-nav ms-3">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'home' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'signup' %}">Sign Up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'login' %}">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Navbar ends here -->
+{% endblock %}
+
+
+{% block page_content %}
+<!-- Product section -->
+<div class="mt-4">
+    <h2 class="mb-3">Our Products</h2>
+    <p>Here will be the product list...</p>
+</div>
+{% endblock %}
+
