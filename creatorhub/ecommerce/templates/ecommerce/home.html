@@ -1,12 +1,16 @@
-{# home.html #}
 {% extends 'ecommerce/base.html' %}
 
 {% block title %}Home{% endblock %}
 
 {% block page_content %}
-<h1>Welcome to MyShop!</h1>
-<p>
-  <a href="{% url 'login' %}" class="btn btn-primary mb-2">Login</a><br>
-  <a href="{% url 'signup' %}" class="btn btn-outline-secondary">Sign Up</a>
-</p>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+    <div class="text-center">
+        <h1 class="display-4 fw-bold mb-4">Welcome to <span class="text-primary">MyShop</span>!</h1>
+        <p class="lead mb-4">Discover local products. Support small entrepreneurs. Shop smarter.</p>
+        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+            <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4">Login</a>
+            <a href="{% url 'signup' %}" class="btn btn-outline-secondary btn-lg px-4">Sign Up</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
