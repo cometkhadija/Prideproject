@@ -10,13 +10,14 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('login/', views.CustomLoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('dashboard/', views.dashboard, name='dashboard'),
     path('cart/', views.cart_view, name='cart'),
     path('order/', views.order_view, name='order'),
     path('add-product/', views.add_product, name='add_product'),
     path('product/<int:product_id>/', views.product_detail, name='product_detail'),
-    path('product/edit/<int:product_id>/', views.edit_product, name='edit_product'),
-    path('product/delete/<int:product_id>/', views.delete_product, name='delete_product'),
-    
+    path('product/<int:product_id>/edit/', views.edit_product, name='edit_product'),
+    path('product/<int:product_id>/delete/', views.delete_product, name='delete_product'),
+
 ]
 
 

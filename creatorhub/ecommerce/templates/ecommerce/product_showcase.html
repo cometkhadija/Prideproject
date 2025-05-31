@@ -12,23 +12,10 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'product_list' 'food' %}">Food</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'product_list' 'clothing' %}">Clothing</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'product_list' 'jewellery' %}">Jewellery</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Art</a>
-                </li>
                 <li class="nav-item"><a class="nav-link text-white" href="{% url 'product_list' 'food' %}">Food</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{% url 'product_list' 'clothing' %}">Clothing</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{% url 'product_list' 'jewellery' %}">Jewellery</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">Cart</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="{% url 'product_list' 'Art' %}">Art</a></li>
             </ul>
 
             <form class="d-flex" method="get" action="#">
@@ -53,23 +40,25 @@
 <div class="container mt-4">
     <h2 class="mb-4">Our Products</h2>
 
-    <!-- Category filter buttons -->
-    <!-- <div class="btn-group mb-4">
-        <a href="{% url 'product_list' 'clothing' %}" class="btn btn-outline-primary">Clothing</a>
-        <a href="{% url 'product_list' 'food' %}" class="btn btn-outline-success">Food</a>
-        <a href="{% url 'product_list' 'jewellery' %}" class="btn btn-outline-warning">Jewellery</a>
-    </div> -->
-
     {% if products %}
     <div class="row">
         {% for product in products %}
         <div class="col-md-4 mb-4">
-            <div class="card h-100">
+            <div class="card h-100 shadow-sm">
                 <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ product.name }}</h5>
                     <p class="card-text">${{ product.price }}</p>
-                    <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
+                    
+                    {% if user.is_authenticated and user.profile.role == 'buyer' %}
+                        <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
+                        {% comment %} <a href="#" class="btn btn-success ms-2">Add to Cart</a> {% endcomment %}
+                    {% elif user.is_authenticated and user.profile.role == 'seller' %}
+                        <a href="{% url 'edit_product' product.id %}" class="btn btn-primary">Edit</a>
+                        <a href="{% url 'delete_product' product.id %}" class="btn btn-danger">Delete</a>
+                    {% else %}
+                        <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -80,5 +69,3 @@
     {% endif %}
 </div>
 {% endblock %}
-
-
