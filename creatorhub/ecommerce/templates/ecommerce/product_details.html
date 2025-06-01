@@ -12,7 +12,10 @@
             <p>{{ product.description }}</p>
             <p>Product ID: {{ product.id }}</p>
 
-            <a href="{% url 'cart' %}" class="btn btn-success">Add to Cart</a>
+            <form action="{% url 'add_to_cart' product.id %}" method="post" class="mt-3">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success">Add to Cart</button>
+            </form>
 
             {% if user.is_authenticated and user == product.seller %}
                 <div class="mt-3">
@@ -23,8 +26,4 @@
         </div>
     </div>
 </div>
-
-
 {% endblock %}
-
-

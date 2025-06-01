@@ -1,11 +1,47 @@
+
 {% extends 'ecommerce/base.html' %}
+{% load math_filters %}
 
-{% block title %}Cart{% endblock %}
-
-{% block page_content %}
-<!-- Product section -->
-<div class="mt-4">
-    <h2 class="mb-3">Cart</h2>
-    <p>Here will be the cart...</p>
+{% block content %}
+<div class="container mt-4">
+    <h2>Your Cart</h2>
+    {% if cart_items %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>
+                        <form method="post" action="{% url 'update_cart' item.id %}">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" min="1" value="{{ item.quantity }}" class="form-control" style="width: 80px;">
+                            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                        </form>
+                    </td>
+                    <td>${{ item.product.price }}</td>
+                    <td>${{ item.product.price|multiply:item.quantity|floatformat:2 }}</td>
+                    <td>
+                        <form method="post" action="{% url 'remove_from_cart' item.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'checkout' %}" class="btn btn-success">Proceed to Checkout</a>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
 </div>
 {% endblock %}
