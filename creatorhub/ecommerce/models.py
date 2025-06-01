@@ -28,7 +28,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, blank=False)
-    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products')
 
     def __str__(self):
         return self.name
