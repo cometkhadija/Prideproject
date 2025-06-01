@@ -85,23 +85,30 @@ def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     return render(request, 'ecommerce/product_details.html', {'product': product})
 
-
 @login_required
 def add_product(request):
+    if not hasattr(request.user, 'profile') or request.user.profile.role != 'seller':
+        messages.error(request, "Only sellers can add products.")
+        return redirect('product_showcase')
+
+    # আগের পেজের URL ধরার চেষ্টা করবো (GET অথবা fallback HTTP_REFERER থেকে)
+    next_url = request.GET.get('next') or request.META.get('HTTP_REFERER', '/')
+
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             product = form.save(commit=False)
-            product.seller = request.user  # seller ke set korte hobe
+            product.seller = request.user
             product.save()
-            messages.success(request, 'Product added successfully!')
-            return redirect('product_detail', product_id=product.id)
-        else:
-            messages.error(request, 'Please correct the errors below.')
+            messages.success(request, "Product added successfully!")
+            return redirect(request.POST.get('next') or 'product_showcase')
     else:
         form = ProductForm()
 
-    return render(request, 'ecommerce/add_product.html', {'form': form, 'page': 'add_product'})
+    return render(request, 'ecommerce/add_product.html', {
+        'form': form,
+        'next': next_url
+    })
 
 @login_required
 def edit_product(request, product_id):
