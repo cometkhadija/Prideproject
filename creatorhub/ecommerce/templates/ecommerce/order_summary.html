@@ -1,0 +1,5 @@
+{% for seller in sellers %}
+  <p>Seller: {{ seller.username }}</p>
+  <p>Email: {{ seller.email }}</p>
+  <p>Phone: {{ seller.profile.phone }}</p>  <!-- if phone is stored in Profile -->
+{% endfor %}

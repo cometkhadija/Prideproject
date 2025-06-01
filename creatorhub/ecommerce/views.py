@@ -182,7 +182,7 @@ def checkout(request):
     cart_items = CartItem.objects.filter(user=request.user)
     if not cart_items.exists():
         messages.error(request, "Your cart is empty.")
-        return redirect('cart')  # Ensure 'cart' URL name exists
+        return redirect('cart')
 
     if request.method == 'POST':
         address = request.POST.get('address')
@@ -196,6 +196,7 @@ def checkout(request):
             buyer=request.user,
             address=address,
             phone=phone,
+            # payment_method='Cash on Delivery',  # 🟩 Add this line
             status='Pending'
         )
 
@@ -210,15 +211,33 @@ def checkout(request):
         cart_items.delete()
         messages.success(request, "Order placed successfully!")
 
-        # Redirect to order confirmation page or order history
-        return redirect('order_history')  # Make sure this URL name exists
+        return redirect('order_history')
 
     return render(request, 'ecommerce/checkout.html')
+
 
 @login_required
 def order_history(request):
     orders = Order.objects.filter(buyer=request.user).order_by('-created_at')
     return render(request, 'ecommerce/order_history.html', {'orders': orders})
+
+@login_required
+def order_summary(request, order_id):
+    order = Order.objects.get(id=order_id)
+    order_items = order.items.all()
+    
+    # Optional: get unique sellers from order items
+    sellers = {item.product.seller for item in order_items}
+
+    return render(request, 'order_summary.html', {
+        'order': order,
+        'order_items': order_items,
+        'sellers': sellers
+    })
+
+def order_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id, buyer=request.user)
+    return render(request, 'ecommerce/order_detail.html', {'order': order})
 
 # --------- Testing View ---------
 
