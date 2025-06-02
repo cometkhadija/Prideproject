@@ -1,10 +1,8 @@
 {% extends 'ecommerce/base.html' %}
 {% block title %}Delete {{ product.name }}{% endblock %}
 {% block content %}
-<div class="container mt-4">
-    
+<div class="container mt-4"> 
     <h2>Are you sure you want to delete "{{ product.name }}"?</h2>
-    
     <form method="post">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ next }}">

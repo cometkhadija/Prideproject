@@ -117,17 +117,15 @@ def edit_product(request, product_id):
 @login_required
 def delete_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-
-    if request.user != product.seller:
-        messages.error(request, "You are not authorized to delete this product.")
-        return redirect('product_detail', product_id=product.id)
-
     if request.method == 'POST':
         product.delete()
-        messages.success(request, "Product deleted successfully.")
-        return redirect('product_showcase')
+        return redirect('product_showcase')  # jekhane delete porbe redirect hobe
+    context = {
+        'product': product,
+        'next': request.GET.get('product_showcase'),
+    }
+    return render(request, 'ecommerce/confirm_delete.html', context)
 
-    return render(request, 'ecommerce/delete_product.html', {'product': product})
 
 # --------- Dashboard ---------
 
