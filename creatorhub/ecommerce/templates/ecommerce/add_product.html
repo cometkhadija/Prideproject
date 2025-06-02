@@ -1,30 +1,64 @@
 {% extends 'ecommerce/base.html' %}
+
 {% block content %}
 <div class="container mt-4">
     <h2>Add New Product</h2>
+
+    <!-- Success/Error Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} mt-2" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
+         <input type="hidden" name="next" value="{{ next }}">
         <div class="mb-3">
             {{ form.name.label_tag }}
             {{ form.name }}
+            {% if form.name.errors %}
+                <div class="text-danger">{{ form.name.errors.0 }}</div>
+            {% endif %}
         </div>
+
         <div class="mb-3">
             {{ form.image.label_tag }}
             {{ form.image }}
+            {% if form.image.errors %}
+                <div class="text-danger">{{ form.image.errors.0 }}</div>
+            {% endif %}
         </div>
+
         <div class="mb-3">
             {{ form.price.label_tag }}
             {{ form.price }}
+            {% if form.price.errors %}
+                <div class="text-danger">{{ form.price.errors.0 }}</div>
+            {% endif %}
         </div>
+
         <div class="mb-3">
             {{ form.description.label_tag }}
             {{ form.description }}
+            {% if form.description.errors %}
+                <div class="text-danger">{{ form.description.errors.0 }}</div>
+            {% endif %}
         </div>
+
         <div class="mb-3">
             {{ form.category.label_tag }}
             {{ form.category }}
+            {% if form.category.errors %}
+                <div class="text-danger">{{ form.category.errors.0 }}</div>
+            {% endif %}
         </div>
+
         <button type="submit" class="btn btn-primary">Add Product</button>
     </form>
 </div>
 {% endblock %}
+
+

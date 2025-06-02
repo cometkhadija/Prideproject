@@ -5,7 +5,11 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+
 from .models import OrderItem, Profile, Product, CartItem, Order
+
+from .models import Profile, Product
+
 from .forms import CustomUserCreationForm, ProductForm
 
 # --------- Authentication Views ---------
@@ -62,7 +66,7 @@ def product_list(request, category_name=None):
         products = Product.objects.filter(category=category_name)
     else:
         products = Product.objects.all()
-
+    
     user = request.user
     context = {
         'products': products,
@@ -80,54 +84,101 @@ def product_detail(request, product_id):
 
 @login_required
 def add_product(request):
+    if not hasattr(request.user, 'profile') or request.user.profile.role != 'seller':
+        messages.error(request, "Only sellers can add products.")
+        return redirect('product_showcase')
+
+    
+    next_url = request.GET.get('next') or request.META.get('HTTP_REFERER', '/')
+
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             product = form.save(commit=False)
             product.seller = request.user
             product.save()
-            messages.success(request, 'Product added successfully!')
-            return redirect('product_detail', product_id=product.id)
-        else:
-            messages.error(request, 'Please correct the errors below.')
+            messages.success(request, "Product added successfully!")
+            return redirect(request.POST.get('next') or 'product_showcase')
     else:
         form = ProductForm()
 
+
     return render(request, 'ecommerce/add_product.html', {'form': form, 'page': 'add_product'})
+
+    return render(request, 'ecommerce/add_product.html', {
+        'form': form,
+        'next': next_url
+    })
+
 
 @login_required
 def edit_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
     if request.user != product.seller:
-        messages.error(request, "You are not authorized to edit this product.")
-        return redirect('product_detail', product_id=product.id)
+        return redirect('product_list', category_name=product.category)  # fallback redirect
 
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
-            messages.success(request, "Product updated successfully.")
-            return redirect('product_detail', product_id=product.id)
+            messages.success(request, "Product updated successfully!")
+
+           
+            next_url = request.POST.get('next') 
+            if next_url:
+                return redirect(next_url)
+            return redirect('product_detail', product.id)
     else:
         form = ProductForm(instance=product)
+        next_url = request.GET.get('next', request.META.get('HTTP_REFERER', '/'))  # default fallback
+
 
     return render(request, 'ecommerce/edit_product.html', {'form': form, 'product': product})
+
+    return render(request, 'ecommerce/edit_product.html', {
+        'form': form,
+        'product': product,
+        'next': next_url,
+    })
+
+
 
 @login_required
 def delete_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
     if request.user != product.seller:
-        messages.error(request, "You are not authorized to delete this product.")
-        return redirect('product_detail', product_id=product.id)
+        return redirect('product_list', category_name=product.category)
 
     if request.method == 'POST':
         product.delete()
-        messages.success(request, "Product deleted successfully.")
-        return redirect('product_showcase')
+        messages.success(request, "Product deleted successfully!")
+        next_url = request.POST.get('next')
+        if next_url:
+            return redirect(next_url)
+        return redirect('product_list', category_name=product.category)
 
-    return render(request, 'ecommerce/delete_product.html', {'product': product})
+    next_url = request.GET.get('next', request.META.get('HTTP_REFERER', '/'))
+    return render(request, 'ecommerce/confirm_delete.html', {
+        'product': product,
+        'next': next_url,
+    })
+# @login_required
+# def delete_product(request, product_id):
+#     product = get_object_or_404(Product, id=product_id)
+#     category_name = product.category
+#     if request.user != product.seller:
+#         return redirect('product_list')
+
+#     if request.method == 'POST':
+#         product.delete()
+#         if category_name:
+#             return redirect('product_list', category_name=category_name)
+#         else:
+#             return redirect('product_list') 
+    
+#     return render(request, 'ecommerce/confirm_delete.html', {'product': product})
 
 # --------- Dashboard ---------
 

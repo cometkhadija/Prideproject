@@ -1,35 +1,61 @@
-{% comment %} {% extends 'ecommerce/base.html' %}
+ {% extends 'ecommerce/base.html' %}
 
-{% block title %}All Products{% endblock %}
+{% block title %}
+    {% if category_name %}
+        {{ category_name|capfirst }} Products
+    {% else %}
+        All Products
+    {% endif %}
+{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-  <p>Logged in as: {{ user.username }} ({{ user.profile.role }})</p>
-{% endif %}
-
 <div class="container mt-4">
-  <h1>All Products</h1>
-  <div class="row">
-    {% for product in products %}
-    <div class="col-md-4">
-      <div class="card mb-4 shadow-sm">
-        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-        <div class="card-body">
-          <h5 class="card-title">{{ product.name }}</h5>
-          <p class="card-text">${{ product.price }}</p>
-          
-          {% if user.is_authenticated and user.profile.role == 'buyer' %}
-            <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
-          {% elif user.is_authenticated and user.profile.role == 'seller' %}
-            <a href="{% url 'edit_product' product.id %}" class="btn btn-primary">Edit</a>
-        <a href="{% url 'delete_product' product.id %}" class="btn btn-danger">Delete</a>
-          {% endif %}
+    <h2 class="mb-4">
+        {% if category_name %}
+            {{ category_name|capfirst }} Products
+        {% else %}
+            All Products
+        {% endif %}
+    </h2>
+
+    {% if products %}
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm h-100">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.price }}</p>
+
+                    {% if user.is_authenticated %}
+                        {% if user.profile.role == 'buyer' %}
+                            <a href="{% url 'product_detail' product.id %}" class="btn btn-primary mt-auto">View Details</a>
+                        {% elif user.profile.role == 'seller' %}
+                            {% if product.seller.id == user.id %}
+                            <div class="btn-group mt-auto" role="group" aria-label="Edit and Delete buttons">
+                                <a href="{% url 'edit_product' product.id %}?next={{ request.path }}" class="btn btn-primary btn-sm flex-fill me-4">Edit</a>
+                                <a href="{% url 'delete_product' product.id %}" class="btn btn-danger btn-sm flex-fill">Delete</a>
+                                </div>
+                            {% else %}
+                                <a href="{% url 'product_detail' product.id %}" class="btn btn-primary mt-auto">View Details</a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'product_detail' product.id %}" class="btn btn-primary mt-auto">View Details</a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'product_detail' product.id %}" class="btn btn-primary mt-auto">View Details</a>
+                    {% endif %}
+
+                </div>
+            </div>
         </div>
-      </div>
+        {% endfor %}
     </div>
-    {% empty %}
-    <p>No products available.</p>
-    {% endfor %}
-  </div>
+    {% else %}
+        <p>No products available in this category.</p>
+    {% endif %}
 </div>
-{% endblock %} {% endcomment %}
+{% endblock %}
+
+ 

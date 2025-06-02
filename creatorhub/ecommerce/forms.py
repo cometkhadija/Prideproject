@@ -17,7 +17,7 @@ class CustomUserCreationForm(UserCreationForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'price', 'description', 'category', 'image']
+        fields = ['name',  'description','price', 'image','category']
         widgets = {
             'category': forms.Select(attrs={'class': 'form-control'}),
         }

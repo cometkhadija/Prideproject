@@ -1,14 +1,15 @@
 {% extends 'ecommerce/base.html' %}
-
+{% block title %}Delete {{ product.name }}{% endblock %}
 {% block content %}
-<div class="container mt-5">
-    <h2>Confirm Delete</h2>
-    <p>Are you sure you want to delete the product: <strong>{{ product.name }}</strong>?</p>
+<div class="container mt-4">
+    
+    <h2>Are you sure you want to delete "{{ product.name }}"?</h2>
     
     <form method="post">
         {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
         <button type="submit" class="btn btn-danger">Yes, Delete</button>
-        <a href="{% url 'product_detail' product.id %}" class="btn btn-secondary">Cancel</a>
+        <a href="{{next}}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 {% endblock %}

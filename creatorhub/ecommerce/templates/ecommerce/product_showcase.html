@@ -15,7 +15,7 @@
                 <li class="nav-item"><a class="nav-link text-white" href="{% url 'product_list' 'food' %}">Food</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{% url 'product_list' 'clothing' %}">Clothing</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="{% url 'product_list' 'jewellery' %}">Jewellery</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="{% url 'product_list' 'Art' %}">Art</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="{% url 'product_list' 'art' %}">Art</a></li>
             </ul>
 
             <form class="d-flex" method="get" action="#">
@@ -35,6 +35,28 @@
     </div>
 </nav>
 <!-- Navbar ends here -->
+<div class="container mt-4">
+
+    <!-- ✅ Message block -->
+    {% if messages %}
+      <div class="mb-3">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Add New Product button (for sellers only) -->
+    {% if user.is_authenticated and user.profile.role == 'seller' %}
+      <div class="text-end mb-3">
+          <a href="{% url 'add_product' %}?next={{ request.path }}" class="btn btn-success">
+              Add New Product
+          </a>
+      </div>
+    {% endif %}
 
 <!-- Product section -->
 <div class="container mt-4">
@@ -48,7 +70,7 @@
                 <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ product.name }}</h5>
-                    <p class="card-text">${{ product.price }}</p>
+                    <p class="card-text">{{ product.price }}</p>
                     
                     {% if user.is_authenticated and user.profile.role == 'buyer' %}
                         <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
