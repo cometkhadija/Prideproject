@@ -54,8 +54,19 @@ def home(request):
 # --------- Product Views ---------
 
 def product_showcase(request):
-    products = Product.objects.all()
-    return render(request, 'ecommerce/product_showcase.html', {'products': products})
+    seller_id = request.GET.get('seller')
+    
+    if seller_id:
+        products = Product.objects.filter(seller__id=seller_id)
+    else:
+        products = Product.objects.all()
+
+    return render(request, 'ecommerce/product_showcase.html', {
+        'products': products,
+        'selected_seller_id': seller_id,
+    })
+
+
 
 def product_list(request, category_name=None):
     if category_name:
@@ -242,6 +253,23 @@ def order_detail(request, order_id):
 def order(request):
     # your view logic
     return render(request, 'order.html')
+
+@login_required
+def buyer_account(request):
+    if not hasattr(request.user, 'profile') or request.user.profile.role != 'buyer':
+        messages.error(request, "Unauthorized access.")
+        return redirect('home')
+
+    cart_items = CartItem.objects.filter(user=request.user)
+    orders = Order.objects.filter(buyer=request.user).order_by('-created_at')
+
+    context = {
+        'user': request.user,
+        'cart_items': cart_items,
+        'orders': orders,
+    }
+
+    return render(request, 'ecommerce/buyer_account.html', context)
 
 
 def run_code(request):

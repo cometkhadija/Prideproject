@@ -27,6 +27,12 @@
                 </select>
             </div>
 
+            <!-- Shop Name Field (Initially Hidden) -->
+            <div class="mb-3" id="shopNameDiv" style="display: none;">
+                <label for="shop_name" class="form-label">Shop Name</label>
+                <input type="text" name="shop_name" id="shop_name" class="form-control">
+            </div>
+
             <button type="submit" class="btn btn-primary w-100">Sign Up</button>
         </form>
 
@@ -35,4 +41,18 @@
         </div>
     </div>
 </div>
+
+<!-- JS to toggle shop name input -->
+<script>
+  const roleSelect = document.getElementById('role');
+  const shopNameDiv = document.getElementById('shopNameDiv');
+
+  roleSelect.addEventListener('change', function () {
+    if (this.value === 'seller') {
+      shopNameDiv.style.display = 'block';
+    } else {
+      shopNameDiv.style.display = 'none';
+    }
+  });
+</script>
 {% endblock %}

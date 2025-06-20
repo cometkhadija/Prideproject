@@ -3,14 +3,15 @@
 {% block title %}Home{% endblock %}
 
 {% block page_content %}
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
-    <div class="text-center">
-        <h1 class="display-4 fw-bold mb-4">Welcome to <span class="text-primary">JU Creator Hub</span>!</h1>
-        <p class="lead mb-4">Build. Sell. Grow--powered by students. Shop smarter.</p>
-        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-            <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4">Login</a>
-            <a href="{% url 'signup' %}" class="btn btn-outline-secondary btn-lg px-4">Sign Up</a>
-        </div>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh; position: relative;">
+  <div class="text-center" style="position: relative; top: -30px;">
+    <img src="/media/product_images/logo.jpg" alt="Logo" class="rounded-circle mb-5" style="max-width: 150px;">
+    <h1 class="display-4 fw-bold mb-4" style="font-size: 2.5rem;">Welcome to <span class="text-primary">JU Creator Hub</span>!</h1>
+    <p class="lead mb-5">Build. Sell. Grow--powered by students. Shop smarter.</p>
+    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+      <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4">Login</a>
+      <a href="{% url 'signup' %}" class="btn btn-outline-secondary btn-lg px-4">Sign Up</a>
     </div>
+  </div>
 </div>
 {% endblock %}

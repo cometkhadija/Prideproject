@@ -1,0 +1,39 @@
+{% extends "ecommerce/base.html" %}
+{% block title %}My Account{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h3 class="mb-4">Welcome, {{ user.username }} 👋</h3>
+
+  <div class="mb-4">
+    <h5>Your Info:</h5>
+    <p>Email: {{ user.email }}</p>
+  </div>
+
+  <div class="mb-4">
+    <h5>Your Cart:</h5>
+    {% if cart_items %}
+      <ul>
+        {% for item in cart_items %}
+          <li>{{ item.product.name }} ({{ item.quantity }})</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No items in cart.</p>
+    {% endif %}
+  </div>
+
+  <div class="mb-4">
+    <h5>Your Orders:</h5>
+    {% if orders %}
+      <ul>
+        {% for order in orders %}
+          <li>Order #{{ order.id }} - {{ order.status }} ({{ order.created_at|date:"M d, Y" }})</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No order history.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
