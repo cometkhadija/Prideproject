@@ -1,0 +1,27 @@
+{% extends 'ecommerce/base.html' %}
+
+{% block content %}
+<h2>My Products</h2>
+<ul>
+  {% for product in products %}
+    <li>{{ product.name }} - {{ product.price }}</li>
+  {% empty %}
+    <li>No products yet.</li>
+  {% endfor %}
+</ul>
+
+<h2>Order Requests</h2>
+<ul>
+  {% for item in order_items %}
+    <li>
+      {{ item.product.name }} - Quantity: {{ item.quantity }} -
+      Status: {{ item.seller_status }}
+      {% if item.seller_status != 'Approved' %}
+        <a href="{% url 'approve_order_item' item.id %}" class="btn btn-sm btn-success">Approve</a>
+      {% endif %}
+    </li>
+  {% empty %}
+    <li>No orders yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

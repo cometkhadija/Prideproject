@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,8 +8,10 @@
   </head>
 
   <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark w-100 mb-3" style="background-color: navy;">
       <div class="container-fluid d-flex align-items-center">
+        
         <!-- Hamburger Icon -->
         <button class="btn btn-outline-light me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
           <span class="navbar-toggler-icon"></span>
@@ -19,18 +22,24 @@
           Creator Hub
         </span>
 
-        <!-- Search form -->
+        <!-- Search form (Buyers only) -->
+        {% if user.is_authenticated and user.profile.role == 'buyer' %}
         <form class="d-flex me-3" method="get" action="#">
-          <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search" />
+          <input class="form-control me-2" name="q" type="search" placeholder="Search products..." aria-label="Search" />
           <button class="btn btn-outline-light" type="submit">Search</button>
         </form>
+        {% endif %}
 
-        <!-- Auth & Account Links -->
+        <!-- Auth & Role Links -->
         <ul class="navbar-nav d-flex flex-row align-items-center mb-0">
           {% if user.is_authenticated %}
             {% if user.profile.role == 'buyer' %}
               <li class="nav-item me-3">
                 <a class="nav-link text-white" href="{% url 'buyer_account' %}">My Account</a>
+              </li>
+            {% elif user.profile.role == 'seller' %}
+              <li class="nav-item me-3">
+                <a class="nav-link text-white" href="{% url 'seller_dashboard' %}">Dashboard</a>
               </li>
             {% endif %}
             <li class="nav-item">
@@ -51,7 +60,8 @@
       </div>
     </nav>
 
-    <!-- Offcanvas Sidebar -->
+    <!-- Offcanvas Sidebar (Buyers only) -->
+    {% if user.is_authenticated and user.profile.role == 'buyer' %}
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
       <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menu</h5>
@@ -88,6 +98,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
 
     <!-- Page Content -->
     <div class="container mt-4">

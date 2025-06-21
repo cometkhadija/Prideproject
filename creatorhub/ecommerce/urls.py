@@ -29,6 +29,9 @@ urlpatterns = [
 
     path('buyer/account/', views.buyer_account, name='buyer_account'),
 
+    path('seller/dashboard/', views.seller_dashboard, name='seller_dashboard'),
+    path('order/approve/<int:item_id>/', views.approve_order_item, name='approve_order_item'),
+
 ]
 
 

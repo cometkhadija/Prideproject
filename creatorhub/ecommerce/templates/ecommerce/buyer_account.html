@@ -24,16 +24,30 @@
   </div>
 
   <div class="mb-4">
-    <h5>Your Orders:</h5>
-    {% if orders %}
-      <ul>
-        {% for order in orders %}
-          <li>Order #{{ order.id }} - {{ order.status }} ({{ order.created_at|date:"M d, Y" }})</li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p>No order history.</p>
-    {% endif %}
-  </div>
+  <h5>Your Orders:</h5>
+  {% if orders %}
+    <ul>
+      {% for order in orders %}
+        <li>
+          <strong>Order #{{ order.id }}</strong> ({{ order.created_at|date:"M d, Y" }})<br>
+          <ul>
+            {% for item in order.items.all %}
+              <li>
+                {{ item.product.name }} -
+                Qty: {{ item.quantity }} -
+                <span class="badge {% if item.seller_status == 'Approved' %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                  {{ item.seller_status }}
+                </span>
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No order history.</p>
+  {% endif %}
+</div>
+
 </div>
 {% endblock %}

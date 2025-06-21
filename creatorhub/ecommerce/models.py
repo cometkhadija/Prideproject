@@ -10,10 +10,11 @@ class Profile(models.Model):
     ]
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
-    shop_name = models.CharField(max_length=100, blank=True, null=True) 
+    shop_name = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.role}"
+
 
 # --------- Product Model ---------
 class Product(models.Model):
@@ -28,18 +29,19 @@ class Product(models.Model):
     image = models.ImageField(upload_to='product_images/')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
-    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, blank=False)
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products')
 
     def __str__(self):
         return self.name
 
-# --------- CartItem Model (Previously named Cart) ---------
+
+# --------- CartItem Model ---------
 class CartItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart_items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-    payment_method = models.CharField(max_length=20, default='Cash on Delivery') 
+    payment_method = models.CharField(max_length=20, default='Cash on Delivery')
     added_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -49,6 +51,7 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.product.name} ({self.quantity})"
+
 
 # --------- Order Model ---------
 class Order(models.Model):
@@ -61,12 +64,15 @@ class Order(models.Model):
     def __str__(self):
         return f"Order {self.id} by {self.buyer.username}"
 
+
 # --------- OrderItem Model ---------
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-
+    is_approved = models.BooleanField(default=False)  # ✅ Approval field for seller
+    seller_status = models.CharField(max_length=20, default='Pending')
+    
     def __str__(self):
         return f"{self.quantity} of {self.product.name} in Order {self.order.id}"

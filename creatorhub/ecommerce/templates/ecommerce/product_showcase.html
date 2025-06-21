@@ -29,7 +29,9 @@
                 <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
               {% elif user.is_authenticated and user.profile.role == 'seller' %}
                 <a href="{% url 'edit_product' product.id %}" class="btn btn-primary">Edit</a>
-                <a href="{% url 'delete_product' product.id %}" class="btn btn-danger">Delete</a>
+                
+                <a href="{% url 'delete_product' product.id %}?next={% url 'product_showcase' %}" class="btn btn-danger">Delete</a>
+
               {% else %}
                 <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
               {% endif %}

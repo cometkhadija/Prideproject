@@ -125,15 +125,22 @@ def edit_product(request, product_id):
 
     return render(request, 'ecommerce/edit_product.html', {'form': form, 'product': product})
 
+from django.urls import reverse
+
 @login_required
 def delete_product(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
+    product = get_object_or_404(Product, id=product_id, seller=request.user)
+
+    # Get the `next` URL from GET or POST
+    next_url = request.GET.get('next') or request.POST.get('next') or reverse('product_showcase')
+
     if request.method == 'POST':
         product.delete()
-        return redirect('product_showcase')  # jekhane delete porbe redirect hobe
+        return redirect(next_url)
+
     context = {
         'product': product,
-        'next': request.GET.get('product_showcase'),
+        'next': next_url,
     }
     return render(request, 'ecommerce/confirm_delete.html', context)
 
@@ -244,9 +251,22 @@ def order_summary(request, order_id):
         'sellers': sellers
     })
 
+@login_required
 def order_detail(request, order_id):
-    order = get_object_or_404(Order, id=order_id, buyer=request.user)
-    return render(request, 'ecommerce/order_detail.html', {'order': order})
+    from django.utils.timezone import now
+
+    order = get_object_or_404(
+        Order.objects.prefetch_related(
+            Prefetch('items', queryset=OrderItem.objects.select_related('product'))
+        ),
+        id=order_id,
+        buyer=request.user
+    )
+    
+    return render(request, 'ecommerce/order_detail.html', {
+        'order': order,
+        'now': now(),
+    })
 
 # --------- Testing View ---------
 
@@ -271,6 +291,27 @@ def buyer_account(request):
 
     return render(request, 'ecommerce/buyer_account.html', context)
 
+@login_required
+def seller_dashboard(request):
+    if request.user.profile.role != 'seller':
+        return redirect('home')
+
+    products = Product.objects.filter(seller=request.user)
+    order_items = OrderItem.objects.filter(product__seller=request.user).order_by('-order__created_at')
+
+    return render(request, 'ecommerce/seller_dashboard.html', {
+        'products': products,
+        'order_items': order_items
+    })
+
+@login_required
+def approve_order_item(request, item_id):
+    item = get_object_or_404(OrderItem, id=item_id, product__seller=request.user)
+    item.seller_status = 'Approved'  # ✅ updates the field
+    # item.is_approved = True          # optional, if you use it
+    item.save()
+    messages.success(request, "Order item approved.")
+    return redirect('seller_dashboard')
 
 def run_code(request):
     return HttpResponse("Ecommerce app is running!")
