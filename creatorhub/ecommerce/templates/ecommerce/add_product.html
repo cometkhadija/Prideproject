@@ -1,0 +1,81 @@
+{% extends 'ecommerce/base.html' %}
+{% block title %}Add Product{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- 🔙 Back Button -->
+  <div class="mb-3">
+    <a href="{% url 'seller_products' %}" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left-circle me-1"></i> Back to My Products
+    </a>
+  </div>
+
+  <h2 class="mb-4">🛍️ Add New Product</h2>
+
+  <!-- ✅ Messages -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- ✅ Product Form with Colored Card -->
+  <div class="card shadow-sm border-0" style="background-color: #eaf4ff;">
+    <div class="card-body">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- 🔁 Hidden next field to return after submit -->
+        <input type="hidden" name="next" value="{{ request.GET.next|default:request.META.HTTP_REFERER }}">
+
+        <div class="mb-3">
+          {{ form.name.label_tag }}
+          {{ form.name }}
+          {% if form.name.errors %}
+            <div class="text-danger">{{ form.name.errors.0 }}</div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          {{ form.image.label_tag }}
+          {{ form.image }}
+          {% if form.image.errors %}
+            <div class="text-danger">{{ form.image.errors.0 }}</div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          {{ form.price.label_tag }}
+          {{ form.price }}
+          {% if form.price.errors %}
+            <div class="text-danger">{{ form.price.errors.0 }}</div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          {{ form.description.label_tag }}
+          {{ form.description }}
+          {% if form.description.errors %}
+            <div class="text-danger">{{ form.description.errors.0 }}</div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          {{ form.category.label_tag }}
+          {{ form.category }}
+          {% if form.category.errors %}
+            <div class="text-danger">{{ form.category.errors.0 }}</div>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Product</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+{% endblock %}

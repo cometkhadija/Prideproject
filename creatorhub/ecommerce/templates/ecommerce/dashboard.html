@@ -1,0 +1,37 @@
+{% extends 'ecommerce/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Welcome to your Dashboard, {{ user.username }}!</h2>
+
+    {% if user.is_authenticated %}
+        {% if user.profile.role == 'buyer' %}
+            <h3>Buyer Dashboard</h3>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="{% url 'product_list' %}">All Products</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{% url 'cart_view' %}">My Cart</a>
+                </li>
+            </ul>
+        {% elif user.profile.role == 'seller' %}
+            <h3>Seller Dashboard</h3>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="{% url 'add_product' %}">Add Product</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{% url 'product_list' %}">My Products</a>
+                </li>
+            </ul>
+        {% else %}
+            <p>You do not have a valid role assigned. Please contact support.</p>
+        {% endif %}
+    {% else %}
+        <p>Please <a href="{% url 'login' %}">login</a> to view your dashboard.</p>
+    {% endif %}
+</div>
+{% endblock %}

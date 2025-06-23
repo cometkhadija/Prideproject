@@ -1,0 +1,98 @@
+{% extends 'ecommerce/base.html' %}
+
+{% block content %}
+<style>
+  .product-container {
+    margin-top: 2rem;
+  }
+  .product-image {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    width: 100%;
+    max-height: 450px;
+    object-fit: contain;
+  }
+  .product-details {
+    padding-left: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .product-title {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .product-price {
+    color: #4B7BE5;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .product-description {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 1.5rem;
+  }
+  .product-id {
+    color: #777;
+    font-size: 0.875rem;
+    margin-bottom: 2rem;
+  }
+  .btn-action {
+    min-width: 140px;
+  }
+  .btn-group-actions {
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    color: #4B7BE5;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .back-link:hover {
+    color: #1f3bb3;
+    text-decoration: underline;
+  }
+  .back-link svg {
+    margin-right: 0.5rem;
+    stroke-width: 2;
+  }
+</style>
+
+<div class="container product-container">
+  <div class="row">
+    <div class="col-md-5">
+      <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image" />
+    </div>
+    <div class="col-md-7 product-details">
+      <a href="{% url 'product_showcase' %}" class="back-link" title="Back to Products">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/>
+        </svg>
+        Back to Products
+      </a>
+
+      <h1 class="product-title">{{ product.name }}</h1>
+      <div class="product-price">৳ {{ product.price }}</div>
+      <p class="product-description">{{ product.description }}</p>
+      <div class="product-id">Product ID: {{ product.id }}</div>
+
+      <form action="{% url 'add_to_cart' product.id %}" method="post" class="mb-3">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary btn-lg w-100 btn-action">Add to Cart</button>
+      </form>
+
+      {% if user.is_authenticated and user == product.seller %}
+      <div class="d-flex btn-group-actions">
+        <a href="{% url 'edit_product' product.id %}" class="btn btn-outline-primary btn-action">Edit Product</a>
+        <a href="{% url 'delete_product' product.id %}?next={% url 'product_showcase' %}" class="btn btn-outline-danger btn-action">Delete Product</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
