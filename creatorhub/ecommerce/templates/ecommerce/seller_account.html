@@ -1,0 +1,76 @@
+{% extends 'ecommerce/base.html' %}
+{% block title %}Seller Account{% endblock %}
+
+{% block content %}
+<div class="container py-4 position-relative">
+
+  <!-- 🔙 Back to Dashboard -->
+  <div class="position-absolute top-0 end-0 mt-2 me-2">
+    <a href="{% url 'product_showcase' %}" class="btn btn-outline-primary btn-sm">
+      <i class="bi bi-arrow-left-circle me-1"></i> Back to Dashboard
+    </a>
+  </div>
+
+  <h2 class="mb-4 text-center">👋 Welcome, {{ user.username }}</h2>
+
+  <!-- 📊 Pie Chart Card -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Order Overview</h5>
+      <div class="d-flex justify-content-center">
+        <div style="max-width: 300px; width: 100%;">
+          <canvas id="orderPie"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('orderPie');
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Approved Orders', 'Pending Orders'],
+        datasets: [{
+          data: [{{ approved_orders }}, {{ pending_orders }}],
+          backgroundColor: ['#28a745', '#ffc107'],
+          borderColor: '#fff',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    });
+  </script>
+
+  <!-- 📦 Stats Card (Light Blue Shade 1) -->
+  <div class="card shadow-sm mb-4" style="background-color: #eaf3ff;">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Your Store Stats</h5>
+      <p class="mb-2"><strong>Total Products:</strong> {{ total_products }}</p>
+      <p class="mb-0"><strong>Total Orders:</strong> {{ total_orders }}</p>
+    </div>
+  </div>
+
+  <!-- 🛠 Edit Info Card (Light Blue Shade 2) -->
+  <div class="card shadow-sm mb-5" style="background-color: #d9ecff;">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Edit Shop Information</h5>
+      <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary mt-2">Update Info</button>
+      </form>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

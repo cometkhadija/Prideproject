@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Product
+from .models import Profile
 
 # User Registration Form
 class CustomUserCreationForm(UserCreationForm):
@@ -21,6 +22,11 @@ class ProductForm(forms.ModelForm):
         widgets = {
             'category': forms.Select(attrs={'class': 'form-control'}),
         }
+
+class SellerInfoForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['shop_name']
    
 # from django import forms
 # from django.contrib.auth.forms import UserCreationForm

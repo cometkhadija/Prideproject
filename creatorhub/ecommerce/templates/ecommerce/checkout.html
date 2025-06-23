@@ -1,19 +1,59 @@
 {% extends 'ecommerce/base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Checkout</h2>
-    <form method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="address" class="form-label">Delivery Address</label>
-            <textarea name="address" id="address" class="form-control" required></textarea>
+<div class="container py-5">
+
+  <!-- 🔙 Back to Cart Button -->
+  <div class="mb-4">
+    <a href="{% url 'cart' %}" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left-circle me-1"></i> Back to Cart
+    </a>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white fw-bold fs-5">
+          <i class="bi bi-credit-card me-2"></i> Checkout
         </div>
-        <div class="mb-3">
-            <label for="phone" class="form-label">Phone Number</label>
-            <input type="tel" name="phone" id="phone" class="form-control" required>
+        <div class="card-body bg-light">
+
+          <!-- ✅ Message display -->
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <form method="post" novalidate>
+            {% csrf_token %}
+
+            <div class="mb-4">
+              <label for="address" class="form-label fw-semibold">Delivery Address</label>
+              <textarea name="address" id="address" class="form-control" rows="4" required
+                        placeholder="Your Address"></textarea>
+            </div>
+
+            <div class="mb-4">
+              <label for="phone" class="form-label fw-semibold">Phone Number</label>
+              <input type="tel" name="phone" id="phone" class="form-control" required
+                     pattern="01[3-9]\d{8}" placeholder="e.g., 017XXXXXXXX"
+                     title="Enter a valid Bangladeshi number (e.g., 017XXXXXXXX)">
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 fw-semibold py-2">
+              <i class="bi bi-bag-check-fill me-1"></i> Place Order
+            </button>
+          </form>
         </div>
-        <button type="submit" class="btn btn-primary">Place Order</button>
-    </form>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- ✅ Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 {% endblock %}
