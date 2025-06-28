@@ -51,9 +51,15 @@ class CustomLoginView(LoginView):
     template_name = 'ecommerce/login.html'
 
 # --------- Home View ---------
-
 def home(request):
-    return render(request, 'ecommerce/home.html')
+    categories = [
+        {"key": "food", "img": "Home1.jpg", "label": "Food"},
+        {"key": "clothing", "img": "Home2.jpg", "label": "Clothing"},
+        {"key": "art", "img": "Home4.jpg", "label": "Art"},
+        {"key": "jewellery", "img": "Home3.jpg", "label": "Jewellery"},
+    ]
+    return render(request, 'ecommerce/home.html', {'categories': categories})
+
 
 # --------- Product Views ---------
 
@@ -411,6 +417,9 @@ def seller_products(request):
     return render(request, 'ecommerce/seller_products.html', {
         'products': products,
     })
+
+def about(request):
+    return render(request, 'ecommerce/about.html')
 
 def run_code(request):
     return HttpResponse("Ecommerce app is running!")
