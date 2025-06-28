@@ -1,21 +1,294 @@
-{% extends 'ecommerce/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JU Creator Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #fef6f4;
+    }
+    .navbar {
+      background-color: #000;
+    }
+    .navbar a {
+      color: white !important;
+    }
+    .about-section {
+      padding: 60px 0;
+    }
+    .about-left h1 {
+      font-weight: bold;
+      font-size: 2rem;
+    }
+    .about-left p.tagline {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .about-image {
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+    .explore-img {
+      width: 100%;
+      height: 60vh;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 40px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+    .category-title {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 40px 0 20px;
+      text-align: center;
+    }
+    .category-tile {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      height: 250px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    .category-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(75%);
+    }
+    .category-tile .overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.5rem;
+      color: white;
+      font-weight: bold;
+      text-shadow: 2px 2px 8px black;
+    }
+    footer {
+      background-color: #0d1b2a;
+      color: white;
+      padding: 40px 30px;
+    }
+    footer h5 {
+      font-size: 1.3rem;
+      color: #f8f9fa;
+      margin-bottom: 1rem;
+    }
+    footer ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    footer ul li a {
+      text-decoration: none;
+      color: #ccc;
+    }
+    footer ul li a:hover {
+      color: white;
+    }
+    @media (max-width: 768px) {
+      .about-section {
+        text-align: center;
+      }
+      .about-image {
+        margin-top: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
 
-{% block title %}Home{% endblock %}
+  <!-- ✅ Upper Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark px-4">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="#">JU Creator Hub</a>
+      <div class="ms-auto">
+        {% if user.is_authenticated %}
+          <a href="{% url 'buyer_account' %}" class="btn btn-outline-light btn-sm me-2">Account</a>
+        {% else %}
+          <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm me-2">Login</a>
+          <a href="{% url 'signup' %}" class="btn btn-outline-light btn-sm">Sign Up</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
 
-{% block navbar %}
-<!-- Empty to hide navbar on homepage -->
-{% endblock %}
+<!-- ✅ About Section -->
+<div style="background-color:rgb(249, 248, 247);">
+  <div class="container-fluid px-md-0 py-0">
+    <div class="row g-0 align-items-stretch">
+      
+      <!-- ✅ Left Side -->
+      <div class="col-md-6 d-flex flex-column justify-content-top ps-md-5 pe-md-3 py-5">
+        <br><br><br>
+        <img src="/media/product_images/logo.jpg" alt="Logo"
+             style="height: 130px; width: 130px; border-radius: 50%;">
+        <h2 class="mt-4 fw-semibold">JU Creator Hub</h2>
+        <p class="fs-1 fw-bold mb-2">Empowering Student Entrepreneurs</p>
+        <p class="text-muted pe-md-2 fs-4">
+          JU Creator Hub is a marketplace built by and for the students of Jahangirnagar University.
+          We connect small local creators with buyers to showcase their talents.
+        </p>
+      </div>
 
-{% block page_content %}
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh; position: relative;">
-  <div class="text-center" style="position: relative; top: -30px;">
-    <img src="/media/product_images/logo.jpg" alt="Logo" class="rounded-circle mb-5" style="max-width: 150px;">
-    <h1 class="display-4 fw-bold mb-4" style="font-size: 2.5rem;">Welcome to <span class="text-primary">JU Creator Hub</span>!</h1>
-    <p class="lead mb-5">Build. Sell. Grow--powered by students. Shop smarter.</p>
-    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-      <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4">Login</a>
-      <a href="{% url 'signup' %}" class="btn btn-outline-secondary btn-lg px-4">Sign Up</a>
+      <!-- ✅ Right Side Image -->
+      <div class="col-md-6">
+        <a href="{% url 'about' %}" style="display: block; height: 90%; width: 100%;">
+          <img src="/media/product_images/Option 2.png"
+               alt="About"
+               class="img-fluid w-100 h-100"
+               style="object-fit: cover; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); border-radius: 8px 0 0 8px;">
+        </a>
+      </div>
+
     </div>
   </div>
 </div>
-{% endblock %}
+
+
+<!-- ✅ Explore Section -->
+<div class="container-fluid text-center px-0">
+  <!-- Elegant Heading -->
+  <h2 class="fw-semibold fs-1 my-1">Discover Unique Finds</h2>
+
+  <!-- Full Width Image with Text Overlay -->
+  <div class="position-relative w-100 py-4">
+    <a href="{% url 'product_showcase' %}">
+      <!-- Full width image -->
+      <img src="/media/product_images/explore.jpg" alt="Explore"
+           class="img-fluid w-100" style="object-fit: cover; max-height: 480px;">
+
+      <!-- Full-image-covering text -->
+      <div class="position-absolute top-50 start-50 translate-middle w-100 text-center">
+        <h1 class="text-white fw-bold display-1"
+            style="text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.7); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          Explore
+        </h1>
+      </div>
+    </a>
+  </div>
+</div>
+
+
+
+<!-- ✅ Categories -->
+<section class="container-fluid text-center py-5">
+  <!-- Left-aligned heading -->
+  <h2 class="mb-4 fw-bold">Categories</h2>
+
+  <div class="row justify-content-center g-4 px-0" style="max-width: 5000px; margin: 0 auto;">
+    
+    <!-- Category 1: Food -->
+    <div class="col-6 col-md-3 px-1">
+      <a href="{% url 'product_list' 'food' %}" class="text-decoration-none text-dark">
+        <div class="position-relative rounded overflow-hidden shadow-sm" style="aspect-ratio: 1.1;">
+          <img src="/media/product_images/Home1.jpg" class="w-100 h-100" style="object-fit: cover;">
+          <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+               style="background-color: rgba(0,0,0,0.4);">
+            <h5 class="text-white fw-bold">Food</h5>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Category 2: Clothing -->
+    <div class="col-6 col-md-3 px-1">
+      <a href="{% url 'product_list' 'clothing' %}" class="text-decoration-none text-dark">
+        <div class="position-relative rounded overflow-hidden shadow-sm" style="aspect-ratio: 1.1;">
+          <img src="/media/product_images/Home2.jpg" class="w-100 h-100" style="object-fit: cover;">
+          <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+               style="background-color: rgba(0,0,0,0.4);">
+            <h5 class="text-white fw-bold">Clothing</h5>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Category 3: Art -->
+    <div class="col-6 col-md-3 px-1">
+      <a href="{% url 'product_list' 'art' %}" class="text-decoration-none text-dark">
+        <div class="position-relative rounded overflow-hidden shadow-sm" style="aspect-ratio: 1.1;">
+          <img src="/media/product_images/Home4.jpg" class="w-100 h-100" style="object-fit: cover;">
+          <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+               style="background-color: rgba(0,0,0,0.4);">
+            <h5 class="text-white fw-bold">Art</h5>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Category 4: Jewellery -->
+    <div class="col-6 col-md-3 px-1">
+      <a href="{% url 'product_list' 'jewellery' %}" class="text-decoration-none text-dark">
+        <div class="position-relative rounded overflow-hidden shadow-sm" style="aspect-ratio: 1.1;">
+          <img src="/media/product_images/Home3.jpg" class="w-100 h-100" style="object-fit: cover;">
+          <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+               style="background-color: rgba(0,0,0,0.4);">
+            <h5 class="text-white fw-bold">Jewellery</h5>
+          </div>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ✅ Quote Section -->
+<div class="container text-center my-5">
+  <h1 style="font-family: 'Americana', serif; font-size: 2.2rem;">
+    “Creativity takes courage.”
+  </h1>
+  <p class="mt-2" style="font-family: 'Times New Roman', serif; font-size: 1.1rem;">
+    – Henri Matisse
+  </p>
+</div>
+
+
+  <!-- ✅ Footer -->
+<footer class="mt-5">
+  <div class="row">
+    
+    <div class="col-md-3">
+      <h3>About</h3>
+      <p class="fs-5">JU Creator Hub is a student-powered marketplace from Jahangirnagar University.</p>
+    </div>
+
+    <div class="col-md-3">
+      <h3>Categories</h3>
+      <ul class="fs-5 list-unstyled">
+        <li><a href="{% url 'product_list' 'food' %}">Food</a></li>
+        <li><a href="{% url 'product_list' 'clothing' %}">Clothing</a></li>
+        <li><a href="{% url 'product_list' 'jewellery' %}">Jewellery</a></li>
+        <li><a href="{% url 'product_list' 'art' %}">Art</a></li>
+      </ul>
+    </div>
+
+    <div class="col-md-3">
+      <h3>Information</h3>
+      <ul class="fs-5 list-unstyled">
+        <li><a href="{% url 'terms_conditions' %}">Terms & Conditions</a></li>
+        <li><a href="{% url 'return_exchange' %}">Return & Exchange</a></li>
+        <li><a href="{% url 'Delivery' %}">Delivery</a></li>
+        <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+      </ul>
+    </div>
+
+    <div class="col-md-3">
+      <h3>Contact</h3>
+      <p class="fs-5">Email: support@jucreatorhub.com</p>
+      <p class="fs-5">Phone: +8801XXXXXXXXX</p>
+    </div>
+
+  </div>
+</footer>
+
+
+</body>
+</html>

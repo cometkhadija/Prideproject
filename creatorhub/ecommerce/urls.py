@@ -36,6 +36,13 @@ urlpatterns = [
     path('seller/orders/', views.seller_orders, name='seller_orders'),
     path('seller/products/', views.seller_products, name='seller_products'),
 
+    path('about/', views.about, name='about'),
+
+    path('terms_conditions/', views.terms_conditions, name='terms_conditions'),
+    path('return_exchange/', views.return_exchange, name='return_exchange'),
+    path('Delivery', views.Delivery, name='Delivery'),
+    path('privacy_policy/', views.privacy_policy, name='privacy_policy'),
+
 
 
 ]
