@@ -63,7 +63,7 @@ def home(request):
 
 # --------- Product Views ---------
 
-@login_required
+# @login_required
 def product_showcase(request):
     query = request.GET.get('q')
     seller_id = request.GET.get('seller')
@@ -113,7 +113,7 @@ def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     return render(request, 'ecommerce/product_details.html', {'product': product})
 
-@login_required
+# @login_required
 @login_required
 def add_product(request):
     if request.method == 'POST':
