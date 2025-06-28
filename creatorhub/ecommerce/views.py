@@ -421,5 +421,17 @@ def seller_products(request):
 def about(request):
     return render(request, 'ecommerce/about.html')
 
+def terms_conditions(request):
+    return render(request, 'ecommerce/terms_conditions.html')
+
+def return_exchange(request):
+    return render(request, 'ecommerce/return_exchange.html')
+
+def Delivery(request):
+    return render(request, 'ecommerce/Delivery.html')
+
+def privacy_policy(request):
+    return render(request, 'ecommerce/privacy_policy.html')
+
 def run_code(request):
     return HttpResponse("Ecommerce app is running!")
