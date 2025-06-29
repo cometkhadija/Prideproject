@@ -433,5 +433,10 @@ def Delivery(request):
 def privacy_policy(request):
     return render(request, 'ecommerce/privacy_policy.html')
 
+def search_results(request):
+    query = request.GET.get('q')
+    results = Product.objects.filter(name__icontains=query) if query else []
+    return render(request, 'ecommerce/search_results.html', {'results': results, 'query': query})
+
 def run_code(request):
     return HttpResponse("Ecommerce app is running!")
