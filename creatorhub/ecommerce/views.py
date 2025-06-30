@@ -511,7 +511,13 @@ def seller_account(request):
     total_products = products.count()
     total_orders = order_items.count()
     approved_orders = order_items.filter(seller_status='Approved').count()
-    pending_orders = total_orders - approved_orders
+    rejected_orders = order_items.filter(seller_status='Rejected').count()
+    pending_orders = order_items.filter(seller_status='Pending').count()
+
+    # 🧮 Total Earned = Approved items' quantity * price
+    total_earned = sum(
+        item.quantity * item.price for item in order_items.filter(seller_status='Approved')
+    )
 
     # Handle profile update form
     if request.method == 'POST':
@@ -528,7 +534,9 @@ def seller_account(request):
         'total_products': total_products,
         'total_orders': total_orders,
         'approved_orders': approved_orders,
-        'pending_orders': pending_orders
+        'pending_orders': pending_orders,
+        'rejected_orders': rejected_orders,
+        'total_earned': total_earned,
     })
 
 @login_required
