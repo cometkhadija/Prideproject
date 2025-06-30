@@ -51,12 +51,28 @@ def signup(request):
 
 class CustomLoginView(LoginView):
     template_name = 'ecommerce/login.html'
+    def get_success_url(self):
+        user = self.request.user
+        if hasattr(user, 'profile') and user.profile.role == 'seller':
+            return reverse('seller_dashboard')
+        else:
+            # next parameter thakle shei jayga
+            next_url = self.get_redirect_url()
+            return next_url or reverse('home')
 
 
 def login_redirect_view(request):
-    if request.user.profile.role == 'seller':
-        return redirect('seller_dashboard')
-    return redirect('product_showcase')
+    if request.user.is_authenticated:
+        if hasattr(request.user, 'profile') and request.user.profile.role == 'seller':
+            return redirect('seller_dashboard')
+        
+        next_url = request.GET.get('next')
+        if next_url:
+            return redirect(next_url)
+
+        return redirect('product_showcase')
+    else:
+        return redirect('login')
 
 
 # --------- Home View ---------

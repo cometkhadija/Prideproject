@@ -165,39 +165,49 @@ body {
 <body>
 
    <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark px-4">
-    <div class="container-fluid">
-      <a class="navbar-brand fw-bold" href="#">JU Creator Hub</a>
-      <div class="ms-auto d-flex align-items-center gap-2">
+ <nav class="navbar navbar-expand-lg navbar-dark px-4">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">JU Creator Hub</a>
 
-        {% if user.is_authenticated %}
-  {% if user.profile.role == 'buyer' %}
-    <a href="{% url 'buyer_account' %}" class="btn btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">
-      <i class="bi bi-person-circle fs-5"></i>
-      <span class="ms-1 d-none d-md-inline">Account</span>
-    </a>
-  {% elif user.profile.role == 'seller' %}
-    <a href="{% url 'seller_account' %}" class="btn btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">
-      <i class="bi bi-person-circle fs-5"></i>
-      <span class="ms-1 d-none d-md-inline">Account</span>
-    </a>
-  {% endif %}
+    <div class="ms-auto d-flex align-items-center gap-2">
 
-  <form method="POST" action="{% url 'logout' %}" style="display: inline;">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-sm text-white" style="background: none; border: none;">Logout</button>
-  </form>
+      {% if user.is_authenticated and user.profile.role == 'seller' %}
+        <!-- My Products Icon -->
+         <a href="{% url 'seller_products' %}" class="btn btn-sm d-flex align-items-center" title="My Products" style="height: 38px; padding: 0 12px;">
+          <i class="bi bi-box-seam fs-5"></i>
+        </a>
+        <!-- Order Received Icon -->
+        <a href="{% url 'seller_orders' %}" class="text-white fs-5" title="Order Received">
+          <i class="bi bi-clipboard-check"></i>
+        </a>
+      {% endif %}
 
-{% else %}
-  <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm me-2 d-flex align-items-center" style="height: 38px; padding: 0 12px;">Login</a>
-  <a href="{% url 'signup' %}" class="btn btn-outline-light btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">Sign Up</a>
-{% endif %}
+      {% if user.is_authenticated %}
+        {% if user.profile.role == 'buyer' %}
+          <a href="{% url 'buyer_account' %}" class="btn btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">
+            <i class="bi bi-person-circle fs-5"></i>
+            <span class="ms-1 d-none d-md-inline">Account</span>
+          </a>
+        {% elif user.profile.role == 'seller' %}
+          <a href="{% url 'seller_account' %}" class="btn btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">
+            <i class="bi bi-person-circle fs-5"></i>
+            <span class="ms-1 d-none d-md-inline">Account</span>
+          </a>
+        {% endif %}
 
+        <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm text-white" style="background: none; border: none;">Logout</button>
+        </form>
 
-      </div>
+      {% else %}
+        <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm me-2 d-flex align-items-center" style="height: 38px; padding: 0 12px;">Login</a>
+        <a href="{% url 'signup' %}" class="btn btn-outline-light btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">Sign Up</a>
+      {% endif %}
+
     </div>
-  </nav>
-
+  </div>
+</nav>
 
   <nav class="navbar navbar-expand-lg beige-navbar px-4">
   <div class="container-fluid">
