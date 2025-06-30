@@ -2,20 +2,20 @@
 {% load math_filters %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="container mt-0 py-5 px-3">
 
-    <!-- ✅ Back to Product Button (only if valid last item exists) -->
+    <!-- ✅ Back to Product Button -->
     {% if cart_items and cart_items.last.product.id %}
         <a href="{% url 'product_detail' cart_items.last.product.id %}" class="btn btn-outline-secondary mb-3">
             <i class="bi bi-arrow-left-circle me-1"></i> Back to {{ cart_items.last.product.name }}
         </a>
     {% endif %}
 
-    <h2 class="mb-4">🛒 Your Cart</h2>
+    <h2 class="mb-4 fw-bold text-dark">🛒 Your Cart</h2>
 
     {% if cart_items %}
         <table class="table table-hover align-middle">
-            <thead class="table-light">
+            <thead class="table-dark text-white fs-5">
                 <tr>
                     <th>Product</th>
                     <th>Quantity</th>
@@ -24,22 +24,27 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="fs-5">
                 {% for item in cart_items %}
                 <tr>
-                    <td class="fw-semibold">{{ item.product.name }}</td>
+                    <td class="fw-bold d-flex align-items-center gap-3 text-dark">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}"
+                             width="80" height="80"
+                             style="object-fit: cover; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+                        {{ item.product.name }}
+                    </td>
                     <td>
                         <form method="post" action="{% url 'update_cart' item.id %}">
                             {% csrf_token %}
                             <div class="d-flex align-items-center gap-2">
                                 <input type="number" name="quantity" min="1" value="{{ item.quantity }}"
-                                       class="form-control form-control-sm" style="width: 70px;">
+                                       class="form-control form-control-sm fs-5" style="width: 70px;">
                                 <button type="submit" class="btn btn-sm btn-outline-primary">Update</button>
                             </div>
                         </form>
                     </td>
-                    <td>৳{{ item.product.price }}</td>
-                    <td class="fw-semibold">৳{{ item.product.price|multiply:item.quantity|floatformat:2 }}</td>
+                    <td class="text-dark">৳{{ item.product.price }}</td>
+                    <td class="fw-semibold text-dark">৳{{ item.product.price|multiply:item.quantity|floatformat:2 }}</td>
                     <td>
                         <form method="post" action="{% url 'remove_from_cart' item.id %}">
                             {% csrf_token %}
@@ -52,10 +57,10 @@
         </table>
 
         <div class="text-end mt-4">
-            <a href="{% url 'checkout' %}" class="btn btn-success px-4">Proceed to Checkout</a>
+            <a href="{% url 'checkout' %}" class="btn btn-success px-4 fs-5">Proceed to Checkout</a>
         </div>
     {% else %}
-        <div class="alert alert-info">Your cart is empty.</div>
+        <div class="alert alert-info fs-5">Your cart is empty.</div>
     {% endif %}
 </div>
 {% endblock %}

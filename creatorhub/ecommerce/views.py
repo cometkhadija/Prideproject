@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Prefetch
@@ -335,6 +335,19 @@ def order_detail(request, order_id):
         'order': order,
         'now': now(),
     })
+
+@login_required
+def order_cancel(request, order_id):
+    order = get_object_or_404(Order, id=order_id, buyer=request.user)
+    if request.method == "POST":
+        # Cancel the order here, e.g. update status
+        order.status = 'Cancelled'
+        order.save()
+        return redirect('order_history')  # ba jekhane redirect korte chau
+    else:
+        return HttpResponseForbidden("Invalid request")
+
+
 
 # --------- Testing View ---------
 
