@@ -12,6 +12,7 @@ from django.db.models import Count
 
 from .models import OrderItem, Profile, Product, CartItem, Order
 from .forms import CustomUserCreationForm, ProductForm, SellerInfoForm
+from django.shortcuts import redirect
 
 # --------- Authentication Views ---------
 
@@ -50,6 +51,13 @@ def signup(request):
 
 class CustomLoginView(LoginView):
     template_name = 'ecommerce/login.html'
+
+
+def login_redirect_view(request):
+    if request.user.profile.role == 'seller':
+        return redirect('seller_dashboard')
+    return redirect('product_showcase')
+
 
 # --------- Home View ---------
 def home(request):
