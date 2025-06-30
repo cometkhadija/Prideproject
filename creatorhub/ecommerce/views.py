@@ -291,17 +291,16 @@ def checkout(request):
         return redirect('cart')
 
     if request.method == 'POST':
-        address = request.POST.get('address')
-        phone = request.POST.get('phone')
+        address = request.POST.get('address', '').strip()
+        phone = request.POST.get('phone', '').strip()
 
         if not address or not phone:
             messages.error(request, "Please fill out all required fields.")
-            return render(request, 'ecommerce/checkout.html')
+            return render(request, 'ecommerce/checkout.html', {'address': address, 'phone': phone})
 
-        # ✅ Bangladesh Phone Number Validation (e.g., 017XXXXXXXX)
         if not re.fullmatch(r'01[3-9]\d{8}', phone):
             messages.error(request, "Enter a valid Bangladeshi phone number (e.g., 017XXXXXXXX).")
-            return render(request, 'ecommerce/checkout.html')
+            return render(request, 'ecommerce/checkout.html', {'address': address, 'phone': phone})
 
         order = Order.objects.create(
             buyer=request.user,
@@ -323,6 +322,37 @@ def checkout(request):
         return redirect('order_history')
 
     return render(request, 'ecommerce/checkout.html')
+
+@login_required
+def order_now(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    
+    if request.method == 'POST':
+        address = request.POST.get('address')
+        phone = request.POST.get('phone')
+
+        # validation same as checkout...
+
+        order = Order.objects.create(
+            buyer=request.user,
+            address=address,
+            phone=phone,
+            status='Pending'
+        )
+
+        OrderItem.objects.create(
+            order=order,
+            product=product,
+            quantity=1,
+            price=product.price
+        )
+
+        messages.success(request, "Order placed successfully!")
+        return redirect('order_history')
+
+    return render(request, 'ecommerce/direct_order.html', {'product': product})
+
+
 
 @login_required
 def order_history(request):
@@ -370,8 +400,48 @@ def order_cancel(request, order_id):
         return redirect('order_history')  # ba jekhane redirect korte chau
     else:
         return HttpResponseForbidden("Invalid request")
+    
+
+def approve_order_item(request, item_id):
+    item = get_object_or_404(OrderItem, id=item_id)
+
+    # Seller ownership check
+    if item.product.seller != request.user:
+        messages.error(request, "Unauthorized action.")
+        return redirect('seller_orders')
+
+    # Update approval status
+    item.seller_status = "Approved"
+    item.is_approved = True
+    item.rejection_reason = ""  # clear reason on approval
+    item.save()
+
+    # Update parent order status
+    item.order.update_status_based_on_items()
+
+    messages.success(request, "Order item approved.")
+    return redirect('seller_orders')
 
 
+def reject_order_item(request, item_id):
+    item = get_object_or_404(OrderItem, id=item_id)
+
+    # Seller ownership check
+    if item.product.seller != request.user:
+        messages.error(request, "Unauthorized action.")
+        return redirect('seller_orders')
+
+    # Update rejection status
+    item.seller_status = "Rejected"
+    item.is_approved = False
+    item.rejection_reason = "No reason provided."  # later form diye nite paro
+    item.save()
+
+    # Update parent order status
+    item.order.update_status_based_on_items()
+
+    messages.success(request, "Order item rejected.")
+    return redirect('seller_orders')
 
 # --------- Testing View ---------
 

@@ -19,7 +19,7 @@
             <tr>
               <th>Order ID</th>
               <th>Date</th>
-              <th>Status</th>
+              {% comment %} <th>Status</th> {% endcomment %}
               <th>Details</th>
               <th>Actions</th>  <!-- New column for Cancel button -->
             </tr>
@@ -29,7 +29,7 @@
             <tr>
               <td>{{ order.id }}</td>
               <td>{{ order.created_at|date:"M d, Y H:i" }}</td>
-              <td><span class="badge bg-info">{{ order.status }}</span></td>
+              {% comment %} <td><span class="badge bg-info">{{ order.status }}</span></td> {% endcomment %}
               <td>
                 <a href="{% url 'order_detail' order.id %}" class="btn btn-sm btn-outline-primary">View</a>
               </td>

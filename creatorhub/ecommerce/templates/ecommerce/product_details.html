@@ -33,12 +33,13 @@
 
   <!-- Action Buttons -->
   <div class="d-flex gap-3 mb-4">
-    <form action="{% url 'add_to_cart' product.id %}" method="post" class="flex-fill">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-dark w-100 py-2">Add to Cart</button>
-    </form>
-    <a href="{% url 'checkout' %}" class="btn btn-success flex-fill py-2">Order Now</a>
-  </div>
+  <form action="{% url 'add_to_cart' product.id %}" method="post" class="flex-fill">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-dark w-100 py-2">Add to Cart</button>
+  </form>
+  <a href="{% url 'order_now' product.id %}" class="btn btn-success flex-fill py-2">Order Now</a>
+</div>
+
 
   <!-- Edit/Delete (Only for Seller) -->
   {% if user.is_authenticated and user == product.seller %}
