@@ -110,20 +110,28 @@
     <div class="ms-auto d-flex align-items-center gap-2">
 
       {% if user.is_authenticated %}
-        <a href="{% url 'buyer_account' %}" class="btn btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">
-          <i class="bi bi-person-circle fs-5"></i>
-          <span class="ms-1 d-none d-md-inline">Account</span>
-        </a>
-        <form method="POST" action="{% url 'logout' %}" style="display: inline;">
-  {% csrf_token %}
-  <button type="submit" class="btn btn-sm text-white" style="background: none; border: none;">Logout</button>
-</form>
+  {% if user.profile.role == 'buyer' %}
+    <a href="{% url 'buyer_account' %}" class="btn btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">
+      <i class="bi bi-person-circle fs-5"></i>
+      <span class="ms-1 d-none d-md-inline">Account</span>
+    </a>
+  {% elif user.profile.role == 'seller' %}
+    <a href="{% url 'seller_account' %}" class="btn btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">
+      <i class="bi bi-person-circle fs-5"></i>
+      <span class="ms-1 d-none d-md-inline">Account</span>
+    </a>
+  {% endif %}
 
+  <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-sm text-white" style="background: none; border: none;">Logout</button>
+  </form>
 
-      {% else %}
-        <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm me-2 d-flex align-items-center" style="height: 38px; padding: 0 12px;">Login</a>
-        <a href="{% url 'signup' %}" class="btn btn-outline-light btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">Sign Up</a>
-      {% endif %}
+{% else %}
+  <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm me-2 d-flex align-items-center" style="height: 38px; padding: 0 12px;">Login</a>
+  <a href="{% url 'signup' %}" class="btn btn-outline-light btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">Sign Up</a>
+{% endif %}
+
 
     </div>
   </div>

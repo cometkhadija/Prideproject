@@ -96,25 +96,52 @@ def product_showcase(request):
 
 
 def product_list(request, category_name=None):
+    shop_name = request.GET.get('shop')
+    seller_id = request.GET.get('seller')
+
+    products = Product.objects.all()
+
     if category_name:
-        products = Product.objects.filter(category=category_name)
-    else:
-        products = Product.objects.all()
+        products = products.filter(category=category_name)
+
+    if shop_name:
+        # Get sellers whose profile shop_name matches
+        sellers = Profile.objects.filter(shop_name=shop_name).values_list('user', flat=True)
+        products = products.filter(seller__in=sellers)
+
+    if seller_id:
+        products = products.filter(seller__id=seller_id)
 
     user = request.user
     context = {
         'products': products,
-        'category_name': category_name
+        'category_name': category_name,
+        'filtered_shop_name': shop_name,
     }
+
+    if seller_id:
+        filtered_seller = get_object_or_404(User, id=seller_id)
+        context['filtered_seller'] = filtered_seller
 
     if user.is_authenticated and hasattr(user, 'profile') and user.profile.role != 'buyer':
         context['show_seller'] = True
+
+    # Get unique shop names for sidebar
+    shop_names = Profile.objects.filter(role='seller').exclude(shop_name__isnull=True).exclude(shop_name__exact='').values_list('shop_name', flat=True).distinct()
+    context['shop_names'] = shop_names
 
     return render(request, 'ecommerce/product_list.html', context)
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    return render(request, 'ecommerce/product_details.html', {'product': product})
+
+    context = {
+        'product': product,
+        'shop_name': product.seller.profile.shop_name,  # Optional
+        'seller_id': product.seller.id                  # Optional, for shop link
+    }
+
+    return render(request, 'ecommerce/product_details.html', context)
 
 
 @login_required

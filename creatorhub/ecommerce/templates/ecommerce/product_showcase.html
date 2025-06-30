@@ -8,7 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <style>
     body {
-      background-color: #fef6f4;
+      background-color:rgb(253, 240, 236);
     }
     .navbar {
       background-color: #000;
@@ -90,19 +90,30 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="#">JU Creator Hub</a>
     <div class="ms-auto d-flex align-items-center gap-1">
-      {% if user.is_authenticated %}
-        <a href="{% url 'buyer_account' %}" class="btn btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">
-          <i class="bi bi-person-circle fs-5"></i>
-          <span class="ms-1 d-none d-md-inline">Account</span>
-        </a>
-        <form method="POST" action="{% url 'logout' %}" style="display: inline;">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-sm d-flex align-items-center btn-dark">Logout</button>
-        </form>
-      {% else %}
-        <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm me-2 d-flex align-items-center" style="height: 38px; padding: 0 12px;">Login</a>
-        <a href="{% url 'signup' %}" class="btn btn-outline-light btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">Sign Up</a>
-      {% endif %}
+
+     {% if user.is_authenticated %}
+  {% if user.profile.role == 'buyer' %}
+    <a href="{% url 'buyer_account' %}" class="btn btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">
+      <i class="bi bi-person-circle fs-5"></i>
+      <span class="ms-1 d-none d-md-inline">Account</span>
+    </a>
+  {% elif user.profile.role == 'seller' %}
+    <a href="{% url 'seller_account' %}" class="btn btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">
+      <i class="bi bi-person-circle fs-5"></i>
+      <span class="ms-1 d-none d-md-inline">Account</span>
+    </a>
+  {% endif %}
+
+  <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-sm text-white" style="background: none; border: none;">Logout</button>
+  </form>
+
+{% else %}
+  <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm me-2 d-flex align-items-center" style="height: 38px; padding: 0 12px;">Login</a>
+  <a href="{% url 'signup' %}" class="btn btn-outline-light btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">Sign Up</a>
+{% endif %}
+
     </div>
   </div>
 </nav>
@@ -111,6 +122,7 @@
 <nav class="navbar navbar-expand-lg beige-navbar px-4">
   <div class="container-fluid">
     <a class="navbar-brand " href="{% url 'home' %}">Home</a>
+     <a class="navbar-brand " href="{% url 'product_showcase' %}">Dashboard</a>
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
         <li class="nav-item"><a class="nav-link menu-link" href="{% url 'product_list' 'food' %}">Food</a></li>
@@ -155,18 +167,20 @@
         <a href="?shop={{ shop }}" class="sort-link">{{ shop }}</a>
       {% endfor %}
     </div>
-    <div class="col-md-9">
-      <div class="row">
+
+    <div class="col-md-10">
+      <div class="row gx-1">
         {% if products %}
           {% for product in products %}
-            <div class="col-md-4 mb-4">
+            <div class="col-md-3 mb-1">
               <div class="card h-100 shadow-sm border-0">
                 <img src="{{ product.image.url }}" class="card-img-top" style="aspect-ratio: 1 / 1; object-fit: cover;" alt="{{ product.name }}">
                 <div class="card-body d-flex flex-column justify-content-between">
-                  <h5 class="card-title">{{ product.name }}</h5>
+                  <h5 class="card-title justify-content-between">{{ product.name }}</h5>
                   <p class="card-text fw-semibold text-muted">৳{{ product.price }}</p>
                   {% if user.is_authenticated and user.profile.role == 'buyer' %}
-                    <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
+                    <a href="{% url 'product_detail' product.id %}" class="btn btn-dark w-100">View Details</a>
+
                   {% elif user.is_authenticated and user.profile.role == 'seller' %}
                     {% if product.seller == user %}
                       <a href="{% url 'edit_product' product.id %}" class="btn btn-outline-primary btn-sm">Edit</a>
