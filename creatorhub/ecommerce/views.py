@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Prefetch
 from django.db.models import Q
 import re
+from django.db.models import Count
 
 
 from .models import OrderItem, Profile, Product, CartItem, Order
@@ -65,30 +66,32 @@ def home(request):
 
 # @login_required
 def product_showcase(request):
-    query = request.GET.get('q')
-    seller_id = request.GET.get('seller')
+    sort = request.GET.get('sort')
+    shop = request.GET.get('shop')
 
-    if request.user.is_authenticated and hasattr(request.user, 'profile') and request.user.profile.role == 'seller':
-        products = Product.objects.exclude(seller=request.user)
-    else:
-        products = Product.objects.all()
+    products = Product.objects.all()
 
-    if query:
-        products = products.filter(
-            Q(name__icontains=query) |
-            Q(seller__profile__shop_name__icontains=query)
-        )
+    # Filter by shop name
+    if shop:
+        products = products.filter(seller__profile__shop_name=shop)
 
-    if seller_id:
-        products = products.filter(seller__id=seller_id)
+    # Sort logic
+    if sort == 'new':
+        products = products.order_by('-id')  # Assuming ID increases with time
+    elif sort == 'best':
+        products = products.annotate(total_sales=Count('orderitem')).order_by('-total_sales')
+    elif sort == 'low':
+        products = products.order_by('price')
+    elif sort == 'high':
+        products = products.order_by('-price')
 
-    shop_names = Profile.objects.filter(role='seller').exclude(shop_name__exact="")
+    # Get unique shop names for the sidebar
+    shop_names = Profile.objects.filter(role='seller').exclude(shop_name__isnull=True).exclude(shop_name__exact='').values_list('shop_name', flat=True).distinct()
 
     return render(request, 'ecommerce/product_showcase.html', {
         'products': products,
         'shop_names': shop_names,
     })
-
 
 
 
@@ -437,6 +440,7 @@ def search_results(request):
     query = request.GET.get('q')
     results = Product.objects.filter(name__icontains=query) if query else []
     return render(request, 'ecommerce/search_results.html', {'results': results, 'query': query})
+
 
 def run_code(request):
     return HttpResponse("Ecommerce app is running!")

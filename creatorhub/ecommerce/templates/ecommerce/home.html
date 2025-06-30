@@ -110,11 +110,15 @@
     <div class="ms-auto d-flex align-items-center gap-2">
 
       {% if user.is_authenticated %}
-        <a href="{% url 'buyer_account' %}" class="btn btn-outline-light btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">
+        <a href="{% url 'buyer_account' %}" class="btn btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">
           <i class="bi bi-person-circle fs-5"></i>
           <span class="ms-1 d-none d-md-inline">Account</span>
         </a>
-        <a href="{% url 'logout' %}" class="btn btn-outline-light btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">Logout</a>
+        <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-sm text-white" style="background: none; border: none;">Logout</button>
+</form>
+
 
       {% else %}
         <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm me-2 d-flex align-items-center" style="height: 38px; padding: 0 12px;">Login</a>
