@@ -1,0 +1,36 @@
+{% extends 'ecommerce/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+  <h2>Order Now: {{ product.name }}</h2>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <div class="mb-4">
+      <label for="address" class="form-label fw-semibold">Delivery Address</label>
+      <textarea name="address" id="address" class="form-control" rows="4" required
+                placeholder="Your Address">{{ request.POST.address }}</textarea>
+    </div>
+
+    <div class="mb-4">
+      <label for="phone" class="form-label fw-semibold">Phone Number</label>
+      <input type="tel" name="phone" id="phone" class="form-control" required
+             pattern="01[3-9]\d{8}" placeholder="e.g., 017XXXXXXXX"
+             title="Enter a valid Bangladeshi number (e.g., 017XXXXXXXX)" value="{{ request.POST.phone }}">
+    </div>
+
+    <button type="submit" class="btn btn-success w-100 fw-semibold py-2">
+      <i class="bi bi-bag-check-fill me-1"></i> Place Order
+    </button>
+  </form>
+</div>
+{% endblock %}

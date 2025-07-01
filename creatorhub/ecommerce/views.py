@@ -1,16 +1,18 @@
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Prefetch
 from django.db.models import Q
 import re
+from django.db.models import Count
 
 
 from .models import OrderItem, Profile, Product, CartItem, Order
 from .forms import CustomUserCreationForm, ProductForm, SellerInfoForm
+from django.shortcuts import redirect
 
 # --------- Authentication Views ---------
 
@@ -49,6 +51,29 @@ def signup(request):
 
 class CustomLoginView(LoginView):
     template_name = 'ecommerce/login.html'
+    def get_success_url(self):
+        user = self.request.user
+        if hasattr(user, 'profile') and user.profile.role == 'seller':
+            return reverse('seller_dashboard')
+        else:
+            # next parameter thakle shei jayga
+            next_url = self.get_redirect_url()
+            return next_url or reverse('home')
+
+
+def login_redirect_view(request):
+    if request.user.is_authenticated:
+        if hasattr(request.user, 'profile') and request.user.profile.role == 'seller':
+            return redirect('seller_dashboard')
+        
+        next_url = request.GET.get('next')
+        if next_url:
+            return redirect(next_url)
+
+        return redirect('product_showcase')
+    else:
+        return redirect('login')
+
 
 # --------- Home View ---------
 def home(request):
@@ -63,26 +88,29 @@ def home(request):
 
 # --------- Product Views ---------
 
-@login_required
+# @login_required
 def product_showcase(request):
-    query = request.GET.get('q')
-    seller_id = request.GET.get('seller')
+    sort = request.GET.get('sort')
+    shop = request.GET.get('shop')
 
-    if request.user.is_authenticated and hasattr(request.user, 'profile') and request.user.profile.role == 'seller':
-        products = Product.objects.exclude(seller=request.user)
-    else:
-        products = Product.objects.all()
+    products = Product.objects.all()
 
-    if query:
-        products = products.filter(
-            Q(name__icontains=query) |
-            Q(seller__profile__shop_name__icontains=query)
-        )
+    # Filter by shop name
+    if shop:
+        products = products.filter(seller__profile__shop_name=shop)
 
-    if seller_id:
-        products = products.filter(seller__id=seller_id)
+    # Sort logic
+    if sort == 'new':
+        products = products.order_by('-id')  # Assuming ID increases with time
+    elif sort == 'best':
+        products = products.annotate(total_sales=Count('orderitem')).order_by('-total_sales')
+    elif sort == 'low':
+        products = products.order_by('price')
+    elif sort == 'high':
+        products = products.order_by('-price')
 
-    shop_names = Profile.objects.filter(role='seller').exclude(shop_name__exact="")
+    # Get unique shop names for the sidebar
+    shop_names = Profile.objects.filter(role='seller').exclude(shop_name__isnull=True).exclude(shop_name__exact='').values_list('shop_name', flat=True).distinct()
 
     return render(request, 'ecommerce/product_showcase.html', {
         'products': products,
@@ -91,29 +119,55 @@ def product_showcase(request):
 
 
 
-
 def product_list(request, category_name=None):
+    shop_name = request.GET.get('shop')
+    seller_id = request.GET.get('seller')
+
+    products = Product.objects.all()
+
     if category_name:
-        products = Product.objects.filter(category=category_name)
-    else:
-        products = Product.objects.all()
+        products = products.filter(category=category_name)
+
+    if shop_name:
+        # Get sellers whose profile shop_name matches
+        sellers = Profile.objects.filter(shop_name=shop_name).values_list('user', flat=True)
+        products = products.filter(seller__in=sellers)
+
+    if seller_id:
+        products = products.filter(seller__id=seller_id)
 
     user = request.user
     context = {
         'products': products,
-        'category_name': category_name
+        'category_name': category_name,
+        'filtered_shop_name': shop_name,
     }
+
+    if seller_id:
+        filtered_seller = get_object_or_404(User, id=seller_id)
+        context['filtered_seller'] = filtered_seller
 
     if user.is_authenticated and hasattr(user, 'profile') and user.profile.role != 'buyer':
         context['show_seller'] = True
+
+    # Get unique shop names for sidebar
+    shop_names = Profile.objects.filter(role='seller').exclude(shop_name__isnull=True).exclude(shop_name__exact='').values_list('shop_name', flat=True).distinct()
+    context['shop_names'] = shop_names
 
     return render(request, 'ecommerce/product_list.html', context)
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    return render(request, 'ecommerce/product_details.html', {'product': product})
 
-@login_required
+    context = {
+        'product': product,
+        'shop_name': product.seller.profile.shop_name,  # Optional
+        'seller_id': product.seller.id                  # Optional, for shop link
+    }
+
+    return render(request, 'ecommerce/product_details.html', context)
+
+
 @login_required
 def add_product(request):
     if request.method == 'POST':
@@ -237,17 +291,16 @@ def checkout(request):
         return redirect('cart')
 
     if request.method == 'POST':
-        address = request.POST.get('address')
-        phone = request.POST.get('phone')
+        address = request.POST.get('address', '').strip()
+        phone = request.POST.get('phone', '').strip()
 
         if not address or not phone:
             messages.error(request, "Please fill out all required fields.")
-            return render(request, 'ecommerce/checkout.html')
+            return render(request, 'ecommerce/checkout.html', {'address': address, 'phone': phone})
 
-        # ✅ Bangladesh Phone Number Validation (e.g., 017XXXXXXXX)
         if not re.fullmatch(r'01[3-9]\d{8}', phone):
             messages.error(request, "Enter a valid Bangladeshi phone number (e.g., 017XXXXXXXX).")
-            return render(request, 'ecommerce/checkout.html')
+            return render(request, 'ecommerce/checkout.html', {'address': address, 'phone': phone})
 
         order = Order.objects.create(
             buyer=request.user,
@@ -269,6 +322,37 @@ def checkout(request):
         return redirect('order_history')
 
     return render(request, 'ecommerce/checkout.html')
+
+@login_required
+def order_now(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    
+    if request.method == 'POST':
+        address = request.POST.get('address')
+        phone = request.POST.get('phone')
+
+        # validation same as checkout...
+
+        order = Order.objects.create(
+            buyer=request.user,
+            address=address,
+            phone=phone,
+            status='Pending'
+        )
+
+        OrderItem.objects.create(
+            order=order,
+            product=product,
+            quantity=1,
+            price=product.price
+        )
+
+        messages.success(request, "Order placed successfully!")
+        return redirect('order_history')
+
+    return render(request, 'ecommerce/direct_order.html', {'product': product})
+
+
 
 @login_required
 def order_history(request):
@@ -305,6 +389,59 @@ def order_detail(request, order_id):
         'order': order,
         'now': now(),
     })
+
+@login_required
+def order_cancel(request, order_id):
+    order = get_object_or_404(Order, id=order_id, buyer=request.user)
+    if request.method == "POST":
+        # Cancel the order here, e.g. update status
+        order.status = 'Cancelled'
+        order.save()
+        return redirect('order_history')  # ba jekhane redirect korte chau
+    else:
+        return HttpResponseForbidden("Invalid request")
+    
+
+def approve_order_item(request, item_id):
+    item = get_object_or_404(OrderItem, id=item_id)
+
+    # Seller ownership check
+    if item.product.seller != request.user:
+        messages.error(request, "Unauthorized action.")
+        return redirect('seller_orders')
+
+    # Update approval status
+    item.seller_status = "Approved"
+    item.is_approved = True
+    item.rejection_reason = ""  # clear reason on approval
+    item.save()
+
+    # Update parent order status
+    item.order.update_status_based_on_items()
+
+    messages.success(request, "Order item approved.")
+    return redirect('seller_orders')
+
+
+def reject_order_item(request, item_id):
+    item = get_object_or_404(OrderItem, id=item_id)
+
+    # Seller ownership check
+    if item.product.seller != request.user:
+        messages.error(request, "Unauthorized action.")
+        return redirect('seller_orders')
+
+    # Update rejection status
+    item.seller_status = "Rejected"
+    item.is_approved = False
+    item.rejection_reason = "No reason provided."  # later form diye nite paro
+    item.save()
+
+    # Update parent order status
+    item.order.update_status_based_on_items()
+
+    messages.success(request, "Order item rejected.")
+    return redirect('seller_orders')
 
 # --------- Testing View ---------
 
@@ -374,7 +511,13 @@ def seller_account(request):
     total_products = products.count()
     total_orders = order_items.count()
     approved_orders = order_items.filter(seller_status='Approved').count()
-    pending_orders = total_orders - approved_orders
+    rejected_orders = order_items.filter(seller_status='Rejected').count()
+    pending_orders = order_items.filter(seller_status='Pending').count()
+
+    # 🧮 Total Earned = Approved items' quantity * price
+    total_earned = sum(
+        item.quantity * item.price for item in order_items.filter(seller_status='Approved')
+    )
 
     # Handle profile update form
     if request.method == 'POST':
@@ -391,7 +534,9 @@ def seller_account(request):
         'total_products': total_products,
         'total_orders': total_orders,
         'approved_orders': approved_orders,
-        'pending_orders': pending_orders
+        'pending_orders': pending_orders,
+        'rejected_orders': rejected_orders,
+        'total_earned': total_earned,
     })
 
 @login_required
@@ -432,6 +577,12 @@ def Delivery(request):
 
 def privacy_policy(request):
     return render(request, 'ecommerce/privacy_policy.html')
+
+def search_results(request):
+    query = request.GET.get('q')
+    results = Product.objects.filter(name__icontains=query) if query else []
+    return render(request, 'ecommerce/search_results.html', {'results': results, 'query': query})
+
 
 def run_code(request):
     return HttpResponse("Ecommerce app is running!")

@@ -1,14 +1,14 @@
 {% extends 'ecommerce/base.html' %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-3 py-5 px-1">
   <!-- Back Button -->
   <a href="{% url 'product_showcase' %}" class="btn btn-outline-secondary mb-3">
     <i class="bi bi-arrow-left-circle me-1"></i> Back to Products
   </a>
 
   <div class="card shadow">
-    <div class="card-header bg-primary text-white">
+    <div class="card-header bg-dark text-white">
       <h3 class="mb-0">Order Details</h3>
     </div>
     <div class="card-body">
@@ -16,9 +16,9 @@
       <p><strong>Buyer:</strong> {{ order.buyer.username }}</p>
       <p><strong>Address:</strong> {{ order.address }}</p>
       <p><strong>Phone:</strong> {{ order.phone }}</p>
-      <p><strong>Status:</strong>
+      {% comment %} <p><strong>Status:</strong>
         <span class="badge bg-info">{{ order.status }}</span>
-      </p>
+      </p> {% endcomment %}
 
       <h4 class="mt-4">Items:</h4>
       <ul class="list-group">
@@ -26,9 +26,17 @@
         <li class="list-group-item d-flex justify-content-between align-items-start flex-wrap">
           <div class="me-auto">
             <strong>{{ item.product.name }}</strong><br>
-            <span class="badge {% if item.seller_status == 'Approved' %}bg-success{% else %}bg-warning text-dark{% endif %} mt-1">
-              Seller Status: {{ item.seller_status }}
-            </span>
+
+            {% if item.seller_status == 'Approved' %}
+              <span class="badge bg-success mt-1">✅ Approved</span>
+            {% elif item.seller_status == 'Rejected' %}
+              <span class="badge bg-danger mt-1">❌ Rejected</span>
+              {% if item.rejection_reason %}
+                <div class="text-danger small">Reason: {{ item.rejection_reason }}</div>
+              {% endif %}
+            {% else %}
+              <span class="badge bg-warning text-dark mt-1">⏳ Pending</span>
+            {% endif %}
           </div>
           <div class="text-end">
             <span class="badge bg-secondary">Qty: {{ item.quantity }}</span><br>

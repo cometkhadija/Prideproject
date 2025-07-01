@@ -4,21 +4,14 @@
 {% block content %}
 <div class="container py-4 position-relative">
 
-  <!-- 🔙 Back to Dashboard -->
-  <div class="position-absolute top-0 end-0 mt-2 me-2">
-    <a href="{% url 'product_showcase' %}" class="btn btn-outline-primary btn-sm">
-      <i class="bi bi-arrow-left-circle me-1"></i> Back to Dashboard
-    </a>
-  </div>
-
-  <h2 class="mb-4 text-center">👋 Welcome, {{ user.username }}</h2>
+  <h2 class="mb-5 text-center text-dark">👋 Welcome, {{ user.username }}</h2>
 
   <!-- 📊 Pie Chart Card -->
-  <div class="card shadow-sm mb-4">
+  <div class="card shadow-sm mb-5" style="background-color:rgb(240, 242, 245); color: white;">
     <div class="card-body">
-      <h5 class="card-title mb-3">Order Overview</h5>
+      <h5 class="card-title mb-4 text-dark">Order Overview</h5>
       <div class="d-flex justify-content-center">
-        <div style="max-width: 300px; width: 100%;">
+        <div style="max-width: 505px; width: 100%;">
           <canvas id="orderPie"></canvas>
         </div>
       </div>
@@ -28,46 +21,69 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     const ctx = document.getElementById('orderPie');
-    new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ['Approved Orders', 'Pending Orders'],
-        datasets: [{
-          data: [{{ approved_orders }}, {{ pending_orders }}],
-          backgroundColor: ['#28a745', '#ffc107'],
-          borderColor: '#fff',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-          legend: {
-            position: 'bottom'
-          }
+   new Chart(ctx, {
+  type: 'pie',
+  data: {
+    labels: ['Approved Orders', 'Pending Orders'],
+    datasets: [{
+      data: [{{ approved_orders }}, {{ pending_orders }}],
+      backgroundColor: ['#28a745', '#ffc107'],
+      borderColor: '#fff',  // dark border to blend with bg
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          boxWidth: 12,           // box size (make smaller or 0 to hide)
+          color: '#333',          // legend text color
+          usePointStyle: true,    // show colored dots instead of boxes
+          padding: 20,
         }
+      },
+      tooltip: {
+        backgroundColor: '#222',
+        titleColor: '#fff',
+        bodyColor: '#eee',
       }
-    });
+    }
+  }
+});
+
   </script>
 
-  <!-- 📦 Stats Card (Light Blue Shade 1) -->
-  <div class="card shadow-sm mb-4" style="background-color: #eaf3ff;">
+  <!-- 📦 Store Stats -->
+  <div class="card shadow-sm mb-5" style="background-color:rgb(39, 80, 141); color:white;">
     <div class="card-body">
-      <h5 class="card-title mb-3">Your Store Stats</h5>
-      <p class="mb-2"><strong>Total Products:</strong> {{ total_products }}</p>
-      <p class="mb-0"><strong>Total Orders:</strong> {{ total_orders }}</p>
+      <h5 class="card-title mb-4">Your Store Stats</h5>
+      <p><strong>Total Products:</strong> {{ total_products }}</p>
+      <p><strong>Total Orders:</strong> {{ total_orders }}</p>
+      <p><strong>Pending Orders:</strong> {{ pending_orders }}</p>
+      <p><strong>Rejected Orders:</strong> {{ rejected_orders }}</p>
+      <p><strong>Total Money Earned:</strong> ৳{{ total_earned }}</p>
     </div>
   </div>
 
-  <!-- 🛠 Edit Info Card (Light Blue Shade 2) -->
-  <div class="card shadow-sm mb-5" style="background-color: #d9ecff;">
+  <!-- 🛠 Edit Info Dark Themed -->
+  <div class="card shadow-sm mb-5" style="background-color:rgb(39, 80, 141); color: white;">
     <div class="card-body">
-      <h5 class="card-title mb-3">Edit Shop Information</h5>
+      <h5 class="card-title mb-4">Edit Shop Information</h5>
       <form method="post" class="needs-validation" novalidate>
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary mt-2">Update Info</button>
+        {% for field in form %}
+          <div class="mb-3">
+            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+              <div class="text-danger">{{ field.errors }}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-light w-100">Update Info</button>
       </form>
     </div>
   </div>

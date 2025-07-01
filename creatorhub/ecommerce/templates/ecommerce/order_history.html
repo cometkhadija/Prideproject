@@ -8,7 +8,7 @@
   </a>
 
   <div class="card shadow">
-    <div class="card-header bg-primary text-white">
+    <div class="card-header text-white" style="background-color: #001f3f;">
       <h3 class="mb-0">Your Orders</h3>
     </div>
     <div class="card-body">
@@ -19,8 +19,9 @@
             <tr>
               <th>Order ID</th>
               <th>Date</th>
-              <th>Status</th>
+              {% comment %} <th>Status</th> {% endcomment %}
               <th>Details</th>
+              <th>Actions</th>  <!-- New column for Cancel button -->
             </tr>
           </thead>
           <tbody>
@@ -28,9 +29,22 @@
             <tr>
               <td>{{ order.id }}</td>
               <td>{{ order.created_at|date:"M d, Y H:i" }}</td>
-              <td><span class="badge bg-info">{{ order.status }}</span></td>
+              {% comment %} <td><span class="badge bg-info">{{ order.status }}</span></td> {% endcomment %}
               <td>
                 <a href="{% url 'order_detail' order.id %}" class="btn btn-sm btn-outline-primary">View</a>
+              </td>
+              <td>
+                {% if order.status != "Cancelled" and order.status != "Completed" %}
+                <form method="post" action="{% url 'order_cancel' order.id %}" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-danger" 
+                    onclick="return confirm('Are you sure you want to cancel this order?');">
+                    Cancel
+                  </button>
+                </form>
+                {% else %}
+                <span class="text-muted">N/A</span>
+                {% endif %}
               </td>
             </tr>
             {% endfor %}

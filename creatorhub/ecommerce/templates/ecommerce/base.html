@@ -2,133 +2,288 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>{% block title %}Ecommerce Site{% endblock %}</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <title>JU Creator Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* full viewport height */
+}
+    /* Navbar */
+    .navbar {
+      background-color: #000;
+    }
+    .navbar a {
+      color: white !important;
+    }
+
+    /* Product Detail */
+    .product-container {
+      padding: 60px 0;
+    }
+    .product-image {
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      width: 100%;
+      max-height: 450px;
+      object-fit: contain;
+    }
+    .product-details {
+      padding-left: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .product-title {
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    .product-price {
+      color: #4B7BE5;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .product-description {
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 1.5rem;
+    }
+    .product-id {
+      color: #777;
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+    .btn-action {
+      min-width: 140px;
+    }
+    .btn-group-actions {
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    /* Back Link */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      color: #4B7BE5;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .back-link:hover {
+      color: #1f3bb3;
+      text-decoration: underline;
+    }
+    .back-link svg {
+      margin-right: 0.5rem;
+      stroke-width: 2;
+    }
+
+    .beige-navbar {
+      background-color: rgb(251, 244, 235);
+    }
+    .beige-navbar .navbar-brand,
+    .beige-navbar .menu-link {
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: black !important;
+      transition: color 0.3s ease;
+    }
+    .beige-navbar .menu-link:hover,
+    .beige-navbar .navbar-brand:hover {
+      color: #5c5c5c !important;
+      text-decoration: none;
+    }
+
+    .cart-history-link {
+      color: black;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .cart-history-link i {
+      color: black !important;
+    }
+    .cart-history-link:hover {
+      color: #6e6e6e;
+    }
+    .cart-history-link:hover i {
+      color: black !important;
+    }
+
+    footer {
+      background-color: #0d1b2a;
+      color: white;
+      padding: 40px 30px;
+    }
+    footer h5 {
+      font-size: 1.3rem;
+      color: #f8f9fa;
+      margin-bottom: 1rem;
+    }
+    footer ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    footer ul li a {
+      text-decoration: none;
+      color: #ccc;
+    }
+    footer ul li a:hover {
+      color: white;
+    }
+    @media (max-width: 768px) {
+      .about-section {
+        text-align: center;
+      }
+      .about-image {
+        margin-top: 30px;
+      }
+
+      
+    }
+  </style>
 </head>
+
 
 <body>
 
-  {% block navbar %}
-  <nav class="navbar navbar-expand-lg navbar-dark w-100 mb-3" style="background-color: navy;">
-    <div class="container-fluid d-flex align-items-center">
+   <!-- Navbar -->
+ <nav class="navbar navbar-expand-lg navbar-dark px-4">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">JU Creator Hub</a>
+
+    <div class="ms-auto d-flex align-items-center gap-2">
+
+      {% if user.is_authenticated and user.profile.role == 'seller' %}
+        <!-- My Products Icon -->
+         <a href="{% url 'seller_products' %}" class="btn btn-sm d-flex align-items-center" title="My Products" style="height: 38px; padding: 0 12px;">
+          <i class="bi bi-box-seam fs-5"></i>
+        </a>
+        <!-- Order Received Icon -->
+        <a href="{% url 'seller_orders' %}" class="text-white fs-5" title="Order Received">
+          <i class="bi bi-clipboard-check"></i>
+        </a>
+      {% endif %}
 
       {% if user.is_authenticated %}
-        {% if user.profile.role == 'seller' %}
-          <!-- Seller dropdown menu -->
-          <div class="dropdown me-3">
-            <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              ☰
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'seller_products' %}">My Products</a></li>
-              <li><a class="dropdown-item" href="{% url 'seller_orders' %}">Orders Received</a></li>
-            </ul>
-          </div>
-        {% elif user.profile.role == 'buyer' %}
-          <!-- Buyer offcanvas menu button -->
-          <button class="btn btn-outline-light me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
-            ☰
-          </button>
+        {% if user.profile.role == 'buyer' %}
+          <a href="{% url 'buyer_account' %}" class="btn btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">
+            <i class="bi bi-person-circle fs-5"></i>
+            <span class="ms-1 d-none d-md-inline">Account</span>
+          </a>
+        {% elif user.profile.role == 'seller' %}
+          <a href="{% url 'seller_account' %}" class="btn btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">
+            <i class="bi bi-person-circle fs-5"></i>
+            <span class="ms-1 d-none d-md-inline">Account</span>
+          </a>
         {% endif %}
-      {% endif %}
 
-      <!-- Brand -->
-      <span class="navbar-brand mx-auto text-white fw-bold" style="letter-spacing: 5px; font-family: 'Courier New', monospace;">
-        Creator Hub
-      </span>
-
-      <!-- Search form for buyers -->
-      {% if user.is_authenticated and user.profile.role == 'buyer' %}
-        <form class="d-flex me-3" method="get" action="{% url 'product_showcase' %}">
-          <input
-            class="form-control me-2"
-            name="q"
-            type="search"
-            placeholder="Search products..."
-            value="{{ request.GET.q|default_if_none:'' }}"
-            aria-label="Search"
-          >
-          <button class="btn btn-outline-light" type="submit">Search</button>
+        <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm text-white" style="background: none; border: none;">Logout</button>
         </form>
+
+      {% else %}
+        <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm me-2 d-flex align-items-center" style="height: 38px; padding: 0 12px;">Login</a>
+        <a href="{% url 'signup' %}" class="btn btn-outline-light btn-sm d-flex align-items-center" style="height: 38px; padding: 0 12px;">Sign Up</a>
       {% endif %}
 
-      <!-- Right navbar links -->
-      <ul class="navbar-nav d-flex flex-row align-items-center mb-0">
-        {% if user.is_authenticated %}
-          {% if user.profile.role == 'buyer' %}
-            <li class="nav-item me-3">
-              <a class="nav-link text-white" href="{% url 'buyer_account' %}">My Account</a>
-            </li>
-          {% elif user.profile.role == 'seller' %}
-            <li class="nav-item me-3">
-              <a class="nav-link text-white" href="{% url 'seller_account' %}">My Account</a>
-            </li>
-          {% endif %}
-          <li class="nav-item">
-            <form method="POST" action="{% url 'logout' %}" style="display: inline;">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-link nav-link text-white p-0 m-0" style="text-decoration: none;">Logout</button>
-            </form>
-          </li>
-        {% else %}
-          <li class="nav-item me-3">
-            <a class="nav-link text-white" href="{% url 'signup' %}">Sign Up</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'login' %}">Login</a>
-          </li>
-        {% endif %}
+    </div>
+  </div>
+</nav>
+
+  <nav class="navbar navbar-expand-lg beige-navbar px-4">
+  <div class="container-fluid">
+    <a class="navbar-brand " href="{% url 'home' %}">Home</a>
+     <a class="navbar-brand " href="{% url 'product_showcase' %}">Dashboard</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
+        <li class="nav-item"><a class="nav-link menu-link" href="{% url 'product_list' 'food' %}">Food</a></li>
+        <li class="nav-item"><a class="nav-link menu-link" href="{% url 'product_list' 'clothing' %}">Clothing</a></li>
+        <li class="nav-item"><a class="nav-link menu-link" href="{% url 'product_list' 'jewellery' %}">Jewellery</a></li>
+        <li class="nav-item"><a class="nav-link menu-link" href="{% url 'product_list' 'art' %}">Art</a></li>
       </ul>
     </div>
-  </nav>
-  {% endblock %}
+    <form class="d-flex me-3" method="GET" action="{% url 'search_results' %}">
+      <input class="form-control form-control-sm me-2" type="search" name="q" placeholder="Search" aria-label="Search">
+      <button class="btn btn-dark btn-sm fw-semibold" type="submit">Search</button>
+    </form>
+    {% if user.is_authenticated %}
+      <a href="{% url 'cart' %}" class="cart-history-link me-3">
+        <i class="bi bi-cart3 me-1 fs-5"></i> 
+      </a>
+      <a href="{% url 'order_history' %}" class="cart-history-link">
+        <i class="bi bi-clock-history me-1 fs-5"></i>
+      </a>
+    {% else %}
+      <a href="{% url 'login' %}?next={% url 'cart' %}" class="cart-history-link me-3">
+        <i class="bi bi-cart3 me-1 fs-5"></i> 
+      </a>
+      <a href="{% url 'login' %}?next={% url 'order_history' %}" class="cart-history-link">
+        <i class="bi bi-clock-history me-1 fs-5"></i>
+      </a>
+    {% endif %}
+  </div>
+</nav>
 
-  <!-- Offcanvas sidebar menu for buyers -->
-  {% if user.is_authenticated and user.profile.role == 'buyer' %}
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menu</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <div class="list-group">
-        <a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#categoriesCollapse" role="button" aria-expanded="false" aria-controls="categoriesCollapse">
-          Top Categories
-        </a>
-        <div class="collapse" id="categoriesCollapse">
-          <ul class="list-unstyled ps-3">
-            <li><a class="nav-link" href="{% url 'product_list' 'food' %}">Food</a></li>
-            <li><a class="nav-link" href="{% url 'product_list' 'clothing' %}">Clothing</a></li>
-            <li><a class="nav-link" href="{% url 'product_list' 'jewellery' %}">Jewellery</a></li>
-            <li><a class="nav-link" href="{% url 'product_list' 'art' %}">Art</a></li>
+   <main class="flex-grow-1 container mt-4">
+      {% block content %}{% endblock %}
+      {% block page_content %}{% endblock %}
+    </main>
+
+
+   <!-- Footer -->
+  <footer class="mt-auto py-4">
+    
+      <div class="row">
+        <div class="col-md-3">
+          <h3>About</h3>
+          <p class="fs-5">JU Creator Hub is a student-powered marketplace from Jahangirnagar University.</p>
+        </div>
+        <div class="col-md-3">
+          <h3>Categories</h3>
+          <ul class="fs-5 list-unstyled">
+            <li><a href="{% url 'product_list' 'food' %}">Food</a></li>
+            <li><a href="{% url 'product_list' 'clothing' %}">Clothing</a></li>
+            <li><a href="{% url 'product_list' 'jewellery' %}">Jewellery</a></li>
+            <li><a href="{% url 'product_list' 'art' %}">Art</a></li>
           </ul>
         </div>
-
-        <a class="list-group-item list-group-item-action" data-bs-toggle="collapse" href="#shopsCollapse" role="button" aria-expanded="false" aria-controls="shopsCollapse">
-          Shop Names
-        </a>
-        <div class="collapse" id="shopsCollapse">
-          <ul class="list-unstyled ps-3">
-            {% if shop_names %}
-              {% for shop in shop_names %}
-                <li><a class="nav-link" href="{% url 'product_showcase' %}?seller={{ shop.user.id }}">{{ shop.shop_name }}</a></li>
-              {% endfor %}
-            {% else %}
-              <li class="text-muted">No shops yet</li>
-            {% endif %}
+        <div class="col-md-3">
+          <h3>Information</h3>
+          <ul class="fs-5 list-unstyled">
+            <li><a href="{% url 'terms_conditions' %}">Terms & Conditions</a></li>
+            <li><a href="{% url 'return_exchange' %}">Return & Exchange</a></li>
+            <li><a href="{% url 'Delivery' %}">Delivery</a></li>
+            <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
           </ul>
+        </div>
+        <div class="col-md-3">
+          <h3>Contact</h3>
+          <p class="fs-5">Email: support@jucreatorhub.com</p>
+          <p class="fs-5">Phone: +8801XXXXXXXXX</p>
         </div>
       </div>
-    </div>
-  </div>
-  {% endif %}
-
-  <div class="container mt-4">
-    {% block content %}{% endblock %}
-    {% block page_content %}{% endblock %}
-  </div>
-
+    
+  </footer>
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
