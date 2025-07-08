@@ -1,11 +1,406 @@
 {% extends 'ecommerce/base.html' %}
-
 {% block title %}Product Order{% endblock %}
-
 {% block page_content %}
-<!-- Product section -->
-<div class="mt-4">
-    <h2 class="mb-3">Delivery Process</h2>
-    <p>Here will be the details delivery process work...</p>
+<!-- Banner Image -->
+<div class="mb-4" style="
+    background-image: url('/media/product_images/delivery.avif');
+    background-size: cover;
+    background-position: center;
+    width: 300px;
+    height: 300px;
+    border-radius: 50px;
+    position: relative;
+    margin: 0 auto;
+"></div>
+
+<!-- Language Toggle Bar -->
+<div class="d-flex justify-content-end align-items-center p-0">
+  <label for="language-select" class="me-2 fw-bold">Language:</label>
+  <select id="language-select" class="form-select form-select-sm w-auto" onchange="setLanguage(this.value)">
+    <option value="en">English</option>
+    <option value="bn">বাংলা</option>
+  </select>
 </div>
+
+<div class="container my-5">
+  <h2 class="mb-4 px-1 section-title lang-en">🚚 Delivery FAQs</h2>
+  <h2 class="mb-4 px-1 section-title lang-bn d-none">🚚 ডেলিভারি সম্পর্কিত প্রশ্নোত্তর</h2>
+
+  <style>
+    .section-title {
+      font-weight: 700;
+      color:rgb(24, 8, 70);
+    }
+    .accordion-button {
+      font-size: 1.15rem;
+      font-weight: bold;
+      background-color: #ffffff;
+      color: #212529;
+    }
+    .accordion-button:focus {
+      box-shadow: none;
+    }
+    .accordion-button:not(.collapsed) {
+      background-color:rgb(24, 8, 70);
+      color: #ffffff;
+    }
+
+    .accordion-button::before {
+      content: "➤ ";
+      margin-right: 5px;
+      font-size: 1.1rem;
+      color: inherit;
+    }
+
+    .custom-answer {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color:rgb(24, 8, 70);;
+      background-color:rgb(232, 225, 249);
+      border-left: 4px solid rgb(243, 241, 247);
+      padding: 14px;
+      border-radius: 4px;
+    }
+
+    .custom-table {
+      width: 100%;
+      margin-top: 10px;
+      border-collapse: collapse;
+    }
+
+    .custom-table th,
+    .custom-table td {
+      border: 1px color:rgb(24, 8, 70); 
+      padding: 10px;
+      text-align: center;
+    }
+
+    .custom-table th {
+      background-color:rgb(220, 212, 237);
+      color: rgb(24, 8, 70);
+    }
+  </style>
+
+  <div class="accordion" id="faqAccordion">
+    <!-- Question : Delivery Time -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+          data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          <span class="lang-en">What is the delivery time?</span>
+          <span class="lang-bn d-none">ডেলিভারির সময় কত?</span>
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+        <div class="accordion-body custom-answer">
+          <div class="lang-en">
+            We deliver within <strong>24 hours</strong> inside JU campus. Orders placed before <strong>12 PM</strong> may be delivered the same day.
+          </div>
+          <div class="lang-bn d-none">
+            আমরা জাহাঙ্গীরনগর বিশ্ববিদ্যালয় ক্যাম্পাসের মধ্যে <strong>২৪ ঘণ্টার</strong> মধ্যে পণ্য ডেলিভারি করি। দুপুর <strong>১২টার</strong> আগে অর্ডার করলে একই দিনে ডেলিভারি হতে পারে।
+          </div>
+        </div>
+      </div>
+    
+
+  <!-- Question : Preferred Delivery Time -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingSeven">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+        data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+        <span class="lang-en">Can I choose a preferred delivery time?</span>
+        <span class="lang-bn d-none">আমি কি পছন্দসই ডেলিভারির সময় নির্বাচন করতে পারি?</span>
+      </button>
+    </h2>
+    <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven">
+      <div class="accordion-body custom-answer">
+        <div class="lang-en">
+          Yes, you can choose a preferred delivery time during checkout. Available time slots include:
+          <ul>
+            <li><strong>Morning:</strong> 10:00 AM – 12:00 PM</li>
+            <li><strong>Afternoon:</strong> 2:00 PM – 4:00 PM</li>
+            <li><strong>Evening:</strong> 6:00 PM – 8:00 PM</li>
+          </ul>
+          We try our best to deliver within your selected slot depending on availability.
+        </div>
+        <div class="lang-bn d-none">
+          হ্যাঁ, চেকআউট করার সময় আপনি পছন্দসই ডেলিভারির সময় নির্বাচন করতে পারবেন। যেসব সময়গুলোতে আপনি ইচ্ছামতো ডেলিভারি নিতে পারবেন:
+          <ul>
+            <li><strong>সকাল:</strong> ১০:০০ – ১২:০০</li>
+            <li><strong>দুপুর:</strong> ২:০০ – ৪:০০</li>
+            <li><strong>সন্ধ্যা:</strong> ৬:০০ – ৮:০০</li>
+          </ul>
+          আমরা আপনার নির্বাচিত সময়ের মধ্যে ডেলিভারি দেওয়ার যথাসাধ্য চেষ্টা করে থাকি।
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question : Quick Delivery -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingQuick">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+        data-bs-target="#collapseQuick" aria-expanded="false" aria-controls="collapseQuick">
+        <span class="lang-en">Do you offer quick delivery options?</span>
+        <span class="lang-bn d-none">আপনারা কি দ্রুত ডেলিভারির সুবিধা দেন?</span>
+      </button>
+    </h2>
+    <div id="collapseQuick" class="accordion-collapse collapse" aria-labelledby="headingQuick">
+      <div class="accordion-body custom-answer">
+        <div class="lang-en">
+          For selected products and locations inside JU campus, we offer express delivery within 3–6 hours, depending on seller availability and time of order. Please check product details or contact the seller to confirm express delivery eligibility before ordering.
+        </div>
+        <div class="lang-bn d-none">
+          JU ক্যাম্পাসের নির্দিষ্ট পণ্য ও লোকেশনের জন্য, আমরা বিক্রেতার সময় এবং অর্ডারের সময় অনুসারে <strong>৩-৬ ঘণ্টার মধ্যে</strong> দ্রুত ডেলিভারির সুবিধা দিয়ে থাকি। অর্ডার করার আগে পণ্য বিবরণ অথবা বিক্রেতার সাথে যোগাযোগ করে দ্রুত ডেলিভারির যোগ্যতা নিশ্চিত করুন।
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question : Delivery Coverage Area -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+        aria-expanded="false" aria-controls="collapseTwo">
+        <span class="lang-en">What areas do you cover for delivery?</span>
+        <span class="lang-bn d-none">আপনারা কোন কোন এলাকায় ডেলিভারি দেন?</span>
+      </button>
+    </h2>
+    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
+      <div class="accordion-body custom-answer">
+        <div class="lang-en">
+          We currently deliver inside <strong>Jahangirnagar University (JU)</strong> campus and nearby areas of <strong>JU, Savar</strong>.
+        </div>
+        <div class="lang-bn d-none">
+          বর্তমানে আমরা <strong>জাহাঙ্গীরনগর বিশ্ববিদ্যালয় (JU)</strong> ক্যাম্পাস এবং আশপাশের <strong>সাভার</strong> এলাকার জন্য ডেলিভারি সেবা প্রদান করি।
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question : Delivery Charges -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+        <span class="lang-en">What are the delivery charges?</span>
+        <span class="lang-bn d-none">ডেলিভারি চার্জ কত?</span>
+      </button>
+    </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree">
+      <div class="accordion-body custom-answer">
+        <div class="lang-en">
+          Delivery charges vary based on location:
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Delivery Location</th>
+                <th>Delivery Charge</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Inside JU Campus</td><td>Free</td></tr>
+              <tr><td>Dairy Farm, Savar</td><td>৳ 40</td></tr>
+              <tr><td>Prantik, Savar</td><td>৳ 40</td></tr>
+              <tr><td>Islamnagar, Savar</td><td>৳ 50</td></tr>
+              <tr><td>Gerua, Savar</td><td>৳ 50</td></tr>
+              <tr><td>Ambagan, Savar</td><td>৳ 50</td></tr>
+              <tr><td>Bishmail, Savar</td><td>৳ 50</td></tr>
+              <tr><td>C&B, Savar</td><td>৳ 50</td></tr>
+              <tr><td>Radio Colony, Savar</td><td>৳ 60</td></tr>
+              <tr><td>New Market, Savar</td><td>৳ 60</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="lang-bn d-none">
+          ডেলিভারির চার্জ অঞ্চল অনুযায়ী পরিবর্তিত হয়:
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>ডেলিভারি করার স্থান</th>
+                <th>ডেলিভারি চার্জ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>জাহাঙ্গীরনগর বিশ্ববিদ্যালয় ক্যাম্পাসের মধ্যে</td><td>ফ্রি</td></tr>
+              <tr><td>ডেইরি ফার্ম, সাভার</td><td>৳ ৪০</td></tr>
+              <tr><td>প্রান্তিক, সাভার</td><td>৳ ৪০</td></tr>
+              <tr><td>ইসলামনগর, সাভার</td><td>৳ ৫০</td></tr>
+              <tr><td>গেরুয়া, সাভার</td><td>৳ ৫০</td></tr>
+              <tr><td>আম্বাগান, সাভার</td><td>৳ ৫০</td></tr>
+              <tr><td>বিশমাইল, সাভার</td><td>৳ ৫০</td></tr>
+              <tr><td>সি অ্যান্ড বি, সাভার</td><td>৳ ৫০</td></tr>
+              <tr><td>রেডিও কলোনি, সাভার</td><td>৳ ৬০</td></tr>
+              <tr><td>নিউ মার্কেট, সাভার</td><td>৳ ৬০</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+
+  <!-- Question : Cash on Delivery (COD) -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingFour">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+        data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+        <span class="lang-en">Do you support Cash on Delivery (COD)?</span>
+        <span class="lang-bn d-none">আপনারা কি ক্যাশ অন ডেলিভারি (COD) সেবা দেন?</span>
+      </button>
+    </h2>
+    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour">
+      <div class="accordion-body custom-answer">
+        <div class="lang-en">
+          Yes. We support <strong>Cash on Delivery</strong> (COD) for all eligible delivery areas.
+        </div>
+        <div class="lang-bn d-none">
+          হ্যাঁ। আমরা সমস্ত উপযুক্ত ডেলিভারি এলাকায় <strong>ক্যাশ অন ডেলিভারি</strong> (COD) সেবা প্রদান করি।
+        </div>
+      </div>
+    </div>
+  
+
+  {% comment %} <!-- Question : Online Payment Options -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingFive">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+        data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+        <span class="lang-en">What are the online payment options?</span>
+        <span class="lang-bn d-none">অনলাইন পেমেন্ট অপশন গুলো কি কি?</span>
+      </button>
+    </h2>
+    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive">
+      <div class="accordion-body custom-answer">
+        <div class="lang-en">
+          We accept payments via <strong>bKash</strong>, <strong>Nagad</strong>, and <strong>Rocket</strong>. You will be provided with payment instructions during checkout.
+        </div>
+        <div class="lang-bn d-none">
+          আমরা <strong>bKash</strong>, <strong>Nagad</strong> এবং <strong>Rocket</strong> এর মাধ্যমে পেমেন্ট গ্রহণ করি। চেকআউটের সময় পেমেন্ট নির্দেশনা প্রদান করা হবে।
+        </div>
+      </div>
+    </div>
+  </div> {% endcomment %}
+
+  <!-- Question : Delivery Failure Policy -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingSix">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+        data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+        <span class="lang-en">What is your delivery failure policy?</span>
+        <span class="lang-bn d-none">আপনাদের ডেলিভারি ব্যর্থতার নীতিমালা কী?</span>
+      </button>
+    </h2>
+    <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix">
+      <div class="accordion-body custom-answer">
+        <div class="lang-en">
+          If delivery fails due to the recipient's unavailability, wrong address, or refusal to accept, the order will be marked as <strong>failed</strong>. In such cases:
+          <ul>
+            <li>Re-delivery may be attempted once upon customer request.</li>
+            <li>Additional charges may apply for repeated failed attempts.</li>
+            <li>Prepaid payments are non-refundable for failed deliveries due to customer issues.</li>
+          </ul>
+        </div>
+        <div class="lang-bn d-none">
+          যদি গ্রাহকের অনুপস্থিতি, ভুল ঠিকানা বা গ্রহণে অস্বীকৃতির কারণে ডেলিভারি ব্যর্থ হয়, তাহলে অর্ডার <strong>ব্যর্থ</strong> হিসেবে চিহ্নিত হবে। এর মধ্যে:
+          <ul>
+            <li>গ্রাহকের অনুরোধে পুনরায় ডেলিভারি চেষ্টা করা হবে পরে একবার।</li>
+            <li>বারবার ব্যর্থ হলে অতিরিক্ত চার্জ প্রযোজ্য হবে।</li>
+            <li>প্রিপেইড পেমেন্ট গ্রাহকের কারণে ব্যর্থ ডেলিভারির ক্ষেত্রে ফেরতযোগ্য নয়।</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question : Partial Order Delivery -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingEight">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+        data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+        <span class="lang-en">Will I be informed if part of my order is unavailable?</span>
+        <span class="lang-bn d-none">আমাকে জানানো হবে কি যদি আমার অর্ডারের কোনো অংশ অনুপস্থিত থাকে?</span>
+      </button>
+    </h2>
+    <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight">
+      <div class="accordion-body custom-answer">
+        <div class="lang-en">
+          Yes. If any item in your order is unavailable, our support team will notify you before dispatch. 
+          You may choose to:
+          <ul>
+            <li>Proceed with the available items</li>
+            <li>Wait for the full order (if restock is expected soon)</li>
+            <li>Cancel the order entirely</li>
+          </ul>
+        </div>
+        <div class="lang-bn d-none">
+          হ্যাঁ। আপনার অর্ডারের কোনো পণ্য অনুপস্থিত হলে আমাদের সাপোর্ট টিম ডেলিভারি পূর্বে আপনাকে জানাবে। আপনি নির্বাচন করতে পারেন:
+          <ul>
+            <li>অবস্থানীয় পণ্যগুলো নিয়ে অর্ডার চালিয়ে যাওয়া</li>
+            <li>সম্পূর্ণ অর্ডারের জন্য অপেক্ষা করা (যদি শীঘ্রই রিস্টক হয়)</li>
+            <li>পুরো অর্ডার বাতিল করা</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question : Order Cancellation -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingNine">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+        data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+        <span class="lang-en">Can I cancel my order after placing it?</span>
+        <span class="lang-bn d-none">আমি অর্ডার দেওয়ার পর কি সেটা বাতিল করতে পারি?</span>
+      </button>
+    </h2>
+    <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine">
+      <div class="accordion-body custom-answer">
+        <div class="lang-en">
+          Yes. You may cancel your order before it is confirmed or dispatched.
+          To proceed with cancellation, you must contact the seller directly as soon as possible. Once the product is confirmed by the seller or handed over for delivery, cancellation may not be possible. <br>For prepaid orders, refund eligibility will follow our standard refund policy.
+        </div>
+        <div class="lang-bn d-none">
+          হ্যাঁ। আপনি অর্ডার কনফার্ম বা ডেলিভারি পূর্বে বাতিল করতে পারেন। বাতিল করার জন্য দ্রুত বিক্রেতার সাথে যোগাযোগ করতে হবে। বিক্রেতা নিশ্চিত করলে বা ডেলিভারির জন্য পণ্য হস্তান্তর করলে বাতিল করা হবে না। <br>প্রিপেইড অর্ডারের ক্ষেত্রে আমাদের রিফান্ড  নীতিমালা অনুসরণ করা হবে।
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+</div>
+
+<!-- Language Switcher Script -->
+<script>
+  function setLanguage(lang) {
+    const enElements = document.querySelectorAll('.lang-en');
+    const bnElements = document.querySelectorAll('.lang-bn');
+    const enBtn = document.getElementById('lang-en-btn');
+    const bnBtn = document.getElementById('lang-bn-btn');
+
+    if (lang === 'en') {
+      enElements.forEach(el => el.classList.remove('d-none'));
+      bnElements.forEach(el => el.classList.add('d-none'));
+      enBtn.classList.add('active');
+      bnBtn.classList.remove('active');
+    } else if (lang === 'bn') {
+      enElements.forEach(el => el.classList.add('d-none'));
+      bnElements.forEach(el => el.classList.remove('d-none'));
+      enBtn.classList.remove('active');
+      bnBtn.classList.add('active');
+    }
+  }
+</script>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
