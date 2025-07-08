@@ -1,11 +1,114 @@
 {% extends 'ecommerce/base.html' %}
 
-{% block title %}Product Order{% endblock %}
+{% block title %}Privacy Policy{% endblock %}
 
 {% block page_content %}
-<!-- Product section -->
-<div class="mt-4">
-    <h2 class="mb-3">Privacy Policy</h2>
-    <p>Here will be the details how the privacy policy work...</p>
+<div class="mb-4" style="
+    background-image: url('/media/product_images/explore.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 250px;
+    border-radius: 10px;
+    position: relative;
+">
+    <div style="
+        background-color: rgba(0, 0, 0, 0.5);
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+    ">
+        <h1 class="text-white fw-bold">Privacy Policy</h1>
+    </div>
 </div>
+<div class="container mt-5 mb-5">
+
+    <!-- Header + Language Toggle Buttons -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 id="heading" class="mb-0 fw-bold fs-3">Privacy Policy</h2>
+        <div>
+            <button id="englishBtn" class="btn btn-outline-primary btn-sm me-2" onclick="showLanguage('english')">Read in English</button>
+            <button id="banglaBtn" class="btn btn-outline-success btn-sm" onclick="showLanguage('bangla')">বাংলায় পড়ুন</button>
+        </div>
+    </div>
+
+    <!-- English Content -->
+    <div id="english" class="language-section fs-5">
+        <h4 class="mb-3 text-black fw-bold"> Information Collection</h4>
+        <p>We collect basic personal information such as name, email, and contact details during registration and purchase processes.</p>
+
+        <h4 class="mt-4 text-black fw-bold"> Usage of Data</h4>
+        <p>Your data is used to process orders, provide services, enhance user experience, and communicate important updates.</p>
+
+        <h4 class="mt-4 text-black fw-bold"> Data Sharing</h4>
+        <p>We do not sell or rent your personal information. Data may be shared only with trusted partners for order fulfillment or legal compliance.</p>
+
+        <h4 class="mt-4 text-black fw-bold"> Data Security</h4>
+        <p>We take reasonable measures to protect your personal data. However, no system is fully secure, and you use the platform at your own risk.</p>
+
+        <h4 class="mt-4 text-black fw-bold"> Cookies & Tracking</h4>
+        <p>Our site may use cookies to improve user experience and track usage patterns. You may disable cookies in your browser settings.</p>
+
+        <h4 class="mt-4 text-black fw-bold"> Account Control</h4>
+        <p>Users can access, edit, or delete their personal data by logging into their accounts or contacting support.</p>
+
+        <h4 class="mt-4 text-black fw-bold"> Changes to Policy</h4>
+        <p>We may update this privacy policy from time to time. Users will be notified of significant changes.</p>
+    </div>
+
+    <!-- Bangla Content -->
+    <div id="bangla" class="language-section fs-5" style="display: none;">
+        <h4 class="mb-3 text-black fw-bold">তথ্য সংগ্রহ</h4>
+        <p>নিবন্ধন ও অর্ডার প্রক্রিয়ার সময় আমরা নাম, ইমেইল ও যোগাযোগের মতো ব্যক্তিগত তথ্য সংগ্রহ করি।</p>
+
+        <h4 class="mt-4 text-black fw-bold">তথ্যের ব্যবহার</h4>
+        <p>আপনার তথ্য অর্ডার প্রসেসিং, পরিষেবা প্রদান, ব্যবহারকারীর অভিজ্ঞতা উন্নতকরণ এবং গুরুত্বপূর্ণ আপডেট জানাতে ব্যবহার করা হয়।</p>
+
+        <h4 class="mt-4 text-black fw-bold">তথ্য শেয়ারিং</h4>
+        <p>আমরা আপনার ব্যক্তিগত তথ্য বিক্রি বা ভাড়া দেই না। শুধুমাত্র বিশ্বস্ত পার্টনারদের সঙ্গে আইনি বা অর্ডার সংক্রান্ত কারণে তথ্য শেয়ার করা হতে পারে।</p>
+
+        <h4 class="mt-4 text-black fw-bold">তথ্য নিরাপত্তা</h4>
+        <p>আপনার ব্যক্তিগত তথ্য সুরক্ষার জন্য আমরা যথাযথ ব্যবস্থা গ্রহণ করি। তবে ইন্টারনেটে সম্পূর্ণ নিরাপত্তা নিশ্চিত করা সম্ভব নয়।</p>
+
+        <h4 class="mt-4 text-black fw-bold">কুকি ও ট্র্যাকিং</h4>
+        <p>আমাদের সাইটে কুকি ব্যবহার হতে পারে যা ব্যবহারকারীর অভিজ্ঞতা উন্নত করে এবং ব্যবহার প্যাটার্ন ট্র্যাক করে। আপনি চাইলে ব্রাউজার সেটিংসে কুকি বন্ধ করতে পারেন।</p>
+
+        <h4 class="mt-4 text-black fw-bold">একাউন্ট নিয়ন্ত্রণ</h4>
+        <p>ব্যবহারকারীরা তাদের একাউন্টে লগইন করে বা সাপোর্টের মাধ্যমে নিজের ব্যক্তিগত তথ্য অ্যাক্সেস, সম্পাদনা বা মুছে ফেলতে পারেন।</p>
+
+        <h4 class="mt-4 text-black fw-bold">নীতিমালার পরিবর্তন</h4>
+        <p>আমরা সময়ে সময়ে এই প্রাইভেসি পলিসি আপডেট করতে পারি। গুরুত্বপূর্ণ পরিবর্তনের ক্ষেত্রে ব্যবহারকারীদের জানানো হবে।</p>
+    </div>
+</div>
+
+<!-- Language Switcher Script -->
+<script>
+    function showLanguage(lang) {
+        const englishSection = document.getElementById('english');
+        const banglaSection = document.getElementById('bangla');
+        const englishBtn = document.getElementById('englishBtn');
+        const banglaBtn = document.getElementById('banglaBtn');
+        const heading = document.getElementById('heading');
+
+        if (lang === 'english') {
+            englishSection.style.display = 'block';
+            banglaSection.style.display = 'none';
+            heading.innerText = "Privacy Policy";
+            englishBtn.style.display = 'none';
+            banglaBtn.style.display = 'inline-block';
+        } else {
+            englishSection.style.display = 'none';
+            banglaSection.style.display = 'block';
+            heading.innerText = "প্রাইভেসি নীতি";
+            englishBtn.style.display = 'inline-block';
+            banglaBtn.style.display = 'none';
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        showLanguage('english');
+    });
+</script>
 {% endblock %}
