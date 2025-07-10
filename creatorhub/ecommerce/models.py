@@ -70,7 +70,7 @@ class Order(models.Model):
         statuses = set(item.seller_status for item in items)
 
         if statuses == {'Approved'}:
-            self.status = 'Accepted'
+            self.status = 'Approved'
         elif statuses == {'Rejected'}:
             self.status = 'Rejected'
         elif 'Pending' in statuses:

@@ -1,11 +1,183 @@
 {% extends 'ecommerce/base.html' %}
+{% load static %}
 
-{% block title %}Product Order{% endblock %}
+{% block title %}Terms & Conditions{% endblock %}
 
 {% block page_content %}
-<!-- Product section -->
-<div class="mt-4">
-    <h2 class="mb-3">Terms & Conditions</h2>
-    <p>Here will be the details of terms & Conditions...</p>
+
+<!-- 🔽 Banner Section -->
+<div class="mb-4" style="
+    background-color:  rgb(251, 244, 235);
+    background-size: cover;
+    background-position: center;
+    height: 250px;
+    border-radius: 10px;
+    position: relative;
+">
+    <div style="
+        background-color: rgb(251, 244, 235);
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+    ">
+        <h1 class="text-black  fst-italic">Terms & Conditions </h1>
+    </div>
 </div>
+
+<!-- 🔽 Layout: Sidebar + Main Content -->
+<div class="container mb-5">
+    <div class="row">
+
+        <!-- 🔹 Sidebar -->
+       <div class="col-md-3 mb-4 fst-italic" >
+    <div class="shadow-sm d-flex flex-column">
+        <a href="{% url 'privacy_policy' %}" class="btn btn-light  text-start mb-2" style="background-color:  rgb(251, 244, 235);">Privacy Policy</a>
+        <a href="{% url 'Delivery' %}" class="btn btn-light  text-start mb-2" style="background-color:  rgb(251, 244, 235);">Delivery</a>
+        <a href="{% url 'return_exchange' %}" class="btn btn-light text-start" style="background-color:  rgb(251, 244, 235);">Return & Exchange</a>
+    </div>
+</div>
+
+        <!-- 🔹 Main Content -->
+        <div class="col-md-9">
+            <!-- Language Toggle -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 id="heading" class="mb-0  fs-3">Terms of Use</h2>
+                <div>
+                    <button id="englishBtn" class="btn btn-outline-primary btn-sm me-2" onclick="showLanguage('english')">Read in English</button>
+                    <button id="banglaBtn" class="btn btn-outline-success btn-sm" onclick="showLanguage('bangla')">বাংলায় পড়ুন</button>
+                </div>
+            </div>
+
+            <!-- 🔸 English Content -->
+            <div id="english" class="language-section fs-5">
+                <div class="mb-5">
+                    <h4 class=" text-black">User Eligibility</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">This platform is built to serve the internal community of Jahangirnagar University. Only students who are currently enrolled at JU can register and sell products. Buyers are limited to JU students, teachers, university staff, or residents who live in close proximity to the university campus. Any attempt to use the platform from outside this intended community may result in restricted access or account suspension.</p>
+                </div>
+
+                <div class="mb-5 leading-relaxed text-justify">
+                    <h4 class=" text-black  ">Account Registration</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">To maintain trust and transparency within the platform, all users must register using their real names and accurate personal information. Misrepresentation, including fake identities, using someone else’s name, or impersonating another person, is strictly forbidden. The platform may request ID verification if suspicious activity is detected, and false or misleading accounts will be removed without prior notice.</p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class=" text-black">Product Listings</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">Sellers must provide truthful and detailed descriptions of their products, including clear photos, accurate pricing, and condition (new/used). Items that are illegal (such as narcotics, firearms), harmful (weapons, dangerous tools), or deceptive (counterfeit goods, plagiarized products) are strictly prohibited. Any violation will result in the immediate removal of listings and potential account suspension.</p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class=" text-black">Orders & Payments</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">Buyers are responsible for reviewing product details, seller credibility, and agreed pricing before placing an order. All payments should be made through mutually accepted, secure methods such as mobile banking (e.g., bKash, Nagad), cash on delivery, or bank transfer. The platform does not process payments directly and cannot mediate in financial disputes between parties.</p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class=" text-black">Delivery & Pickup</h4>
+                    <p style="text-align: justify;font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">The platform does not have any logistics service of its own. Delivery arrangements, including location, time, and method (courier, hand delivery, etc.) must be decided between buyer and seller. Delays, lost packages, or other delivery-related issues are to be resolved between the two parties. The platform is not liable for transportation faults or miscommunication.</p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class=" text-black">Refund & Return Policy</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">All return, exchange, or refund claims must be handled through mutual understanding between the buyer and seller. The platform does not guarantee any money-back policy or intervention in case of dissatisfaction. Sellers are encouraged to clearly mention their return/refund terms in their product descriptions. Buyers should clarify such policies before completing a purchase.</p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class=" text-black">Prohibited Activities</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">Users are strictly prohibited from engaging in the following:<br>
+                        - Using the platform for activities unrelated to commerce (e.g., political propaganda, spam)<br>
+                        - Harassment, abusive language, or threats<br>
+                        - Fraudulent behavior such as fake orders, price manipulation<br>
+                        - Promoting or selling illegal or stolen goods<br>
+                        Violating these terms may result in temporary suspension or permanent banning of the account, and in some cases, legal action.
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class=" text-black">Changes to Terms</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">The platform reserves the right to modify these Terms & Conditions at any time. Major updates will be posted on the website. It is the responsibility of the user to stay informed by reviewing the Terms periodically. Continued use of the platform after changes implies agreement to the updated policies.</p>
+                </div>
+            </div>
+
+            <!-- 🔸 Bangla Content -->
+            <div id="bangla" class="language-section fs-5" style="display: none;">
+                <div class="mb-5">
+                    <h4 class=" text-black">ব্যবহারকারীর যোগ্যতা</h4>
+                    <p style="text-align: justify;font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">এই প্ল্যাটফর্মটি জাহাঙ্গীরনগর বিশ্ববিদ্যালয়ের অভ্যন্তরীণ কমিউনিটির জন্য তৈরি। শুধুমাত্র বর্তমানে ভর্তি JU শিক্ষার্থীরা বিক্রেতা হিসেবে নিবন্ধন করতে পারবেন। ক্রেতা হতে পারবেন JU এর ছাত্র, শিক্ষক, কর্মচারী অথবা আশেপাশের এলাকার বাসিন্দারা। বাইরের কেউ চেষ্টা করলে তাদের অ্যাক্সেস সীমিত বা বাতিল করা হতে পারে।</p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class=" text-black">কাউন্ট নিবন্ধন</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">এই প্ল্যাটফর্মে বিশ্বাস ও স্বচ্ছতা বজায় রাখতে, সকল ব্যবহারকারীকে প্রকৃত নাম এবং সঠিক তথ্য দিয়ে নিবন্ধন করতে হবে। ভুয়া পরিচয়, ছদ্মবেশ, বা অন্য কারো পরিচয়ে নিবন্ধন করা সম্পূর্ণ নিষিদ্ধ। সন্দেহজনক কার্যকলাপে পরিচয় যাচাই চাওয়া হতে পারে এবং ভুল তথ্য প্রদান করলে অ্যাকাউন্ট বাতিল করা হবে।</p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class=" text-black">পণ্যের তালিকা</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">বিক্রেতারা তাদের পণ্যের সঠিক ও বিস্তারিত বিবরণ দিতে বাধ্য, যার মধ্যে ছবি, মূল্য এবং অবস্থা (নতুন/পুরাতন) থাকবে। নিষিদ্ধ জিনিস (যেমন মাদক, অস্ত্র), ক্ষতিকর জিনিস অথবা প্রতারণামূলক (ভুয়া, কপি করা পণ্য) সম্পূর্ণভাবে নিষিদ্ধ। এরকম কিছু করলে অ্যাকাউন্ট স্থগিত করা হবে।</p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class=" text-black">অর্ডার ও পেমেন্ট</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">ক্রেতাকে পণ্যের বিবরণ, বিক্রেতার বিশ্বাসযোগ্যতা এবং নির্ধারিত মূল্য যাচাই করে অর্ডার করতে হবে। পেমেন্ট বিকাশ, নগদ, ব্যাংক ট্রান্সফার বা ক্যাশ অন ডেলিভারির মতো নিরাপদ এবং সম্মত উপায়ে করতে হবে। প্ল্যাটফর্ম সরাসরি অর্থ লেনদেন করে না এবং বিতর্কে মধ্যস্থতা করবে না।</p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class=" text-black">ডেলিভারি ও সংগ্রহ</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">প্ল্যাটফর্মের নিজস্ব কোনো ডেলিভারি সেবা নেই। ক্রেতা ও বিক্রেতার মধ্যে সময়, স্থান ও ডেলিভারির পদ্ধতি (হাতে-হাতে, কুরিয়ার ইত্যাদি) নির্ধারণ করতে হবে। বিলম্ব, হারানো বা ভুল বোঝাবুঝির জন্য প্ল্যাটফর্ম দায়ী নয়।</p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class=" text-black">রিফান্ড ও রিটার্ন নীতি</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">সব রিটার্ন, রিফান্ড ও এক্সচেঞ্জ সম্পর্কিত বিষয় ক্রেতা ও বিক্রেতার মধ্যে সমঝোতার ভিত্তিতে সমাধান করতে হবে। প্ল্যাটফর্ম কোনো রকম ফেরতের গ্যারান্টি দেয় না। বিক্রেতাকে পণ্যের বিবরণে রিটার্ন নীতিমালা স্পষ্টভাবে উল্লেখ করতে অনুরোধ করা হচ্ছে।</p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class=" text-black">নিষিদ্ধ কার্যকলাপ</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">নিচের যে কোনো কার্যকলাপ কঠোরভাবে নিষিদ্ধ:<br>
+                    - বাণিজ্যবহির্ভূত উদ্দেশ্যে প্ল্যাটফর্ম ব্যবহার (যেমন রাজনৈতিক প্রচারণা, স্প্যাম)<br>
+                    - হয়রানি, অবমাননাকর ভাষা ব্যবহার বা হুমকি<br>
+                    - ভুয়া অর্ডার, মূল্য নিয়ে প্রতারণা<br>
+                    - বেআইনি বা চুরি করা জিনিস বিক্রি<br>
+                    এসব করলে অ্যাকাউন্ট সাময়িকভাবে স্থগিত বা স্থায়ীভাবে বাতিল করা হতে পারে, প্রয়োজনে আইনি ব্যবস্থা গ্রহণ করা হবে।</p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class=" text-black">শর্তাবলীর পরিবর্তন</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">প্ল্যাটফর্ম যেকোনো সময় এই শর্তাবলী পরিবর্তন করার অধিকার রাখে। বড় পরিবর্তনগুলো ওয়েবসাইটে প্রকাশ করা হবে। ব্যবহারকারীদের নিয়মিত এই শর্তাবলী পর্যালোচনা করার দায়িত্ব থাকবে। পরিবর্তনের পর প্ল্যাটফর্ম ব্যবহারের অর্থ হলো আপনি নতুন নিয়ম মেনে নিয়েছেন।</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 🔽 Language Toggle Script -->
+<script>
+    function showLanguage(lang) {
+        const englishSection = document.getElementById('english');
+        const banglaSection = document.getElementById('bangla');
+        const englishBtn = document.getElementById('englishBtn');
+        const banglaBtn = document.getElementById('banglaBtn');
+        const heading = document.getElementById('heading');
+
+        if (lang === 'english') {
+            englishSection.style.display = 'block';
+            banglaSection.style.display = 'none';
+            heading.innerText = "Terms & Conditions";
+            englishBtn.style.display = 'none';
+            banglaBtn.style.display = 'inline-block';
+        } else {
+            englishSection.style.display = 'none';
+            banglaSection.style.display = 'block';
+            heading.innerText = "শর্তাবলী ও নিয়মাবলী";
+            englishBtn.style.display = 'inline-block';
+            banglaBtn.style.display = 'none';
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        showLanguage('english');
+    });
+</script>
+
 {% endblock %}

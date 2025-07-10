@@ -1,11 +1,163 @@
 {% extends 'ecommerce/base.html' %}
+{% load static %}
 
-{% block title %}Product Order{% endblock %}
+{% block title %}Privacy Policy{% endblock %}
 
 {% block page_content %}
-<!-- Product section -->
-<div class="mt-4">
-    <h2 class="mb-3">Privacy Policy</h2>
-    <p>Here will be the details how the privacy policy work...</p>
+
+<!-- 🔽 Banner Section -->
+<div class="mb-4" style="
+    background-color: rgb(241, 232, 220);
+    background-size: cover;
+    background-position: center;
+    height: 250px;
+    border-radius: 10px;
+    position: relative;
+">
+    <div style="
+        background-color: rgb(251, 244, 235);
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+    ">
+        <h1 class="text-black  fst-italic">Privacy Policy</h1>
+    </div>
 </div>
+
+
+
+<!-- 🔽 Layout: Sidebar + Main Content -->
+<div class="container mb-5">
+    <div class="row">
+
+        <!-- 🔹 Sidebar -->
+        <div class="col-md-3 mb-4 fst-italic">
+            <div class="shadow-sm d-flex flex-column">
+                <a href="{% url 'terms_conditions' %}" class="btn btn-light text-start mb-2" style="background-color:  rgb(251, 244, 235);">Terms & Conditions</a>
+                <a href="{% url 'Delivery' %}" class="btn btn-light text-start mb-2" style="background-color:  rgb(251, 244, 235);">Delivery</a>
+                <a href="{% url 'return_exchange' %}" class="btn btn-light text-start" style="background-color:  rgb(251, 244, 235);">Return & Exchange</a>
+            </div>
+        </div>
+
+        <!-- 🔹 Main Content -->
+        <div class="col-md-9">
+            <!-- Language Toggle -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 id="heading" class="mb-0  fs-3">Policies</h2>
+                <div>
+                    <button id="englishBtn" class="btn btn-outline-primary btn-sm me-2" onclick="showLanguage('english')">Read in English</button>
+                    <button id="banglaBtn" class="btn btn-outline-success btn-sm" onclick="showLanguage('bangla')">বাংলায় পড়ুন</button>
+                </div>
+            </div>
+
+            <!-- 🔸 English Content -->
+            <div id="english" class="language-section fs-5">
+                <div class="mb-5">
+                    <h4 class="text-black">Information We Collect</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        We collect basic personal information such as your name, student ID, contact number, and location to ensure that users are part of the Jahangirnagar University community. We also gather usage data including pages visited, time spent, and transactions made for analytical and service improvement purposes.
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-black">How Your Information is Used</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        Your data is used to verify your identity, manage your account, process transactions, and offer customer support. We may use aggregate (non-identifiable) data to improve our platform's functionality and user experience.
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-black">Data Sharing</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        We do not sell or rent your personal data. Information may only be shared with service providers (e.g., for email delivery or analytics) under strict confidentiality agreements. We will only disclose information if legally required.
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-black">Cookies & Tracking</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        We may use cookies to personalize your experience and track site usage. You can choose to disable cookies through your browser settings, though some features of the site may not function properly.
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-black">Data Security</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        We employ reasonable technical and organizational measures to protect your data. However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute protection.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 🔸 Bangla Content -->
+            <div id="bangla" class="language-section fs-5" style="display: none;">
+                <div class="mb-5">
+                    <h4 class="text-black">আমরা কী তথ্য সংগ্রহ করি</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        আপনার নাম, শিক্ষার্থী আইডি, ফোন নম্বর এবং অবস্থানসহ মৌলিক ব্যক্তিগত তথ্য সংগ্রহ করা হয় যেন নিশ্চিত করা যায় আপনি জাহাঙ্গীরনগর বিশ্ববিদ্যালয় কমিউনিটির সদস্য। সাইট ব্যবহারের প্যাটার্ন, ভিজিটকৃত পেজ, লেনদেন ইত্যাদিও বিশ্লেষণ ও পরিষেবা উন্নয়নের জন্য সংগ্রহ করা হয়।
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-black">তথ্য ব্যবহারের উদ্দেশ্য</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        আপনার পরিচয় যাচাই, একাউন্ট পরিচালনা, লেনদেন প্রক্রিয়া ও গ্রাহক সেবা প্রদানে আপনার তথ্য ব্যবহার করা হয়। এছাড়াও, সার্বিক (অপরিচিত) ডেটা প্ল্যাটফর্ম উন্নয়নে কাজে লাগানো হতে পারে।
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-black">তথ্য শেয়ারিং নীতি</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        আমরা আপনার তথ্য বিক্রি বা ভাড়া দিই না। শুধুমাত্র নির্দিষ্ট পরিষেবা প্রদানকারীদের (যেমন ইমেইল সার্ভিস, অ্যানালিটিক্স) সাথে কঠোর গোপনীয়তার ভিত্তিতে তথ্য শেয়ার করা হতে পারে। আইনগত কারণে প্রয়োজনে তথ্য প্রদান করা হতে পারে।
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-black">কুকিজ ও ট্র্যাকিং</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        কুকিজ ব্যবহার করে আপনার ব্রাউজিং অভিজ্ঞতা উন্নত ও ট্র্যাকিং ডেটা সংগ্রহ করা হয়। আপনি চাইলে আপনার ব্রাউজার সেটিংস থেকে কুকিজ বন্ধ করতে পারেন, তবে এতে কিছু ফিচার ঠিকভাবে কাজ নাও করতে পারে।
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-black">তথ্য সুরক্ষা</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        আমরা আপনার তথ্য সুরক্ষায় যথাসম্ভব প্রযুক্তিগত ব্যবস্থা গ্রহণ করি। তবে ইন্টারনেটে ডেটা প্রেরণ কখনোই সম্পূর্ণ নিরাপদ নয়, তাই আমরা শতভাগ নিরাপত্তা নিশ্চিত করতে পারি না।
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 🔽 Language Toggle Script -->
+<script>
+    function showLanguage(lang) {
+        const englishSection = document.getElementById('english');
+        const banglaSection = document.getElementById('bangla');
+        const englishBtn = document.getElementById('englishBtn');
+        const banglaBtn = document.getElementById('banglaBtn');
+
+        if (lang === 'english') {
+            englishSection.style.display = 'block';
+            banglaSection.style.display = 'none';
+            englishBtn.style.display = 'none';
+            banglaBtn.style.display = 'inline-block';
+        } else {
+            englishSection.style.display = 'none';
+            banglaSection.style.display = 'block';
+            englishBtn.style.display = 'inline-block';
+            banglaBtn.style.display = 'none';
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        showLanguage('english');
+    });
+</script>
+
 {% endblock %}
+
+
