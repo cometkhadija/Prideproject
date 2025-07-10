@@ -393,34 +393,34 @@ def order_detail(request, order_id):
 @login_required
 def order_cancel(request, order_id):
     order = get_object_or_404(Order, id=order_id, buyer=request.user)
-    if request.method == "POST":
-        # Cancel the order here, e.g. update status
-        order.status = 'Cancelled'
-        order.save()
-        return redirect('order_history')  # ba jekhane redirect korte chau
-    else:
-        return HttpResponseForbidden("Invalid request")
-    
+
+    if request.method == 'POST':
+        if order.status.lower() == 'pending':
+            order.delete()  # Delete order & items so it disappears from history
+            messages.success(request, "Your order was cancelled successfully.")
+        else:
+            messages.warning(request, "Only pending orders can be cancelled.")
+
+    return redirect('order_history')  # Redirect to order history page
 
 def approve_order_item(request, item_id):
     item = get_object_or_404(OrderItem, id=item_id)
 
-    # Seller ownership check
     if item.product.seller != request.user:
         messages.error(request, "Unauthorized action.")
         return redirect('seller_orders')
 
-    # Update approval status
     item.seller_status = "Approved"
     item.is_approved = True
-    item.rejection_reason = ""  # clear reason on approval
+    item.rejection_reason = ""
     item.save()
 
-    # Update parent order status
+    # Add this line to update order status based on all items
     item.order.update_status_based_on_items()
 
     messages.success(request, "Order item approved.")
     return redirect('seller_orders')
+
 
 
 def reject_order_item(request, item_id):
@@ -494,9 +494,13 @@ def seller_dashboard(request):
 @login_required
 def approve_order_item(request, item_id):
     item = get_object_or_404(OrderItem, id=item_id, product__seller=request.user)
-    item.seller_status = 'Approved'  # ✅ updates the field
-    # item.is_approved = True          # optional, if you use it
+    item.seller_status = 'Approved'
+    # item.is_approved = True  # optional
     item.save()
+
+    # Update the parent order's status based on all item statuses
+    item.order.update_status_based_on_items()
+
     messages.success(request, "Order item approved.")
     return redirect('seller_dashboard')
 
