@@ -1,10 +1,13 @@
 {% extends 'ecommerce/base.html' %}
+{% load static %}
 
 {% block title %}Privacy Policy{% endblock %}
 
 {% block page_content %}
+
+<!-- 🔽 Banner Section -->
 <div class="mb-4" style="
-    background-image: url('/media/product_images/explore.jpg');
+    background-color: rgb(241, 232, 220);
     background-size: cover;
     background-position: center;
     height: 250px;
@@ -12,7 +15,7 @@
     position: relative;
 ">
     <div style="
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgb(251, 244, 235);
         height: 100%;
         width: 100%;
         display: flex;
@@ -20,88 +23,131 @@
         justify-content: center;
         border-radius: 10px;
     ">
-        <h1 class="text-white fw-bold">Privacy Policy</h1>
+        <h1 class="text-black  fst-italic">Privacy Policy</h1>
     </div>
 </div>
-<div class="container mt-5 mb-5">
 
-    <!-- Header + Language Toggle Buttons -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 id="heading" class="mb-0 fw-bold fs-3">Privacy Policy</h2>
-        <div>
-            <button id="englishBtn" class="btn btn-outline-primary btn-sm me-2" onclick="showLanguage('english')">Read in English</button>
-            <button id="banglaBtn" class="btn btn-outline-success btn-sm" onclick="showLanguage('bangla')">বাংলায় পড়ুন</button>
+
+
+<!-- 🔽 Layout: Sidebar + Main Content -->
+<div class="container mb-5">
+    <div class="row">
+
+        <!-- 🔹 Sidebar -->
+        <div class="col-md-3 mb-4 fst-italic">
+            <div class="shadow-sm d-flex flex-column">
+                <a href="{% url 'terms_conditions' %}" class="btn btn-light text-start mb-2" style="background-color:  rgb(251, 244, 235);">Terms & Conditions</a>
+                <a href="{% url 'Delivery' %}" class="btn btn-light text-start mb-2" style="background-color:  rgb(251, 244, 235);">Delivery</a>
+                <a href="{% url 'return_exchange' %}" class="btn btn-light text-start" style="background-color:  rgb(251, 244, 235);">Return & Exchange</a>
+            </div>
+        </div>
+
+        <!-- 🔹 Main Content -->
+        <div class="col-md-9">
+            <!-- Language Toggle -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 id="heading" class="mb-0  fs-3">Policies</h2>
+                <div>
+                    <button id="englishBtn" class="btn btn-outline-primary btn-sm me-2" onclick="showLanguage('english')">Read in English</button>
+                    <button id="banglaBtn" class="btn btn-outline-success btn-sm" onclick="showLanguage('bangla')">বাংলায় পড়ুন</button>
+                </div>
+            </div>
+
+            <!-- 🔸 English Content -->
+            <div id="english" class="language-section fs-5">
+                <div class="mb-5">
+                    <h4 class="text-black">Information We Collect</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        We collect basic personal information such as your name, student ID, contact number, and location to ensure that users are part of the Jahangirnagar University community. We also gather usage data including pages visited, time spent, and transactions made for analytical and service improvement purposes.
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-black">How Your Information is Used</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        Your data is used to verify your identity, manage your account, process transactions, and offer customer support. We may use aggregate (non-identifiable) data to improve our platform's functionality and user experience.
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-black">Data Sharing</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        We do not sell or rent your personal data. Information may only be shared with service providers (e.g., for email delivery or analytics) under strict confidentiality agreements. We will only disclose information if legally required.
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-black">Cookies & Tracking</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        We may use cookies to personalize your experience and track site usage. You can choose to disable cookies through your browser settings, though some features of the site may not function properly.
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-black">Data Security</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        We employ reasonable technical and organizational measures to protect your data. However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute protection.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 🔸 Bangla Content -->
+            <div id="bangla" class="language-section fs-5" style="display: none;">
+                <div class="mb-5">
+                    <h4 class="text-black">আমরা কী তথ্য সংগ্রহ করি</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        আপনার নাম, শিক্ষার্থী আইডি, ফোন নম্বর এবং অবস্থানসহ মৌলিক ব্যক্তিগত তথ্য সংগ্রহ করা হয় যেন নিশ্চিত করা যায় আপনি জাহাঙ্গীরনগর বিশ্ববিদ্যালয় কমিউনিটির সদস্য। সাইট ব্যবহারের প্যাটার্ন, ভিজিটকৃত পেজ, লেনদেন ইত্যাদিও বিশ্লেষণ ও পরিষেবা উন্নয়নের জন্য সংগ্রহ করা হয়।
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-black">তথ্য ব্যবহারের উদ্দেশ্য</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        আপনার পরিচয় যাচাই, একাউন্ট পরিচালনা, লেনদেন প্রক্রিয়া ও গ্রাহক সেবা প্রদানে আপনার তথ্য ব্যবহার করা হয়। এছাড়াও, সার্বিক (অপরিচিত) ডেটা প্ল্যাটফর্ম উন্নয়নে কাজে লাগানো হতে পারে।
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-black">তথ্য শেয়ারিং নীতি</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        আমরা আপনার তথ্য বিক্রি বা ভাড়া দিই না। শুধুমাত্র নির্দিষ্ট পরিষেবা প্রদানকারীদের (যেমন ইমেইল সার্ভিস, অ্যানালিটিক্স) সাথে কঠোর গোপনীয়তার ভিত্তিতে তথ্য শেয়ার করা হতে পারে। আইনগত কারণে প্রয়োজনে তথ্য প্রদান করা হতে পারে।
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-black">কুকিজ ও ট্র্যাকিং</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        কুকিজ ব্যবহার করে আপনার ব্রাউজিং অভিজ্ঞতা উন্নত ও ট্র্যাকিং ডেটা সংগ্রহ করা হয়। আপনি চাইলে আপনার ব্রাউজার সেটিংস থেকে কুকিজ বন্ধ করতে পারেন, তবে এতে কিছু ফিচার ঠিকভাবে কাজ নাও করতে পারে।
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-black">তথ্য সুরক্ষা</h4>
+                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">
+                        আমরা আপনার তথ্য সুরক্ষায় যথাসম্ভব প্রযুক্তিগত ব্যবস্থা গ্রহণ করি। তবে ইন্টারনেটে ডেটা প্রেরণ কখনোই সম্পূর্ণ নিরাপদ নয়, তাই আমরা শতভাগ নিরাপত্তা নিশ্চিত করতে পারি না।
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-
-    <!-- English Content -->
-    <div id="english" class="language-section fs-5">
-        <h4 class="mb-3 text-black fw-bold"> Information Collection</h4>
-        <p>We collect basic personal information such as name, email, and contact details during registration and purchase processes.</p>
-
-        <h4 class="mt-4 text-black fw-bold"> Usage of Data</h4>
-        <p>Your data is used to process orders, provide services, enhance user experience, and communicate important updates.</p>
-
-        <h4 class="mt-4 text-black fw-bold"> Data Sharing</h4>
-        <p>We do not sell or rent your personal information. Data may be shared only with trusted partners for order fulfillment or legal compliance.</p>
-
-        <h4 class="mt-4 text-black fw-bold"> Data Security</h4>
-        <p>We take reasonable measures to protect your personal data. However, no system is fully secure, and you use the platform at your own risk.</p>
-
-        <h4 class="mt-4 text-black fw-bold"> Cookies & Tracking</h4>
-        <p>Our site may use cookies to improve user experience and track usage patterns. You may disable cookies in your browser settings.</p>
-
-        <h4 class="mt-4 text-black fw-bold"> Account Control</h4>
-        <p>Users can access, edit, or delete their personal data by logging into their accounts or contacting support.</p>
-
-        <h4 class="mt-4 text-black fw-bold"> Changes to Policy</h4>
-        <p>We may update this privacy policy from time to time. Users will be notified of significant changes.</p>
-    </div>
-
-    <!-- Bangla Content -->
-    <div id="bangla" class="language-section fs-5" style="display: none;">
-        <h4 class="mb-3 text-black fw-bold">তথ্য সংগ্রহ</h4>
-        <p>নিবন্ধন ও অর্ডার প্রক্রিয়ার সময় আমরা নাম, ইমেইল ও যোগাযোগের মতো ব্যক্তিগত তথ্য সংগ্রহ করি।</p>
-
-        <h4 class="mt-4 text-black fw-bold">তথ্যের ব্যবহার</h4>
-        <p>আপনার তথ্য অর্ডার প্রসেসিং, পরিষেবা প্রদান, ব্যবহারকারীর অভিজ্ঞতা উন্নতকরণ এবং গুরুত্বপূর্ণ আপডেট জানাতে ব্যবহার করা হয়।</p>
-
-        <h4 class="mt-4 text-black fw-bold">তথ্য শেয়ারিং</h4>
-        <p>আমরা আপনার ব্যক্তিগত তথ্য বিক্রি বা ভাড়া দেই না। শুধুমাত্র বিশ্বস্ত পার্টনারদের সঙ্গে আইনি বা অর্ডার সংক্রান্ত কারণে তথ্য শেয়ার করা হতে পারে।</p>
-
-        <h4 class="mt-4 text-black fw-bold">তথ্য নিরাপত্তা</h4>
-        <p>আপনার ব্যক্তিগত তথ্য সুরক্ষার জন্য আমরা যথাযথ ব্যবস্থা গ্রহণ করি। তবে ইন্টারনেটে সম্পূর্ণ নিরাপত্তা নিশ্চিত করা সম্ভব নয়।</p>
-
-        <h4 class="mt-4 text-black fw-bold">কুকি ও ট্র্যাকিং</h4>
-        <p>আমাদের সাইটে কুকি ব্যবহার হতে পারে যা ব্যবহারকারীর অভিজ্ঞতা উন্নত করে এবং ব্যবহার প্যাটার্ন ট্র্যাক করে। আপনি চাইলে ব্রাউজার সেটিংসে কুকি বন্ধ করতে পারেন।</p>
-
-        <h4 class="mt-4 text-black fw-bold">একাউন্ট নিয়ন্ত্রণ</h4>
-        <p>ব্যবহারকারীরা তাদের একাউন্টে লগইন করে বা সাপোর্টের মাধ্যমে নিজের ব্যক্তিগত তথ্য অ্যাক্সেস, সম্পাদনা বা মুছে ফেলতে পারেন।</p>
-
-        <h4 class="mt-4 text-black fw-bold">নীতিমালার পরিবর্তন</h4>
-        <p>আমরা সময়ে সময়ে এই প্রাইভেসি পলিসি আপডেট করতে পারি। গুরুত্বপূর্ণ পরিবর্তনের ক্ষেত্রে ব্যবহারকারীদের জানানো হবে।</p>
-    </div>
 </div>
 
-<!-- Language Switcher Script -->
+<!-- 🔽 Language Toggle Script -->
 <script>
     function showLanguage(lang) {
         const englishSection = document.getElementById('english');
         const banglaSection = document.getElementById('bangla');
         const englishBtn = document.getElementById('englishBtn');
         const banglaBtn = document.getElementById('banglaBtn');
-        const heading = document.getElementById('heading');
 
         if (lang === 'english') {
             englishSection.style.display = 'block';
             banglaSection.style.display = 'none';
-            heading.innerText = "Privacy Policy";
             englishBtn.style.display = 'none';
             banglaBtn.style.display = 'inline-block';
         } else {
             englishSection.style.display = 'none';
             banglaSection.style.display = 'block';
-            heading.innerText = "প্রাইভেসি নীতি";
             englishBtn.style.display = 'inline-block';
             banglaBtn.style.display = 'none';
         }
@@ -111,4 +157,7 @@
         showLanguage('english');
     });
 </script>
+
 {% endblock %}
+
+
