@@ -1,11 +1,733 @@
-{% extends 'ecommerce/base.html' %}
 
-{% block title %}Product Order{% endblock %}
+{% extends 'ecommerce/base.html' %}
+{% block title %}About Us - JU Creator's Hub{% endblock %}
+{% load static %}
 
 {% block page_content %}
-<!-- Product section -->
-<div class="mt-4">
-    <h2 class="mb-3">About</h2>
-    <p>Here will be the details of about Section...</p>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+    .about-us-content * {
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .about-us-content {
+        background: #f8f9fa;
+        color: #333;
+    }
+
+    
+    .hero-collage-container {
+        position: relative;
+        width: 100%;
+        height: 70vh; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background-color: #333; 
+    }
+
+    .collage-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; 
+        width: 100%;
+        height: 100%;
+    }
+
+    .collage-item {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; 
+        transition: transform 0.4s ease;
+    }
+
+    .collage-item:hover {
+        transform: scale(1.05);
+        z-index: 1; 
+    }
+
+    
+    .hero-collage-container::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 2;
+    }
+
+   
+    .hero-text {
+        position: absolute;
+        z-index: 3; 
+        color: white;
+        text-align: center;
+        max-width: 900px;
+        padding: 20px;
+    }
+
+    .hero-text h1 {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+    }
+
+    .hero-text p {
+        font-size: 1.3rem;
+        line-height: 1.6;
+    }
+
+   
+    .section {
+        padding: 80px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .section h2 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 50px;
+        font-size: 2.5rem;
+    }
+    .section-text-content {
+        
+        flex: 1.2; 
+    }
+    
+    
+    .section-image {
+        flex: 1; 
+        min-width: 300px;
+
+        
+        max-width: 450px; 
+        display: flex;
+        justify-content: flex-end; 
+        flex-shrink: 0;
+        margin-left: 200px;  
+
+    }
+
+    .section-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 15px; 
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        display: block;
+    }
+     .section-layout {
+        display: flex;
+        gap: 60px; 
+        align-items: center; 
+    }
+    @media(max-width:768px){
+    .section-image{ margin-left: 0; }
+}
+.welcome-grid{
+    display:grid;
+    grid-template-columns:auto 1fr;  
+    grid-template-rows:auto auto;     
+    column-gap:10px;                  
+    max-width:1200px;
+    margin:40px auto;                 
+    align-items:start;
+}
+
+.first-line{
+    grid-column:1 / 3;
+    font-family:'Dancing Script',cursive;
+    font-size:2.5rem;
+    font-weight:600;
+    color:#385691
+}
+
+.second-line{
+    grid-column:1 / 3;      
+    grid-row:2;             
+    font-family:'Dancing Script',cursive;
+    font-size:2.5rem;
+    font-style:italic;
+    color:#385691;
+    text-align:center;      
+    margin-top:4px;
+}
+
+.hub{
+    font-family:'Dancing Script',cursive;
+    font-size:2.5rem;
+    color:#f67280;
+    font-weight:800;
+}
+
+@media(max-width:600px){
+    .welcome-grid{
+        grid-template-columns:1fr;
+        text-align:center;
+    }
+    .second-line{
+        grid-column:1;
+        white-space:normal;         
+    }
+}
+
+    
+.hex-area{
+    display:flex;
+    justify-content:center;
+    gap:120px;
+    flex-wrap:wrap;
+    margin:60px auto 100px;   
+}
+
+.hex-cloud h3{
+    font:700 1.6rem 'Poppins',sans-serif;
+    text-align:center;
+    margin-bottom:30px;
+    color:#1a2b5c;
+}
+
+
+.hex-cloud ul{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+
+   
+    grid-template-columns:repeat(2, 130px);   
+    grid-auto-rows:160px;                     
+    grid-auto-flow:column;                   
+    column-gap:34px;                          
+    row-gap:10px;                             
+}
+
+.hex-cloud ul li:nth-child(odd){transform:translateY(48px);}
+
+.hex{
+    width:110px;height:96px;
+    clip-path:polygon(
+        25% 0%, 75% 0%,
+        100% 50%,
+        75% 100%, 25% 100%,
+        0% 50%);
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;
+    font:600 .9rem/1.25 'Poppins',sans-serif;
+    color:#fff;
+    padding:8px;
+    transition:transform .25s;
+}
+.hex:hover{transform:scale(1.07);}
+
+.pink   {background:#ff5e8d;}
+.blue   {background:#4f9bff;}
+.teal   {background:#00c2c7;}
+.green  {background:#60c66b;}
+.yellow {background:#ffcc4d;}
+.orange {background:#ff9b46;}
+.purple {background:#9255ff;}
+
+@media(max-width:650px){
+    .hex-area{gap:60px;margin-bottom:80px;}
+    .hex-cloud ul{grid-template-columns:repeat(2,110px);grid-auto-rows:72px;gap:16px;}
+    .hex{width:80px;height:72px;font-size:.7rem;}
+    
+}
+    .speech-bubble{
+    position:relative;
+    flex:1;
+    max-width:350px;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 8px 28px rgba(0,0,0,.08);
+    text-align:left;
+    background: var(--bubble-pink);
+    color:#2c3e50;  
+     margin-left: 80px;
+}
+:root{
+    --bubble-pink: #f4d2e5;   
+}
+
+.speech-bubble::after{
+    content:'';
+    position:absolute;
+    left:-18px;         
+    top:40px;              
+    width:0; height:0;
+    border-top:14px solid transparent;
+    border-bottom:14px solid transparent;
+     border-right:18px solid var(--bubble-pink);    
+    filter:drop-shadow(-2px 2px 6px rgba(0,0,0,.06));  
+}
+
+.speech-bubble h4{
+    font:700 1.8rem 'Poppins',sans-serif;
+    margin:0 0 10px;
+    color:#2c3e50;
+}
+.speech-bubble p{
+    font:1.05rem/1.6 'Poppins',sans-serif;
+    margin:0;
+}
+.love{
+    color:#ff4d88;               
+    font-weight:bold;
+}
+.tagline {
+    font-family: Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+    text-align: center;
+}
+.category {
+    color: #ff4d88; 
+    font-weight: bold; 
+    background: linear-gradient(transparent 70%, #ffcdd2 70%);
+}
+
+@media(max-width:768px){
+    .category-description-layout{
+        flex-direction:column;
+        text-align:center;
+    }
+    .speech-bubble{
+        max-width:100%;
+        margin-top:24px;
+    }
+    .speech-bubble::after{
+        left:50%;
+        top:-18px;
+        transform:translateX(-50%) rotate(90deg); 
+        border-right:0;
+        border-bottom:18px solid var(--bubble-pink);
+        border-left:18px solid transparent;
+    }
+}
+    /* Features Section */
+    .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+    }
+
+    .feature-card {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .feature-card i {
+        font-size: 2.5rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 20px;
+    }
+    
+    .category-section {
+        padding: 60px 20px;
+        background-color: #f8f9fa; 
+        text-align: center;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .category-section h2 {
+        color: #1a202c;
+        margin-bottom: 10px; 
+        font-size: 2.8rem; 
+        font-weight: 800;
+        font-family: 'Poppins', sans-serif; 
+    }
+
+    .category-tagline {
+    
+        font-family: 'Dancing Script', cursive; 
+        font-size: 2.8rem; 
+        font-weight: 700;
+        font-style: normal; 
+        margin-bottom: 40px;
+
+        background: linear-gradient(90deg, #FF6B6B 0%, #DAA520 100%);
+        
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+    }
+    .category-description-layout {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 50px; 
+}
+
+.category-image {
+    flex: 1;
+    max-width: 450px;
+}
+
+.category-image img {
+    width: 100%;           
+    max-width: 350px;      
+    height: 250px;         
+    object-fit: cover;     
+    border-radius: 15px;   
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 auto;        
+}
+
+.category-description-text {
+    flex: 1.5;
+    color: #333;
+}
+
+.category-description-text h3 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.category-description-text p {
+    font-size: 1.4rem;
+    line-height: 1.6;
+}
+@media(max-width:768px){
+    .organic-card{
+        max-width:100%;
+        margin-top:28px;
+    }
+}
+@media (max-width: 768px) {
+    .category-description-layout {
+        flex-direction: column;
+        text-align: center;
+    }
+
+     .category-description-text {
+        max-width: 100%;
+    }
+
+    .category-image, .category-image img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;       
+        object-fit: contain; 
+    }
+
+    .category-description-text h3 {
+        font-size: 1.6rem;
+    }
+}
+
+    @media (max-width: 768px) {
+        .category-tagline {
+            font-size: 2rem; 
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-text h1 {
+            font-size: 2.5rem;
+        }
+        .hero-text p {
+            font-size: 1.1rem;
+        }
+        .hero-collage-container {
+            height: 50vh; 
+        }
+
+        .dual-benefits {
+            grid-template-columns: 1fr;
+        }
+
+        .benefit-card {
+            padding: 30px 20px;
+        }
+
+        .benefit-item {
+            grid-template-columns: 1fr;
+        }
+         .section-layout {
+            flex-direction: column; 
+            text-align: center;
+        }
+        .section-text-content h2 {
+            text-align: center; 
+        }
+
+        .section-image {
+            
+            width: 100%;
+            max-width: 450px; 
+            margin-top: 30px;
+        }
+    
+    }
+    
+.why-section{
+    text-align:center;
+    padding:80px 20px 100px;
+}
+.why-section h2{
+    font:700 2.4rem 'Poppins',sans-serif;
+    margin-bottom:70px;
+    color:#1a2b5c;
+}
+
+.why-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:40px 50px;
+    max-width:1100px;
+    margin:0 auto;
+}
+
+.why-card{
+    position:relative;
+    padding:110px 34px 50px;                 
+    border-radius:28px;
+    background:rgba(255,255,255,.55);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 8px 25px rgba(0,0,0,.06);
+    overflow:visible;
+    transition:.35s transform, .35s box-shadow;
+}
+.why-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 20px 40px rgba(0,0,0,.12);
+}
+
+.why-card h3{
+    font:700 1.35rem 'Poppins',sans-serif;
+    margin:0 0 14px;
+    color:#1a2b5c;
+}
+.why-card p{
+    font:1rem/1.6 'Poppins',sans-serif;
+    margin:0;
+    color:#444;
+}
+
+.halo{
+    --size:90px;
+    position:absolute;
+    top:18px; left:50%;
+    width:var(--size); height:var(--size);
+    transform:translateX(-50%);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    z-index:2;
+}
+
+.halo::before{
+    content:'';
+    position:absolute; inset:-3px;
+    border-radius:inherit;
+    background:conic-gradient(from var(--angle,0deg),
+       #ff8a8a, #ffbd4b, #34d399, #38bdf8, #a855f7, #ff8a8a);
+    animation:spin 6s linear infinite;
+    z-index:-1;
+}
+
+.halo::after{
+    content:'';
+    position:absolute; inset:4px;
+    border-radius:inherit;
+    background:rgba(255,255,255,.9);
+}
+
+.halo i{
+    font-size:1.5rem;
+    color:#1a2b5c;
+}
+
+@keyframes spin{
+    to{--angle:360deg;}
+}
+
+@media(max-width:500px){
+   .why-card p{font-size:.9rem;}
+}
+</style>
+
+<div class="about-us-content"> 
+
+    
+    <section class="hero-collage-container">
+        
+        <div class="collage-grid">
+            <img src="/media/product_images/about1.jpg" alt="Product 1" class="collage-item">
+            <img src="/media/product_images/about2.jpg" alt="Product 2" class="collage-item">
+            {% comment %} <img src="{% static 'images/food.jpg' %}" alt="Product 3" class="collage-item">
+            <img src="/media/product_images/about2.jpg" alt="Product 4" class="collage-item"> {% endcomment %}
+        </div>
+
+        
+        <div class="hero-text">
+            <h1>Where Campus Creativity Meets Community</h1>
+            <p>JU Creator's Hub connects student entrepreneurs with buyers—creating a marketplace built on talent, trust, and affordability.</p>
+        </div>
+
+    </section>
+
+    
+   <section class="section">
+    
+<div class="welcome-grid">
+    <div class="first-line">
+        Welcome to <span class="hub">JU creator’s hub - </span>
+    </div>
+    <div class="second-line">
+        A heaven for your desires!
+    </div>
 </div>
+
+    <div class="section-layout">
+    </div>
+</section>
+    <div class="section-layout">
+
+        <div class="section-image">
+                <img src="/media/product_images/about3.jpg" alt="JU Campus Marketplace">
+            </div>
+            
+
+<div class="speech-bubble">
+    <p class="tagline">
+        You’re going to find <br>
+        <span class="love">everything you love</span> here! <br><br>
+        So never miss to dive into a world of endless choices across <br>
+        <span class="category">clothing</span>, <span class="category">jewelry</span>, <span class="category">food</span>, and <span class="category">art</span>, <br>
+        designed just for you.
+    </p>
+</div>
+    
+    </div>
+   </section>
+       <section class="category-section">
+    <p class="category-tagline">Satisfy your cravings and discover unique styles.</p>
+
+    
+    <div class="category-description-layout">
+
+        <div class="category-image">
+            <img src="/media/product_images/about4.jpg" alt="Category Image">
+        </div>
+
+    
+        <div class="category-description-text">
+            
+            <p>
+                "Delight your taste buds with a variety of homemade meals, snacks, and treats crafted by talented student chefs. From fresh, wholesome dishes to indulgent baked goods, our food category offers something for every craving—made with love"
+            </p>
+        </div>
+    </div>
+
+    <div class="category-description-layout">
+    <div class="category-image">
+        <img src="/media/product_images/about5.jpg" alt="Clothing Category Image">
+    </div>
+    <div class="category-description-text">
+        <p>
+            "Discover trendy and unique clothing items designed and crafted by creative students. From casual wear to custom pieces, our clothing category offers styles that let you express yourself with confidence and flair."
+        </p>
+    </div>
+</div>
+
+<div class="category-description-layout">
+    <div class="category-image">
+        <img src="/media/product_images/about6.jpg" alt="Jewelry Category Image">
+    </div>
+    <div class="category-description-text">
+        <p>
+           "Discover the sparkle of handcrafted jewelry, where passion meets precision in every piece created by student artisans.From elegant earrings to custom bracelets and necklaces, our jewelry collection offers unique accessories that add a personal touch to your style."
+        </p>
+    </div>
+</div>
+
+<div class="category-description-layout">
+    <div class="category-image">
+        <img src="/media/product_images/about7.jpg" alt="Art Category Image">
+    </div>
+    <div class="category-description-text">
+        <p>
+            "Immerse yourself in a world of creativity with original artworks and handcrafted crafts made by talented student artists. From vibrant paintings to unique handmade pieces, our art category celebrates imagination and skill, bringing beauty and inspiration to your space."
+        </p>
+    </div>
+</div>
+
+    <div class="category-grid">
+
+    </div>
+</section>
+ <div class="hex-area">
+
+    <section class="hex-cloud">
+        <h3>For Student Buyers</h3>
+        <ul>
+            <li class="hex pink">Budget<br>prices</li>
+            <li class="hex blue">Unique<br>finds</li>
+            <li class="hex green">On-campus<br>pickup</li>
+            <li class="hex yellow">Support<br>peers</li>
+            <li class="hex orange">Fresh &amp;<br>local</li>
+        </ul>
+    </section>
+
+    <section class="hex-cloud">
+        <h3>For Student Sellers</h3>
+        <ul>
+            <li class="hex teal">Zero setup</li>
+            <li class="hex blue">Built-in<br>audience</li>
+            <li class="hex pink">Grow<br>brand</li>
+            <li class="hex purple">Peer<br>support</li>
+            <li class="hex green">Flexible<br>hours</li>
+        </ul>
+    </section>
+
+</div>
+    
+   <section class="why-section">
+  <h2>Why Choose JU Creator's Hub?</h2>
+
+  <div class="why-grid">
+
+      <article class="why-card">
+         <div class="halo"><i class="fas fa-tags"></i></div>
+         <h3>Best Value</h3>
+         <p>Student sellers price fairly—no middle-man mark-ups.</p>
+      </article>
+
+      <article class="why-card">
+         <div class="halo"><i class="fas fa-shield-alt"></i></div>
+         <h3>Safe&nbsp;&&nbsp;Secure</h3>
+         <p>All users are verified JU students. Trade with confidence.</p>
+      </article>
+
+      <article class="why-card">
+         <div class="halo"><i class="fas fa-mobile-alt"></i></div>
+         <h3>Easy to Use</h3>
+         <p>Fast, mobile-friendly &amp; designed for busy campus life.</p>
+      </article>
+
+  </div>
+</section>
 {% endblock %}
+
