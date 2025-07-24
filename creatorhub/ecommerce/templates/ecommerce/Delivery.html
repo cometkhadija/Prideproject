@@ -1,47 +1,73 @@
 {% extends 'ecommerce/base.html' %}
 {% block title %}Product Order{% endblock %}
 {% block page_content %}
-<!-- Banner Image -->
+<!--  Banner Section -->
 <div class="mb-4" style="
-    background-image: url('/media/product_images/delivery.avif');
+    background-color: rgb(241, 232, 220);
     background-size: cover;
     background-position: center;
-    width: 300px;
-    height: 300px;
-    border-radius: 50px;
+    height: 250px;
+    border-radius: 10px;
     position: relative;
-    margin: 0 auto;
-"></div>
-
-<!-- Language Toggle Bar -->
-<div class="d-flex justify-content-end align-items-center p-0">
-  <label for="language-select" class="me-2 fw-bold">Language:</label>
-  <select id="language-select" class="form-select form-select-sm w-auto" onchange="setLanguage(this.value)">
-    <option value="en">English</option>
-    <option value="bn">বাংলা</option>
-  </select>
+">
+    <div style="
+        background-color: rgba(241, 232, 220, 0.5);
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+    ">
+        <h1 class="text-black  fst-italic">Delivery FAQs</h1>
+    </div>
 </div>
 
-<div class="container my-0 p-0">
-  <h2 class="mb-4 px-1 section-title lang-en">🚚 Delivery FAQs</h2>
-  <h2 class="mb-4 px-1 section-title lang-bn d-none">🚚 ডেলিভারি সম্পর্কিত প্রশ্নোত্তর</h2>
+<div class="container mb-5">
+  <div class="row">
+   <div class="col-md-3 mb-4 fst-italic">
+    <div class="shadow-sm d-flex flex-column">
+        <a href="{% url 'terms_conditions' %}" class="btn btn-light  text-start mb-2">Terms & Conditions</a>
+        <a href="{% url 'privacy_policy' %}" class="btn btn-light  text-start mb-2">Privacy Policy</a>
+        <a href="{% url 'return_exchange' %}" class="btn btn-light text-start">Return & Exchange</a>
+    </div>
+</div>
+
+    
+<!-- Content Area -->
+<div class="col-md-9" style="font-family: 'Poppins', sans-serif; font-size: 17px !important; line-height: 1.8;">
+
+  <!-- Language Toggle -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 id="delivery-heading" class="mb-0 fs-3 lang-en"><b>🚚 Delivery FAQs</b></h2>
+    <h2 class="mb-0 fs-3 lang-bn d-none"><b>🚚 ডেলিভারি সম্পর্কিত প্রশ্নোত্তর</b></h2>
+    
+    <!-- Language Toggle Button -->
+<div class="d-flex justify-content-end align-items-center p-2">
+  <button id="languageToggleBtn" class="btn btn-outline-success btn-sm" onclick="toggleLanguage()">বাংলায় পড়ুন</button>
+</div>
+</div>
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
     .section-title {
       font-weight: 700;
-      color:rgb(24, 8, 70);
+      color: #218838;
     }
+
     .accordion-button {
       font-size: 1.15rem;
       font-weight: bold;
       background-color: #ffffff;
       color: #212529;
     }
+
     .accordion-button:focus {
       box-shadow: none;
     }
+
     .accordion-button:not(.collapsed) {
-      background-color:rgb(24, 8, 70);
+      background-color: #28a745;
       color: #ffffff;
     }
 
@@ -55,9 +81,9 @@
     .custom-answer {
       font-size: 0.95rem;
       line-height: 1.6;
-      color:rgb(24, 8, 70);;
-      background-color:rgb(232, 225, 249);
-      border-left: 4px solid rgb(243, 241, 247);
+      color: #155724;
+      background-color: #e9f8ef;
+      border-left: 4px solid #28a745;
       padding: 14px;
       border-radius: 4px;
     }
@@ -70,14 +96,15 @@
 
     .custom-table th,
     .custom-table td {
-      border: 1px color:rgb(24, 8, 70); 
+      border: 1px solid #ccc;
       padding: 10px;
       text-align: center;
     }
 
     .custom-table th {
-      background-color:rgb(220, 212, 237);
-      color: rgb(24, 8, 70);
+      background-color: #d4edda;
+      color: #155724;
+      
     }
   </style>
 
@@ -86,13 +113,15 @@
     <div class="accordion-item">
       <h2 class="accordion-header" id="headingOne">
         <button class="accordion-button" type="button" data-bs-toggle="collapse"
-          data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseSeven">
+          data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"  
+          style="font-family: 'Poppins', sans-serif; font-size: 17px;">
           <span class="lang-en">What is the delivery time?</span>
           <span class="lang-bn d-none">ডেলিভারির সময় কত?</span>
         </button>
       </h2>
       <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
-        <div class="accordion-body custom-answer">
+        <div class="accordion-body custom-answer" 
+        style="font-family: 'Poppins', sans-serif; font-size: 15px; line-height: 1.8;">
           <div class="lang-en">
             We deliver within <strong>24 hours</strong> inside JU campus. Orders placed before <strong>12 PM</strong> may be delivered the same day.
           </div>
@@ -101,20 +130,22 @@
           </div>
         </div>
       </div>
-    </div>
+      </div>
     
 
   <!-- Question : Preferred Delivery Time -->
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingSeven">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-        data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+        data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven"
+         style="font-family: 'Poppins', sans-serif; font-size: 17px;">
         <span class="lang-en">Can I choose a preferred delivery time?</span>
         <span class="lang-bn d-none">আমি কি পছন্দসই ডেলিভারির সময় নির্বাচন করতে পারি?</span>
       </button>
     </h2>
     <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven">
-      <div class="accordion-body custom-answer">
+      <div class="accordion-body custom-answer"
+      style="font-family: 'Poppins', sans-serif; font-size: 15px; line-height: 1.8;">
         <div class="lang-en">
           Yes, you can choose a preferred delivery time during checkout. Available time slots include:
           <ul>
@@ -141,13 +172,15 @@
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingQuick">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-        data-bs-target="#collapseQuick" aria-expanded="false" aria-controls="collapseQuick">
+        data-bs-target="#collapseQuick" aria-expanded="false" aria-controls="collapseQuick"
+        style="font-family: 'Poppins', sans-serif; font-size: 17px;">
         <span class="lang-en">Do you offer quick delivery options?</span>
         <span class="lang-bn d-none">আপনারা কি দ্রুত ডেলিভারির সুবিধা দেন?</span>
       </button>
     </h2>
     <div id="collapseQuick" class="accordion-collapse collapse" aria-labelledby="headingQuick">
-      <div class="accordion-body custom-answer">
+      <div class="accordion-body custom-answer"
+      style="font-family: 'Poppins', sans-serif; font-size: 15px; line-height: 1.8;">
         <div class="lang-en">
           For selected products and locations inside JU campus, we offer express delivery within 3–6 hours, depending on seller availability and time of order. Please check product details or contact the seller to confirm express delivery eligibility before ordering.
         </div>
@@ -162,13 +195,15 @@
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingTwo">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-        aria-expanded="false" aria-controls="collapseTwo">
+        aria-expanded="false" aria-controls="collapseTwo"
+        style="font-family: 'Poppins', sans-serif; font-size: 17px;">
         <span class="lang-en">What areas do you cover for delivery?</span>
         <span class="lang-bn d-none">আপনারা কোন কোন এলাকায় ডেলিভারি দেন?</span>
       </button>
     </h2>
     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
-      <div class="accordion-body custom-answer">
+      <div class="accordion-body custom-answer"
+      style="font-family: 'Poppins', sans-serif; font-size: 15px; line-height: 1.8;">
         <div class="lang-en">
           We currently deliver inside <strong>Jahangirnagar University (JU)</strong> campus and nearby areas of <strong>JU, Savar</strong>.
         </div>
@@ -183,13 +218,15 @@
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingThree">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"
+        style="font-family: 'Poppins', sans-serif; font-size: 17px;">
         <span class="lang-en">What are the delivery charges?</span>
         <span class="lang-bn d-none">ডেলিভারি চার্জ কত?</span>
       </button>
     </h2>
     <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree">
-      <div class="accordion-body custom-answer">
+      <div class="accordion-body custom-answer"
+      style="font-family: 'Poppins', sans-serif; font-size: 15px; line-height: 1.8;">
         <div class="lang-en">
           Delivery charges vary based on location:
           <table class="custom-table">
@@ -200,7 +237,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td>Inside JU Campus</td><td>Free</td></tr>
+              <tr><td>Inside JU Campus</td><td>৳ 30</td></tr>
               <tr><td>Dairy Farm, Savar</td><td>৳ 40</td></tr>
               <tr><td>Prantik, Savar</td><td>৳ 40</td></tr>
               <tr><td>Islamnagar, Savar</td><td>৳ 50</td></tr>
@@ -223,7 +260,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td>জাহাঙ্গীরনগর বিশ্ববিদ্যালয় ক্যাম্পাসের মধ্যে</td><td>ফ্রি</td></tr>
+              <tr><td>জাহাঙ্গীরনগর বিশ্ববিদ্যালয় ক্যাম্পাসের মধ্যে</td><td>৳ ৩০</td></tr>
               <tr><td>ডেইরি ফার্ম, সাভার</td><td>৳ ৪০</td></tr>
               <tr><td>প্রান্তিক, সাভার</td><td>৳ ৪০</td></tr>
               <tr><td>ইসলামনগর, সাভার</td><td>৳ ৫০</td></tr>
@@ -245,13 +282,15 @@
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingFour">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-        data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+        data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour"
+        style="font-family: 'Poppins', sans-serif; font-size: 17px;">
         <span class="lang-en">Do you support Cash on Delivery (COD)?</span>
         <span class="lang-bn d-none">আপনারা কি ক্যাশ অন ডেলিভারি (COD) সেবা দেন?</span>
       </button>
     </h2>
     <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour">
-      <div class="accordion-body custom-answer">
+      <div class="accordion-body custom-answer"
+      style="font-family: 'Poppins', sans-serif; font-size: 15px; line-height: 1.8;">
         <div class="lang-en">
           Yes. We support <strong>Cash on Delivery</strong> (COD) for all eligible delivery areas.
         </div>
@@ -260,20 +299,21 @@
         </div>
       </div>
     </div>
-</div>
   
 
-  {% comment %} <!-- Question : Online Payment Options -->
+  <!-- Question : Online Payment Options -->
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingFive">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-        data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+        data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive"
+        style="font-family: 'Poppins', sans-serif; font-size: 17px;">
         <span class="lang-en">What are the online payment options?</span>
         <span class="lang-bn d-none">অনলাইন পেমেন্ট অপশন গুলো কি কি?</span>
       </button>
     </h2>
     <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive">
-      <div class="accordion-body custom-answer">
+      <div class="accordion-body custom-answer"
+      style="font-family: 'Poppins', sans-serif; font-size: 15px; line-height: 1.8;">
         <div class="lang-en">
           We accept payments via <strong>bKash</strong>, <strong>Nagad</strong>, and <strong>Rocket</strong>. You will be provided with payment instructions during checkout.
         </div>
@@ -282,19 +322,21 @@
         </div>
       </div>
     </div>
-  </div> {% endcomment %}
+  </div>
 
   <!-- Question : Delivery Failure Policy -->
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingSix">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-        data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+        data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix"
+        style="font-family: 'Poppins', sans-serif; font-size: 17px;">
         <span class="lang-en">What is your delivery failure policy?</span>
         <span class="lang-bn d-none">আপনাদের ডেলিভারি ব্যর্থতার নীতিমালা কী?</span>
       </button>
     </h2>
     <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix">
-      <div class="accordion-body custom-answer">
+      <div class="accordion-body custom-answer"
+      style="font-family: 'Poppins', sans-serif; font-size: 15px; line-height: 1.8;">
         <div class="lang-en">
           If delivery fails due to the recipient's unavailability, wrong address, or refusal to accept, the order will be marked as <strong>failed</strong>. In such cases:
           <ul>
@@ -319,13 +361,15 @@
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingEight">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-        data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+        data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight"
+        style="font-family: 'Poppins', sans-serif; font-size: 17px;">
         <span class="lang-en">Will I be informed if part of my order is unavailable?</span>
         <span class="lang-bn d-none">আমাকে জানানো হবে কি যদি আমার অর্ডারের কোনো অংশ অনুপস্থিত থাকে?</span>
       </button>
     </h2>
     <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight">
-      <div class="accordion-body custom-answer">
+      <div class="accordion-body custom-answer"
+      style="font-family: 'Poppins', sans-serif; font-size: 15px; line-height: 1.8;">
         <div class="lang-en">
           Yes. If any item in your order is unavailable, our support team will notify you before dispatch. 
           You may choose to:
@@ -351,13 +395,15 @@
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingNine">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-        data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+        data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine"
+        style="font-family: 'Poppins', sans-serif; font-size: 17px;">
         <span class="lang-en">Can I cancel my order after placing it?</span>
         <span class="lang-bn d-none">আমি অর্ডার দেওয়ার পর কি সেটা বাতিল করতে পারি?</span>
       </button>
     </h2>
     <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine">
-      <div class="accordion-body custom-answer">
+      <div class="accordion-body custom-answer"
+      style="font-family: 'Poppins', sans-serif; font-size: 15px; line-height: 1.8;">
         <div class="lang-en">
           Yes. You may cancel your order before it is confirmed or dispatched.
           To proceed with cancellation, you must contact the seller directly as soon as possible. Once the product is confirmed by the seller or handed over for delivery, cancellation may not be possible. <br>For prepaid orders, refund eligibility will follow our standard refund policy.
@@ -368,42 +414,35 @@
       </div>
     </div>
   </div>
+</div>
+</div>
+</div>
+</div>
 
-</div>
-</div>
-</div>
-
-<!-- Language Switcher Script -->
 <script>
-  function setLanguage(lang) {
-    const enElements = document.querySelectorAll('.lang-en');
-    const bnElements = document.querySelectorAll('.lang-bn');
-    const enBtn = document.getElementById('lang-en-btn');
-    const bnBtn = document.getElementById('lang-bn-btn');
+  function toggleLanguage() {
+    const langEnElements = document.querySelectorAll('.lang-en');
+    const langBnElements = document.querySelectorAll('.lang-bn');
+    const toggleBtn = document.getElementById('languageToggleBtn');
 
-    if (lang === 'en') {
-      enElements.forEach(el => el.classList.remove('d-none'));
-      bnElements.forEach(el => el.classList.add('d-none'));
-      enBtn.classList.add('active');
-      bnBtn.classList.remove('active');
-    } else if (lang === 'bn') {
-      enElements.forEach(el => el.classList.add('d-none'));
-      bnElements.forEach(el => el.classList.remove('d-none'));
-      enBtn.classList.remove('active');
-      bnBtn.classList.add('active');
+    // Detect current language based on visibility
+    const isEnglishVisible = !langEnElements[0].classList.contains('d-none');
+
+    if (isEnglishVisible) {
+      // Switch to Bangla
+      langEnElements.forEach(el => el.classList.add('d-none'));
+      langBnElements.forEach(el => el.classList.remove('d-none'));
+      toggleBtn.innerText = 'Read in English';
+      toggleBtn.classList.remove('btn-outline-success');
+      toggleBtn.classList.add('btn-outline-primary');
+    } else {
+      // Switch to English
+      langBnElements.forEach(el => el.classList.add('d-none'));
+      langEnElements.forEach(el => el.classList.remove('d-none'));
+      toggleBtn.innerText = 'বাংলায় পড়ুন';
+      toggleBtn.classList.remove('btn-outline-primary');
+      toggleBtn.classList.add('btn-outline-success');
     }
   }
 </script>
-<br>
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-

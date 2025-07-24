@@ -15,7 +15,7 @@
     position: relative;
 ">
     <div style="
-        background-color: rgb(251, 244, 235);
+        background-color: rgba(241, 232, 220, 0.5);
         height: 100%;
         width: 100%;
         display: flex;
@@ -23,11 +23,9 @@
         justify-content: center;
         border-radius: 10px;
     ">
-        <h1 class="text-black  fst-italic">Privacy Policy</h1>
+        <h1 class="text-black fst-italic">Privacy Policy</h1>
     </div>
 </div>
-
-
 
 <!-- 🔽 Layout: Sidebar + Main Content -->
 <div class="container mb-5">
@@ -36,17 +34,18 @@
         <!-- 🔹 Sidebar -->
         <div class="col-md-3 mb-4 fst-italic">
             <div class="shadow-sm d-flex flex-column">
-                <a href="{% url 'terms_conditions' %}" class="btn btn-light text-start mb-2" style="background-color:  rgb(251, 244, 235);">Terms & Conditions</a>
-                <a href="{% url 'Delivery' %}" class="btn btn-light text-start mb-2" style="background-color:  rgb(251, 244, 235);">Delivery</a>
-                <a href="{% url 'return_exchange' %}" class="btn btn-light text-start" style="background-color:  rgb(251, 244, 235);">Return & Exchange</a>
+                <a href="{% url 'terms_conditions' %}" class="btn btn-light text-start mb-2">Terms & Conditions</a>
+                <a href="{% url 'Delivery' %}" class="btn btn-light text-start mb-2">Delivery</a>
+                <a href="{% url 'return_exchange' %}" class="btn btn-light text-start">Return & Exchange</a>
             </div>
         </div>
 
         <!-- 🔹 Main Content -->
         <div class="col-md-9">
+
             <!-- Language Toggle -->
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 id="heading" class="mb-0  fs-3">Policies</h2>
+                <h2 id="heading" class="mb-0  fs-3">Privacy Policy</h2>
                 <div>
                     <button id="englishBtn" class="btn btn-outline-primary btn-sm me-2" onclick="showLanguage('english')">Read in English</button>
                     <button id="banglaBtn" class="btn btn-outline-success btn-sm" onclick="showLanguage('bangla')">বাংলায় পড়ুন</button>
@@ -143,11 +142,13 @@
         if (lang === 'english') {
             englishSection.style.display = 'block';
             banglaSection.style.display = 'none';
+            heading.innerText = "Privacy Policy";
             englishBtn.style.display = 'none';
             banglaBtn.style.display = 'inline-block';
         } else {
             englishSection.style.display = 'none';
             banglaSection.style.display = 'block';
+            heading.innerText = "ব্যক্তিগত তথ্যের নীতিমালা";
             englishBtn.style.display = 'inline-block';
             banglaBtn.style.display = 'none';
         }

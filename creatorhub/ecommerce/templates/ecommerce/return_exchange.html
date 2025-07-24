@@ -2,33 +2,189 @@
 {% load static %}
 {% block title %}Product Order{% endblock %}
 {% block page_content %}
-
-<!-- Exchange Policy Image at the Top -->
+<!--  Banner Section -->
 <div class="mb-4" style="
-    background-image: url('/media/product_images/return&exchange.jpg');
+    background-color: rgb(241, 232, 220);
     background-size: cover;
     background-position: center;
     height: 250px;
     border-radius: 10px;
     position: relative;
 ">
+    <div style="
+        background-color: rgba(241, 232, 220, 0.5);
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+    ">
+        <h1 class="text-black  fst-italic">Return & Exchange</h1>
+    </div>
 </div>
 
-<!-- Language Switcher -->
-<div class="text-end p-3 me-4 d-flex justify-content-end align-items-center">
-  <label for="langSelect" class="me-2 mb-0"><strong>Language :</strong></label>
-  <form method="get" action="" class="m-0">
-    <select id="langSelect" name="lang" onchange="this.form.submit()" class="form-select w-auto d-inline-block">
-      <option value="en" {% if request.GET.lang == "en" or not request.GET.lang %}selected{% endif %}>English</option>
-      <option value="bn" {% if request.GET.lang == "bn" %}selected{% endif %}>বাংলা</option>
-    </select>
-  </form>
-</div>
+<style>
+  .feedback-box {
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    padding: 20px 0;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+  }
 
-{% if request.GET.lang == "bn" %}
-<!-- বাংলা কনটেন্ট -->
+  .feedback-box h5 {
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+
+  .feedback-btn {
+    background-color: white;
+    border: 2px solid black;
+    color: black;
+    padding: 10px 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .feedback-btn:hover,
+  .feedback-btn:focus {
+    background-color: #d3d3d3; /* light grey */
+    color: black;
+    outline: none;
+  }
+
+  .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+</style>
+
+
+<div class="container mb-5">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3 mb-4 fst-italic">
+      <div class="shadow-sm d-flex flex-column">
+        <a href="{% url 'terms_conditions' %}" class="btn btn-light  text-start mb-2">
+          <span class="lang-en">Terms & Conditions</span>
+        </a>
+        <a href="{% url 'privacy_policy' %}" class="btn btn-light  text-start mb-2">
+          <span class="lang-en">Privacy Policy</span>
+        </a>
+        <a href="{% url 'Delivery' %}" class="btn btn-light  text-start mb-2">
+          <span class="lang-en">Delivery</span>
+        </a>        
+      </div>
+    </div>
+
+<!-- Content Area -->
+<div class="col-md-9" style="font-family: 'Poppins', sans-serif; font-size: 17px !important; line-height: 1.8;">
+
+<!-- Language Toggle -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 id="heading" class="mb-0  fs-3">Our Return & Exchange Procedure</h2>
+  <div>
+  <button id="englishBtn" class="btn btn-outline-primary btn-sm me-2" onclick="showLanguage('english')">Read in English</button>
+  <button id="banglaBtn" class="btn btn-outline-success btn-sm" onclick="showLanguage('bangla')">বাংলায় পড়ুন</button>
+    </div>
+   </div>
+
+   <div id="english" class="language-section fs-5">
+    <div class="mb-5">
+  <h2 class="mb-3 text-success"><b>🛍️↩️Our Return Policy:</b></h2>
+  <p>Our primary goal is to ensure your utmost satisfaction with every purchase you make from us. We understand that sometimes situations arise, and you may need to consider a return. We want you to feel confident and supported throughout the process. We will rectify any such claims or discrepancies related to your purchase.</p>
+
+  <p>If by any unfortunate chance you receive a product that meets any of the following conditions, we offer a hassle-free return process to ensure your complete satisfaction:</p> 
+  <ul>
+    <li>The item has significant quality defects.</li>
+    <li>The item arrives damaged.</li>
+    <li>A wrong item, size, or color is delivered.</li>
+    <li>The product is lost during shipment.</li>
+  </ul>
+  <br>
+  <p><b>For food or perishable items, return is allowed only if:</b></p>
+  <ul>
+    <li>The product is spoiled or expired upon delivery.</li>
+    <li>The issue is reported within the same day of delivery with valid photo or video evidence.</li>
+  </ul>
+  <br>
+  <p><b>To be eligible for a return:</b></p>
+  <ul>
+    <li>The item must be unused and in its original condition with all tags and packaging intact.</li>
+    <li>The customer must provide a valid reason and necessary proof.</li>
+  </ul>
+
+  <p><strong>Note:</strong> Returns must be initiated within 2 days of receiving the item. You are requested to inform our Customer Service team as early as possible. <br>
+   Return pickup is only applicable if the item was delivered by our own team. Customized, stitched, or user-damaged items are not eligible for return. For approved returns, we will offer a replacement product. If user not willing to replacement then cash refund will provide under some conditions.</p>
+</div>
 
 <div class="container my-5">
+  <h2 class="mb-3 text-success"><b>🛍️🔄 Our Exchange Policy:</b></h2>
+  <p>
+    At JU Creator’s Hub, we value your satisfaction with every purchase. While we strive to maintain quality across all products, we understand that certain circumstances may lead to the need for an exchange. To ensure a smooth experience, we have outlined our exchange policy clearly below:
+  </p>
+
+  <ul>
+    <li>Food or perishable items are not eligible for exchange under any condition due to safety and hygiene concerns.</li>
+
+    <li>Non-perishable items may be exchanged if:
+      <ul>
+        <li>The item is in fresh, unused condition with original packaging and tags intact.</li>
+        <li>The buyer wants to exchange it for another item of equal or higher value.</li>
+      </ul>
+    </li>
+
+    <li>Exchange requests must be made within 2 days of receiving the product.</li>
+
+    <li>On-the-spot exchange is allowed during delivery only if:
+      <ul>
+        <li>The buyer chooses an alternative product from the same category instantly.</li>
+        <li>For clothing items, if the size doesn’t fit, a size exchange can be requested via delivery personnel.</li>
+        <li>Custom-stitched or tailored items are not exchangeable.</li>
+      </ul>
+    </li>
+
+    <li>Discounted or promotional items are not eligible for exchange.</li>
+
+    <li>For discounted clothing, please verify your size carefully before placing an order, as size-based exchanges are not available for such items.</li>
+
+    <li>If the exchanged item has a higher price, the difference must be paid in cash or via mobile payment at the time of exchange.</li>
+
+    <li>Cash refunds are not provided under the exchange policy. Exchanges are processed through product replacement only.</li>
+  </ul>
+
+  <p>
+    For any exchange-related assistance, please feel free to contact our support team. We're here to ensure your experience remains smooth and satisfactory.
+  </p>
+</div>
+
+<div class="feedback-box" style="font-family: 'Poppins', sans-serif !important;">
+  <h5>Was this helpful?</h5>
+  <div class="btn-group">
+    <a href="{% url 'home' %}" class="feedback-btn">Yes</a>
+    <a href="{% url 'home' %}" class="feedback-btn">No</a>
+  </div>
+</div>
+
+<div class="feedback-box" style="font-family: 'Poppins', sans-serif !important;">
+  <h5>Still have questions? Our team is happy to help — feel free to contact us.</h5>
+  <a href="{% url 'home' %}" class="feedback-btn">Contact Us</a>
+</div>
+
+</div>
+
+
+
+<!-- বাংলা কনটেন্ট -->
+<div id="bangla" class="language-section fs-5" style="display: none;">
+<div class="container mb-5">
   <h2 class="mb-3 text-success"><b>🛍️↩️ আমাদের পণ্য ফেরতের নিয়মাবলি:</b></h2>
   <p>আমাদের মূল লক্ষ্য হলো প্রতিটি ক্রয়ে আপনার পরিপূর্ণ সন্তুষ্টি নিশ্চিত করা। যদি আপনি নিচের কোনো সমস্যার সম্মুখীন হন, তাহলে আমরা সহজ রিটার্ন প্রক্রিয়া অফার করি:</p>
 
@@ -44,6 +200,7 @@
     <li>ডেলিভারির সময়ই পণ্য নষ্ট বা মেয়াদোত্তীর্ণ হলে।</li>
     <li>প্রমাণ (ছবি/ভিডিও) সহ একই দিনের মধ্যে অভিযোগ করতে হবে।</li>
   </ul>
+
   <p><b>পণ্য ফেরতের শর্ত:</b></p>
   <ul>
     <li>পণ্য ব্যবহার না করা থাকতে হবে এবং সকল ট্যাগ ও প্যাকেট অক্ষত থাকতে হবে।</li>
@@ -78,6 +235,7 @@
         <li>কাস্টম সেলাইকৃত পণ্য পরিবর্তনযোগ্য নয়।</li>
       </ul>
     </li>
+
     <li>ডিসকাউন্ট বা প্রমোশনাল পণ্য পরিবর্তনযোগ্য নয়।</li>
 
     <li>অফারপ্রাপ্ত পোশাকের ক্ষেত্রে সাইজ যাচাই করে অর্ডার দিতে হবে।</li>
@@ -92,87 +250,48 @@
   </p>
 </div>
 
-{% else %}
-<!-- English content (default) -->
-
-<div class="container my-5">
-  <h2 class="mb-3 text-success"><b>🛍️↩️Our Return Policy:</b></h2>
-  <p>Our primary goal is to ensure your utmost satisfaction with every purchase you make from us. We understand that sometimes situations arise, and you may need to consider a return. We want you to feel confident and supported throughout the process. We will rectify any such claims or discrepancies related to your purchase.</p>
-
-  <p>If by any unfortunate chance you receive a product that meets any of the following conditions, we offer a hassle-free return process to ensure your complete satisfaction:</p> 
-  <ul>
-    <li>The item has significant quality defects.</li>
-    <li>The item arrives damaged.</li>
-    <li>A wrong item, size, or color is delivered.</li>
-    <li>The product is lost during shipment.</li>
-  </ul>
-  <br>
-  <p>For food or perishable items, return is allowed only if:</p>
-  <ul>
-    <li>The product is spoiled or expired upon delivery.</li>
-    <li>The issue is reported within the same day of delivery with valid photo or video evidence.</li>
-  </ul>
-  <br>
-  <p>To be eligible for a return:</p>
-  <ul>
-    <li>The item must be unused and in its original condition with all tags and packaging intact.</li>
-    <li>The customer must provide a valid reason and necessary proof.</li>
-  </ul>
-  <p><strong>Note:</strong> Returns must be initiated within 2 days of receiving the item. You are requested to inform our Customer Service team as early as possible. <br>
-   Return pickup is only applicable if the item was delivered by our own team. Customized, stitched, or user-damaged items are not eligible for return. For approved returns, we will offer a replacement product. If user not willing to replacement then cash refund will provide under some conditions.</p>
+<div class="feedback-box" style="font-family: 'Poppins', sans-serif !important;">
+  <h5>এটি কি সাহায্যকারী ছিল?</h5>
+  <div class="btn-group">
+    <a href="{% url 'home' %}" class="feedback-btn">হ্যাঁ</a>
+    <a href="{% url 'home' %}" class="feedback-btn">না</a>
+  </div>
 </div>
 
-<div class="container my-5">
-  <h2 class="mb-3 text-success"><b>🛍️🔄 Our Exchange Policy:</b></h2>
-  <p>
-    At JU Creator’s Hub, we value your satisfaction with every purchase. While we strive to maintain quality across all products, we understand that certain circumstances may lead to the need for an exchange. To ensure a smooth experience, we have outlined our exchange policy clearly below:
-  </p>
-
-  <ul>
-    <li>Food or perishable items are not eligible for exchange under any condition due to safety and hygiene concerns.</li>
-
-    <li>Non-perishable items may be exchanged if:
-      <ul>
-        <li>The item is in fresh, unused condition with original packaging and tags intact.</li>
-        <li>The buyer wants to exchange it for another item of equal or higher value.</li>
-      </ul>
-    </li>
-
-    <li>Exchange requests must be made within 2 days of receiving the product.</li>
-
-    <li>On-the-spot exchange is allowed during delivery only if:
-      <ul>
-        <li>The buyer chooses an alternative product from the same category instantly.</li>
-        <li>For clothing items, if the size doesn’t fit, a size exchange can be requested via delivery personnel.</li>
-        <li>Custom-stitched or tailored items are not exchangeable.</li>
-      </ul>
-    </li>
-    <li>Discounted or promotional items are not eligible for exchange.</li>
-    <li>For discounted clothing, please verify your size carefully before placing an order, as size-based exchanges are not available for such items.</li>
-    <li>If the exchanged item has a higher price, the difference must be paid in cash or via mobile payment at the time of exchange.</li>
-    <li>Cash refunds are not provided under the exchange policy. Exchanges are processed through product replacement only.</li>
-  </ul>
-  <p>For any exchange-related assistance, please feel free to contact our support team. We're here to ensure your experience remains smooth and satisfactory.
-  </p>
+<div class="feedback-box" style="font-family: 'Poppins', sans-serif !important;">
+  <h5>আপনার কি এখনও প্রশ্ন আছে? আমাদের টিম সাহায্য করতে প্রস্তুত — নির্দ্বিধায় আমাদের সাথে যোগাযোগ করুন।</h5>
+  <a href="{% url 'home' %}" class="feedback-btn">আমাদের সাথে যোগাযোগ করুন</a>
 </div>
-{% endif %}
+</div>
+
 <hr style="border: none; border-top: 2px solid #ccc; margin: 50px 0;">
+</div>
+<!-- 🔽 Language Toggle Script -->
+<script>
+    function showLanguage(lang) {
+        const englishSection = document.getElementById('english');
+        const banglaSection = document.getElementById('bangla');
+        const englishBtn = document.getElementById('englishBtn');
+        const banglaBtn = document.getElementById('banglaBtn');
+        const heading = document.getElementById('heading');
+
+        if (lang === 'english') {
+            englishSection.style.display = 'block';
+            banglaSection.style.display = 'none';
+            heading.innerText = "Our Return & Exchange Procedure";
+            englishBtn.style.display = 'none';
+            banglaBtn.style.display = 'inline-block';
+        } else {
+            englishSection.style.display = 'none';
+            banglaSection.style.display = 'block';
+            heading.innerText = "আমাদের পণ্য ফেরত ও পরিবর্তনের নিয়মাবলি";
+            englishBtn.style.display = 'inline-block';
+            banglaBtn.style.display = 'none';
+        }
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+        showLanguage('english');
+    });
+</script>
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
