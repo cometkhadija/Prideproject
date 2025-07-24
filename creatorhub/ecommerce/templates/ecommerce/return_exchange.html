@@ -1,11 +1,8 @@
 {% extends 'ecommerce/base.html' %}
 {% load static %}
-
-{% block title %}Terms & Conditions{% endblock %}
-
+{% block title %}Product Order{% endblock %}
 {% block page_content %}
-
-<!-- 🔽 Banner Section -->
+<!--  Banner Section -->
 <div class="mb-4" style="
     background-color: rgb(241, 232, 220);
     background-size: cover;
@@ -23,135 +20,252 @@
         justify-content: center;
         border-radius: 10px;
     ">
-        <h1 class="text-black  fst-italic">Terms & Conditions</h1>
+        <h1 class="text-black  fst-italic">Return & Exchange</h1>
     </div>
 </div>
 
-<!-- 🔽 Layout: Sidebar + Main Content -->
+<style>
+  .feedback-box {
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    padding: 20px 0;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+  }
+
+  .feedback-box h5 {
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+
+  .feedback-btn {
+    background-color: white;
+    border: 2px solid black;
+    color: black;
+    padding: 10px 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .feedback-btn:hover,
+  .feedback-btn:focus {
+    background-color: #d3d3d3; /* light grey */
+    color: black;
+    outline: none;
+  }
+
+  .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+</style>
+
+
 <div class="container mb-5">
-    <div class="row">
-
-        <!-- 🔹 Sidebar -->
-       <div class="col-md-3 mb-4 fst-italic">
-    <div class="shadow-sm d-flex flex-column">
-        <a href="{% url 'privacy_policy' %}" class="btn btn-light  text-start mb-2">Privacy Policy</a>
-        <a href="{% url 'Delivery' %}" class="btn btn-light  text-start mb-2">Delivery</a>
-        <a href="{% url 'terms_conditions' %}" class="btn btn-light text-start mb-2">Terms & Conditions</a>
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3 mb-4 fst-italic">
+      <div class="shadow-sm d-flex flex-column">
+        <a href="{% url 'terms_conditions' %}" class="btn btn-light  text-start mb-2">
+          <span class="lang-en">Terms & Conditions</span>
+        </a>
+        <a href="{% url 'privacy_policy' %}" class="btn btn-light  text-start mb-2">
+          <span class="lang-en">Privacy Policy</span>
+        </a>
+        <a href="{% url 'Delivery' %}" class="btn btn-light  text-start mb-2">
+          <span class="lang-en">Delivery</span>
+        </a>        
+      </div>
     </div>
+
+<!-- Content Area -->
+<div class="col-md-9" style="font-family: 'Poppins', sans-serif; font-size: 17px !important; line-height: 1.8;">
+
+<!-- Language Toggle -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 id="heading" class="mb-0  fs-3">Our Return & Exchange Procedure</h2>
+  <div>
+  <button id="englishBtn" class="btn btn-outline-primary btn-sm me-2" onclick="showLanguage('english')">Read in English</button>
+  <button id="banglaBtn" class="btn btn-outline-success btn-sm" onclick="showLanguage('bangla')">বাংলায় পড়ুন</button>
+    </div>
+   </div>
+
+   <div id="english" class="language-section fs-5">
+    <div class="mb-5">
+  <h2 class="mb-3 text-success"><b>🛍️↩️Our Return Policy:</b></h2>
+  <p>Our primary goal is to ensure your utmost satisfaction with every purchase you make from us. We understand that sometimes situations arise, and you may need to consider a return. We want you to feel confident and supported throughout the process. We will rectify any such claims or discrepancies related to your purchase.</p>
+
+  <p>If by any unfortunate chance you receive a product that meets any of the following conditions, we offer a hassle-free return process to ensure your complete satisfaction:</p> 
+  <ul>
+    <li>The item has significant quality defects.</li>
+    <li>The item arrives damaged.</li>
+    <li>A wrong item, size, or color is delivered.</li>
+    <li>The product is lost during shipment.</li>
+  </ul>
+  <br>
+  <p><b>For food or perishable items, return is allowed only if:</b></p>
+  <ul>
+    <li>The product is spoiled or expired upon delivery.</li>
+    <li>The issue is reported within the same day of delivery with valid photo or video evidence.</li>
+  </ul>
+  <br>
+  <p><b>To be eligible for a return:</b></p>
+  <ul>
+    <li>The item must be unused and in its original condition with all tags and packaging intact.</li>
+    <li>The customer must provide a valid reason and necessary proof.</li>
+  </ul>
+
+  <p><strong>Note:</strong> Returns must be initiated within 2 days of receiving the item. You are requested to inform our Customer Service team as early as possible. <br>
+   Return pickup is only applicable if the item was delivered by our own team. Customized, stitched, or user-damaged items are not eligible for return. For approved returns, we will offer a replacement product. If user not willing to replacement then cash refund will provide under some conditions.</p>
 </div>
 
-        <!-- 🔹 Main Content -->
-        <div class="col-md-9">
+<div class="container my-5">
+  <h2 class="mb-3 text-success"><b>🛍️🔄 Our Exchange Policy:</b></h2>
+  <p>
+    At JU Creator’s Hub, we value your satisfaction with every purchase. While we strive to maintain quality across all products, we understand that certain circumstances may lead to the need for an exchange. To ensure a smooth experience, we have outlined our exchange policy clearly below:
+  </p>
 
-            <!-- Language Toggle -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 id="heading" class="mb-0  fs-3">Terms of use</h2>
-                <div>
-                    <button id="englishBtn" class="btn btn-outline-primary btn-sm me-2" onclick="showLanguage('english')">Read in English</button>
-                    <button id="banglaBtn" class="btn btn-outline-success btn-sm" onclick="showLanguage('bangla')">বাংলায় পড়ুন</button>
-                </div>
-            </div>
+  <ul>
+    <li>Food or perishable items are not eligible for exchange under any condition due to safety and hygiene concerns.</li>
 
-            <!-- 🔸 English Content -->
-            <div id="english" class="language-section fs-5">
-                <div class="mb-5">
-                    <h4 class=" text-black">User Eligibility</h4>
-                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">This platform is built to serve the internal community of Jahangirnagar University. Only students who are currently enrolled at JU can register and sell products. Buyers are limited to JU students, teachers, university staff, or residents who live in close proximity to the university campus. Any attempt to use the platform from outside this intended community may result in restricted access or account suspension.</p>
-                </div>
+    <li>Non-perishable items may be exchanged if:
+      <ul>
+        <li>The item is in fresh, unused condition with original packaging and tags intact.</li>
+        <li>The buyer wants to exchange it for another item of equal or higher value.</li>
+      </ul>
+    </li>
 
-                <div class="mb-5 leading-relaxed text-justify">
-                    <h4 class=" text-black  ">Account Registration</h4>
-                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">To maintain trust and transparency within the platform, all users must register using their real names and accurate personal information. Misrepresentation, including fake identities, using someone else’s name, or impersonating another person, is strictly forbidden. The platform may request ID verification if suspicious activity is detected, and false or misleading accounts will be removed without prior notice.</p>
-                </div>
+    <li>Exchange requests must be made within 2 days of receiving the product.</li>
 
-                <div class="mb-5">
-                    <h4 class=" text-black">Product Listings</h4>
-                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">Sellers must provide truthful and detailed descriptions of their products, including clear photos, accurate pricing, and condition (new/used). Items that are illegal (such as narcotics, firearms), harmful (weapons, dangerous tools), or deceptive (counterfeit goods, plagiarized products) are strictly prohibited. Any violation will result in the immediate removal of listings and potential account suspension.</p>
-                </div>
+    <li>On-the-spot exchange is allowed during delivery only if:
+      <ul>
+        <li>The buyer chooses an alternative product from the same category instantly.</li>
+        <li>For clothing items, if the size doesn’t fit, a size exchange can be requested via delivery personnel.</li>
+        <li>Custom-stitched or tailored items are not exchangeable.</li>
+      </ul>
+    </li>
 
-                <div class="mb-5">
-                    <h4 class=" text-black">Orders & Payments</h4>
-                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">Buyers are responsible for reviewing product details, seller credibility, and agreed pricing before placing an order. All payments should be made through mutually accepted, secure methods such as mobile banking (e.g., bKash, Nagad), cash on delivery, or bank transfer. The platform does not process payments directly and cannot mediate in financial disputes between parties.</p>
-                </div>
+    <li>Discounted or promotional items are not eligible for exchange.</li>
 
-                <div class="mb-5">
-                    <h4 class=" text-black">Delivery & Pickup</h4>
-                    <p style="text-align: justify;font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">The platform does not have any logistics service of its own. Delivery arrangements, including location, time, and method (courier, hand delivery, etc.) must be decided between buyer and seller. Delays, lost packages, or other delivery-related issues are to be resolved between the two parties. The platform is not liable for transportation faults or miscommunication.</p>
-                </div>
+    <li>For discounted clothing, please verify your size carefully before placing an order, as size-based exchanges are not available for such items.</li>
 
-                <div class="mb-5">
-                    <h4 class=" text-black">Refund & Return Policy</h4>
-                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">All return, exchange, or refund claims must be handled through mutual understanding between the buyer and seller. The platform does not guarantee any money-back policy or intervention in case of dissatisfaction. Sellers are encouraged to clearly mention their return/refund terms in their product descriptions. Buyers should clarify such policies before completing a purchase.</p>
-                </div>
+    <li>If the exchanged item has a higher price, the difference must be paid in cash or via mobile payment at the time of exchange.</li>
 
-                <div class="mb-5">
-                    <h4 class=" text-black">Prohibited Activities</h4>
-                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">Users are strictly prohibited from engaging in the following:<br>
-                        - Using the platform for activities unrelated to commerce (e.g., political propaganda, spam)<br>
-                        - Harassment, abusive language, or threats<br>
-                        - Fraudulent behavior such as fake orders, price manipulation<br>
-                        - Promoting or selling illegal or stolen goods<br>
-                        Violating these terms may result in temporary suspension or permanent banning of the account, and in some cases, legal action.
-                    </p>
-                </div>
+    <li>Cash refunds are not provided under the exchange policy. Exchanges are processed through product replacement only.</li>
+  </ul>
 
-                <div class="mb-5">
-                    <h4 class=" text-black">Changes to Terms</h4>
-                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">The platform reserves the right to modify these Terms & Conditions at any time. Major updates will be posted on the website. It is the responsibility of the user to stay informed by reviewing the Terms periodically. Continued use of the platform after changes implies agreement to the updated policies.</p>
-                </div>
-            </div>
-
-            <!-- 🔸 Bangla Content -->
-            <div id="bangla" class="language-section fs-5" style="display: none;">
-                <div class="mb-5">
-                    <h4 class=" text-black">ব্যবহারকারীর যোগ্যতা</h4>
-                    <p style="text-align: justify;font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">এই প্ল্যাটফর্মটি জাহাঙ্গীরনগর বিশ্ববিদ্যালয়ের অভ্যন্তরীণ কমিউনিটির জন্য তৈরি। শুধুমাত্র বর্তমানে ভর্তি JU শিক্ষার্থীরা বিক্রেতা হিসেবে নিবন্ধন করতে পারবেন। ক্রেতা হতে পারবেন JU এর ছাত্র, শিক্ষক, কর্মচারী অথবা আশেপাশের এলাকার বাসিন্দারা। বাইরের কেউ চেষ্টা করলে তাদের অ্যাক্সেস সীমিত বা বাতিল করা হতে পারে।</p>
-                </div>
-
-                <div class="mb-5">
-                    <h4 class=" text-black">কাউন্ট নিবন্ধন</h4>
-                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">এই প্ল্যাটফর্মে বিশ্বাস ও স্বচ্ছতা বজায় রাখতে, সকল ব্যবহারকারীকে প্রকৃত নাম এবং সঠিক তথ্য দিয়ে নিবন্ধন করতে হবে। ভুয়া পরিচয়, ছদ্মবেশ, বা অন্য কারো পরিচয়ে নিবন্ধন করা সম্পূর্ণ নিষিদ্ধ। সন্দেহজনক কার্যকলাপে পরিচয় যাচাই চাওয়া হতে পারে এবং ভুল তথ্য প্রদান করলে অ্যাকাউন্ট বাতিল করা হবে।</p>
-                </div>
-
-                <div class="mb-5">
-                    <h4 class=" text-black">পণ্যের তালিকা</h4>
-                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">বিক্রেতারা তাদের পণ্যের সঠিক ও বিস্তারিত বিবরণ দিতে বাধ্য, যার মধ্যে ছবি, মূল্য এবং অবস্থা (নতুন/পুরাতন) থাকবে। নিষিদ্ধ জিনিস (যেমন মাদক, অস্ত্র), ক্ষতিকর জিনিস অথবা প্রতারণামূলক (ভুয়া, কপি করা পণ্য) সম্পূর্ণভাবে নিষিদ্ধ। এরকম কিছু করলে অ্যাকাউন্ট স্থগিত করা হবে।</p>
-                </div>
-
-                <div class="mb-5">
-                    <h4 class=" text-black">অর্ডার ও পেমেন্ট</h4>
-                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">ক্রেতাকে পণ্যের বিবরণ, বিক্রেতার বিশ্বাসযোগ্যতা এবং নির্ধারিত মূল্য যাচাই করে অর্ডার করতে হবে। পেমেন্ট বিকাশ, নগদ, ব্যাংক ট্রান্সফার বা ক্যাশ অন ডেলিভারির মতো নিরাপদ এবং সম্মত উপায়ে করতে হবে। প্ল্যাটফর্ম সরাসরি অর্থ লেনদেন করে না এবং বিতর্কে মধ্যস্থতা করবে না।</p>
-                </div>
-
-                <div class="mb-5">
-                    <h4 class=" text-black">ডেলিভারি ও সংগ্রহ</h4>
-                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">প্ল্যাটফর্মের নিজস্ব কোনো ডেলিভারি সেবা নেই। ক্রেতা ও বিক্রেতার মধ্যে সময়, স্থান ও ডেলিভারির পদ্ধতি (হাতে-হাতে, কুরিয়ার ইত্যাদি) নির্ধারণ করতে হবে। বিলম্ব, হারানো বা ভুল বোঝাবুঝির জন্য প্ল্যাটফর্ম দায়ী নয়।</p>
-                </div>
-
-                <div class="mb-5">
-                    <h4 class=" text-black">রিফান্ড ও রিটার্ন নীতি</h4>
-                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">সব রিটার্ন, রিফান্ড ও এক্সচেঞ্জ সম্পর্কিত বিষয় ক্রেতা ও বিক্রেতার মধ্যে সমঝোতার ভিত্তিতে সমাধান করতে হবে। প্ল্যাটফর্ম কোনো রকম ফেরতের গ্যারান্টি দেয় না। বিক্রেতাকে পণ্যের বিবরণে রিটার্ন নীতিমালা স্পষ্টভাবে উল্লেখ করতে অনুরোধ করা হচ্ছে।</p>
-                </div>
-
-                <div class="mb-5">
-                    <h4 class=" text-black">নিষিদ্ধ কার্যকলাপ</h4>
-                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">নিচের যে কোনো কার্যকলাপ কঠোরভাবে নিষিদ্ধ:<br>
-                    - বাণিজ্যবহির্ভূত উদ্দেশ্যে প্ল্যাটফর্ম ব্যবহার (যেমন রাজনৈতিক প্রচারণা, স্প্যাম)<br>
-                    - হয়রানি, অবমাননাকর ভাষা ব্যবহার বা হুমকি<br>
-                    - ভুয়া অর্ডার, মূল্য নিয়ে প্রতারণা<br>
-                    - বেআইনি বা চুরি করা জিনিস বিক্রি<br>
-                    এসব করলে অ্যাকাউন্ট সাময়িকভাবে স্থগিত বা স্থায়ীভাবে বাতিল করা হতে পারে, প্রয়োজনে আইনি ব্যবস্থা গ্রহণ করা হবে।</p>
-                </div>
-
-                <div class="mb-5">
-                    <h4 class=" text-black">শর্তাবলীর পরিবর্তন</h4>
-                    <p style="text-align: justify; font-family: 'Poppins', sans-serif; font-size: 17px; line-height: 1.8;">প্ল্যাটফর্ম যেকোনো সময় এই শর্তাবলী পরিবর্তন করার অধিকার রাখে। বড় পরিবর্তনগুলো ওয়েবসাইটে প্রকাশ করা হবে। ব্যবহারকারীদের নিয়মিত এই শর্তাবলী পর্যালোচনা করার দায়িত্ব থাকবে। পরিবর্তনের পর প্ল্যাটফর্ম ব্যবহারের অর্থ হলো আপনি নতুন নিয়ম মেনে নিয়েছেন।</p>
-                </div>
-            </div>
-        </div>
-    </div>
+  <p>
+    For any exchange-related assistance, please feel free to contact our support team. We're here to ensure your experience remains smooth and satisfactory.
+  </p>
 </div>
 
+<div class="feedback-box" style="font-family: 'Poppins', sans-serif !important;">
+  <h5>Was this helpful?</h5>
+  <div class="btn-group">
+    <a href="{% url 'home' %}" class="feedback-btn">Yes</a>
+    <a href="{% url 'home' %}" class="feedback-btn">No</a>
+  </div>
+</div>
+
+<div class="feedback-box" style="font-family: 'Poppins', sans-serif !important;">
+  <h5>Still have questions? Our team is happy to help — feel free to contact us.</h5>
+  <a href="{% url 'home' %}" class="feedback-btn">Contact Us</a>
+</div>
+
+</div>
+
+
+
+<!-- বাংলা কনটেন্ট -->
+<div id="bangla" class="language-section fs-5" style="display: none;">
+<div class="container mb-5">
+  <h2 class="mb-3 text-success"><b>🛍️↩️ আমাদের পণ্য ফেরতের নিয়মাবলি:</b></h2>
+  <p>আমাদের মূল লক্ষ্য হলো প্রতিটি ক্রয়ে আপনার পরিপূর্ণ সন্তুষ্টি নিশ্চিত করা। যদি আপনি নিচের কোনো সমস্যার সম্মুখীন হন, তাহলে আমরা সহজ রিটার্ন প্রক্রিয়া অফার করি:</p>
+
+  <ul>
+    <li>পণ্যে বড় ধরনের গুণগত সমস্যা আছে।</li>
+    <li>পণ্য ভাঙা অবস্থায় এসেছে।</li>
+    <li>ভুল পণ্য, সাইজ বা রঙ পাঠানো হয়েছে।</li>
+    <li>পণ্য পরিবহনকালে হারিয়ে গেছে।</li>
+  </ul>
+
+  <p><b>খাদ্য বা দ্রুত নষ্ট হয় এমন পণ্যের ক্ষেত্রে ফেরত:</b></p>
+  <ul>
+    <li>ডেলিভারির সময়ই পণ্য নষ্ট বা মেয়াদোত্তীর্ণ হলে।</li>
+    <li>প্রমাণ (ছবি/ভিডিও) সহ একই দিনের মধ্যে অভিযোগ করতে হবে।</li>
+  </ul>
+
+  <p><b>পণ্য ফেরতের শর্ত:</b></p>
+  <ul>
+    <li>পণ্য ব্যবহার না করা থাকতে হবে এবং সকল ট্যাগ ও প্যাকেট অক্ষত থাকতে হবে।</li>
+    <li>যথাযথ কারণ ও প্রমাণ দেখাতে হবে।</li>
+  </ul>
+
+  <p><strong>বিঃদ্রঃ</strong> পণ্য ফেরতের জন্য ২ দিনের মধ্যে আবেদন করতে হবে। শুধুমাত্র আমাদের ডেলিভারি টিম দ্বারা পাঠানো পণ্যের ক্ষেত্রে রিটার্ন পিকআপ করা হবে। কাস্টমাইজড, সেলাইকৃত, বা গ্রাহকের ক্ষতিগ্রস্ত পণ্য ফেরতযোগ্য নয়। অনুমোদিত পণ্য ফেরতের ক্ষেত্রে প্রতিস্থাপন (replacement) দেওয়া হবে। তবে গ্রাহক যদি তা না চান, তাহলে কিছু শর্তে টাকা ফেরত দেওয়া হবে।</p>
+</div>
+
+<div class="container my-5">
+  <h2 class="mb-3 text-success"><b>🛍️🔄 আমাদের পণ্য পরিবর্তনের নিয়মাবলি:</b></h2>
+  <p>
+    JU Creator’s Hub-এ, আমরা প্রতিটি ক্রয়ে আপনার সন্তুষ্টিকে গুরুত্ব দিই। যদি কোনো কারণে আপনি পণ্য পরিবর্তন করতে চান, নিচের নিয়মাবলি অনুসরণ করুন:
+  </p>
+
+  <ul>
+    <li>খাদ্য বা নষ্ট হওয়া পণ্য পরিবর্তনযোগ্য নয়।</li>
+
+    <li>নিরাময়যোগ্য বা নষ্ট হওয়ার সম্ভাবনা না থাকা পণ্যের ক্ষেত্রে পরিবর্তনের শর্ত:
+      <ul>
+        <li>পণ্য নতুন, অব্যবহৃত ও প্যাকেজিং সহ থাকতে হবে।</li>
+        <li>সমমূল্য বা বেশি মূল্যের অন্য পণ্যের সাথে পরিবর্তন করা যাবে।</li>
+      </ul>
+    </li>
+
+    <li>২ দিনের মধ্যে পরিবর্তন করার জন্য অবেদন করতে হবে।</li>
+
+    <li>ডেলিভারির সময় সরাসরি পণ্য পরিবর্তন:
+      <ul>
+        <li>একই ক্যাটাগরির অন্য পণ্য সঙ্গে সঙ্গে বেছে নিতে হবে।</li>
+        <li>পোশাকের ক্ষেত্রে সাইজ না মেললে ডেলিভারি ব্যক্তির মাধ্যমে সাইজ পরিবর্তনের অনুরোধ করা যাবে।</li>
+        <li>কাস্টম সেলাইকৃত পণ্য পরিবর্তনযোগ্য নয়।</li>
+      </ul>
+    </li>
+
+    <li>ডিসকাউন্ট বা প্রমোশনাল পণ্য পরিবর্তনযোগ্য নয়।</li>
+
+    <li>অফারপ্রাপ্ত পোশাকের ক্ষেত্রে সাইজ যাচাই করে অর্ডার দিতে হবে।</li>
+
+    <li>যদি পরিবর্তনকৃত পণ্যের মূল্য বেশি হয়,  তাহলে মূল্য পার্থক্যটি পরিবর্তনের সময় নগদ বা মোবাইল পেমেন্টের মাধ্যমে পরিশোধ করতে হবে।</li>
+
+    <li>পণ্য পরিবর্তনের ক্ষেত্রে টাকা ফেরত দেওয়া হয় না, কেবল পণ্যের প্রতিস্থাপন করা হয়।</li>
+  </ul>
+
+  <p>
+     পণ্য পরিবর্তন সংক্রান্ত যেকোনো সহযোগিতার জন্য আমাদের সহায়তা টিমের সাথে যোগাযোগ করুন।
+  </p>
+</div>
+
+<div class="feedback-box" style="font-family: 'Poppins', sans-serif !important;">
+  <h5>এটি কি সাহায্যকারী ছিল?</h5>
+  <div class="btn-group">
+    <a href="{% url 'home' %}" class="feedback-btn">হ্যাঁ</a>
+    <a href="{% url 'home' %}" class="feedback-btn">না</a>
+  </div>
+</div>
+
+<div class="feedback-box" style="font-family: 'Poppins', sans-serif !important;">
+  <h5>আপনার কি এখনও প্রশ্ন আছে? আমাদের টিম সাহায্য করতে প্রস্তুত — নির্দ্বিধায় আমাদের সাথে যোগাযোগ করুন।</h5>
+  <a href="{% url 'home' %}" class="feedback-btn">আমাদের সাথে যোগাযোগ করুন</a>
+</div>
+</div>
+
+<hr style="border: none; border-top: 2px solid #ccc; margin: 50px 0;">
+</div>
 <!-- 🔽 Language Toggle Script -->
 <script>
     function showLanguage(lang) {
@@ -164,21 +278,20 @@
         if (lang === 'english') {
             englishSection.style.display = 'block';
             banglaSection.style.display = 'none';
-            heading.innerText = "Terms of Use";
+            heading.innerText = "Our Return & Exchange Procedure";
             englishBtn.style.display = 'none';
             banglaBtn.style.display = 'inline-block';
         } else {
             englishSection.style.display = 'none';
             banglaSection.style.display = 'block';
-            heading.innerText = "শর্তাবলী ও নিয়মাবলী";
+            heading.innerText = "আমাদের পণ্য ফেরত ও পরিবর্তনের নিয়মাবলি";
             englishBtn.style.display = 'inline-block';
             banglaBtn.style.display = 'none';
         }
     }
-
     document.addEventListener("DOMContentLoaded", function () {
         showLanguage('english');
     });
 </script>
-
 {% endblock %}
+

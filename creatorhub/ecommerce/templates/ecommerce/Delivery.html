@@ -23,38 +23,33 @@
     </div>
 </div>
 
-<!-- Language Toggle Dropdown -->
-<div class="d-flex justify-content-end align-items-center p-2">
-  <label for="language-select" class="me-2 fw-bold">Language:</label>
-  <select id="language-select" class="form-select form-select-sm w-auto" onchange="setLanguage(this.value)">
-    <option value="en">English</option>
-    <option value="bn">বাংলা</option>
-  </select>
-</div>
-<div class="container my-5">
+<div class="container mb-5">
   <div class="row">
-    <!-- Sidebar -->
-    <div class="col-md-3 mb-4 fst-italic">
-      <div class="shadow-sm d-flex flex-column">
-        <a href="{% url 'terms_conditions' %}" class="btn btn-light  text-start mb-2">
-          <span class="lang-en">Terms & Conditions</span>
-        </a>
- <a href="{% url 'privacy_policy' %}" class="btn btn-light  text-start mb-2">
-          <span class="lang-en">Privacy Policy</span>
-        </a>
-        <a href="{% url 'return_exchange' %}" class="btn btn-light  text-start mb-2">
-          <span class="lang-en">Return & Exchange</span>
-        </a>        
-      </div>
+   <div class="col-md-3 mb-4 fst-italic">
+    <div class="shadow-sm d-flex flex-column">
+        <a href="{% url 'terms_conditions' %}" class="btn btn-light  text-start mb-2">Terms & Conditions</a>
+        <a href="{% url 'privacy_policy' %}" class="btn btn-light  text-start mb-2">Privacy Policy</a>
+        <a href="{% url 'return_exchange' %}" class="btn btn-light text-start">Return & Exchange</a>
     </div>
+</div>
 
- <!-- Content Area -->
-    <div class="col-md-9">
-  <h2 class="mb-4 section-title lang-en" style="font-family: 'Poppins', sans-serif;">🚚 Delivery FAQs</h2>
-<h2 class="mb-4 section-title lang-bn d-none" style="font-family: 'Poppins', sans-serif;">🚚 ডেলিভারি সম্পর্কিত প্রশ্নোত্তর</h2>
+    
+<!-- Content Area -->
+<div class="col-md-9" style="font-family: 'Poppins', sans-serif; font-size: 17px !important; line-height: 1.8;">
+
+  <!-- Language Toggle -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 id="delivery-heading" class="mb-0 fs-3 lang-en"><b>🚚 Delivery FAQs</b></h2>
+    <h2 class="mb-0 fs-3 lang-bn d-none"><b>🚚 ডেলিভারি সম্পর্কিত প্রশ্নোত্তর</b></h2>
+    
+    <!-- Language Toggle Button -->
+<div class="d-flex justify-content-end align-items-center p-2">
+  <button id="languageToggleBtn" class="btn btn-outline-success btn-sm" onclick="toggleLanguage()">বাংলায় পড়ুন</button>
+</div>
+</div>
 
   <style>
-    @importurl('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
     .section-title {
       font-weight: 700;
       color: #218838;
@@ -134,6 +129,7 @@
             আমরা জাহাঙ্গীরনগর বিশ্ববিদ্যালয় ক্যাম্পাসের মধ্যে <strong>২৪ ঘণ্টার</strong> মধ্যে পণ্য ডেলিভারি করি। দুপুর <strong>১২টার</strong> আগে অর্ডার করলে একই দিনে ডেলিভারি হতে পারে।
           </div>
         </div>
+      </div>
       </div>
     
 
@@ -418,33 +414,35 @@
       </div>
     </div>
   </div>
-
 </div>
-
-  </div>
+</div>
 </div>
 </div>
 
-<!-- Language Switcher Script -->
 <script>
-  function setLanguage(lang) {
-    const enElements = document.querySelectorAll('.lang-en');
-    const bnElements = document.querySelectorAll('.lang-bn');
-    const enBtn = document.getElementById('lang-en-btn');
-    const bnBtn = document.getElementById('lang-bn-btn');
+  function toggleLanguage() {
+    const langEnElements = document.querySelectorAll('.lang-en');
+    const langBnElements = document.querySelectorAll('.lang-bn');
+    const toggleBtn = document.getElementById('languageToggleBtn');
 
-    if (lang === 'en') {
-      enElements.forEach(el => el.classList.remove('d-none'));
-      bnElements.forEach(el => el.classList.add('d-none'));
-      enBtn.classList.add('active');
-      bnBtn.classList.remove('active');
-    } else if (lang === 'bn') {
-      enElements.forEach(el => el.classList.add('d-none'));
-      bnElements.forEach(el => el.classList.remove('d-none'));
-      enBtn.classList.remove('active');
-      bnBtn.classList.add('active');
+    // Detect current language based on visibility
+    const isEnglishVisible = !langEnElements[0].classList.contains('d-none');
+
+    if (isEnglishVisible) {
+      // Switch to Bangla
+      langEnElements.forEach(el => el.classList.add('d-none'));
+      langBnElements.forEach(el => el.classList.remove('d-none'));
+      toggleBtn.innerText = 'Read in English';
+      toggleBtn.classList.remove('btn-outline-success');
+      toggleBtn.classList.add('btn-outline-primary');
+    } else {
+      // Switch to English
+      langBnElements.forEach(el => el.classList.add('d-none'));
+      langEnElements.forEach(el => el.classList.remove('d-none'));
+      toggleBtn.innerText = 'বাংলায় পড়ুন';
+      toggleBtn.classList.remove('btn-outline-primary');
+      toggleBtn.classList.add('btn-outline-success');
     }
   }
 </script>
-
 {% endblock %}
