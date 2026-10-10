@@ -181,6 +181,3 @@ Potential extensions include product ratings and reviews, wishlist functionality
 
 
 
-## License
-
-No license file was found in the provided project archive. Unless a license is added, reuse and redistribution permissions are not explicitly granted. Add a `LICENSE` file if you intend to publish the project for open-source use.
